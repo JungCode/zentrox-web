@@ -12,7 +12,7 @@ NC='\033[0m' # No Color
 
 start_time=$(date +%s)
 
-echo -e "${BOLD}${BLUE}󱐋 Husky:${NC} Analyzing staged files..."
+printf "${BOLD}${BLUE}󱐋 Husky:${NC} Analyzing staged files...\n"
 
 # Filter staged files by extensions
 # Supports: js, ts, tsx, css, cjs, mjs, graphql, json

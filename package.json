@@ -2,15 +2,16 @@
   "name": "zentrox",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "next lint",
     "prepare": "husky",
-    "check-types": "NODE_OPTIONS=--max-old-space-size=16384 tsgo --noEmit --pretty",
-    "prettier:staged": "prettier --write $(git diff --cached --name-only --diff-filter=ACM | grep -E '\\.js$|\\.ts$|\\.jsx$|\\.tsx$')",
-    "lint-staged": "NODE_OPTIONS=--max-old-space-size=8192 eslint --cache --no-warn-ignored --fix $(git diff --cached --name-only --diff-filter=ACM | grep -E '\\.js$|\\.ts$|\\.jsx$|\\.tsx$')"
+    "check-types": "tsc --noEmit --pretty",
+    "prettier:staged": "git diff --cached --name-only --diff-filter=ACM | grep -E '\\.(js|ts|jsx|tsx)$' | xargs -r prettier --write",
+    "lint-staged": "git diff --cached --name-only --diff-filter=ACM | grep -E '\\.(js|ts|jsx|tsx)$' | xargs -r next lint --fix --file"
   },
   "dependencies": {
     "@typescript/native-preview": "7.0.0-dev.20260401.1",

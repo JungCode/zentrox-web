@@ -1,5 +1,5 @@
 {
-  "name": "zentrox",
+  "name": "zentrox-web",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky",
-    "check-types": "tsc --noEmit --pretty",
+    "check-types": "NODE_OPTIONS=--max-old-space-size=16384 tsgo --noEmit --pretty",
     "prettier:staged": "git diff --cached --name-only --diff-filter=ACM | grep -E '\\.(js|ts|jsx|tsx)$' | xargs -r prettier --write",
     "lint-staged": "git diff --cached --name-only --diff-filter=ACM | grep -E '\\.(js|ts|jsx|tsx)$' | xargs -r eslint --fix"
   },

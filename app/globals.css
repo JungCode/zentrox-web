@@ -1,26 +1,140 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+:root,
+.theme-light,
+[data-theme='light'] {
+  color-scheme: light;
+  --background: #f8f9fa;
+  --foreground: #191c1d;
+  --primary: #03071d;
+  --primary-container: #1a1f36;
+  --secondary: #2951cb;
+  --surface: #f8f9fa;
+  --surface-variant: #e1e3e4;
+  --surface-container: #edeeef;
+  --surface-container-low: #f3f4f5;
+  --surface-container-lowest: #ffffff;
+  --surface-container-high: #e7e8e9;
+  --surface-container-highest: #e1e3e4;
+  --outline: #77767e;
+  --outline-variant: #c7c5ce;
+  --on-surface: #191c1d;
+  --on-surface-variant: #46464d;
+  --on-primary: #ffffff;
+  --on-primary-container: #8286a2;
+  --on-secondary: #ffffff;
+  --accent-glow: rgba(41, 81, 203, 0.24);
+  --shadow-color: rgba(3, 7, 29, 0.16);
+  --selection-bg: rgba(41, 81, 203, 0.22);
+  --selection-fg: #03071d;
+  --focus-ring: rgba(41, 81, 203, 0.6);
+  --bg-spot-1: rgba(199, 197, 206, 0.28);
+  --bg-spot-2: rgba(41, 81, 203, 0.15);
+  --bg-spot-3: rgba(3, 7, 29, 0.12);
+  --font-sans: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-headline:
+    'Space Grotesk', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    'JetBrains Mono', 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+}
+
+:root.theme-dark,
+.theme-dark,
+.dark,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --background: #0b0f1d;
+  --foreground: #e8ebf1;
+  --primary: #dde1ff;
+  --primary-container: #0f172f;
+  --secondary: #7da2ff;
+  --surface: #0b0f1d;
+  --surface-variant: #1a2236;
+  --surface-container: #10162a;
+  --surface-container-low: #0e1426;
+  --surface-container-lowest: #080c19;
+  --surface-container-high: #18213a;
+  --surface-container-highest: #1c2743;
+  --outline: #4c5674;
+  --outline-variant: #2a334a;
+  --on-surface: #e8ebf1;
+  --on-surface-variant: #b7bed1;
+  --on-primary: #0b1022;
+  --on-primary-container: #c8cdea;
+  --on-secondary: #0b1022;
+  --accent-glow: rgba(125, 162, 255, 0.25);
+  --shadow-color: rgba(7, 10, 26, 0.5);
+  --selection-bg: rgba(125, 162, 255, 0.3);
+  --selection-fg: #f4f6ff;
+  --focus-ring: rgba(125, 162, 255, 0.6);
+  --bg-spot-1: rgba(22, 35, 67, 0.6);
+  --bg-spot-2: rgba(41, 81, 203, 0.25);
+  --bg-spot-3: rgba(3, 7, 29, 0.6);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-secondary: var(--secondary);
+  --color-surface: var(--surface);
+  --color-surface-variant: var(--surface-variant);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-on-primary: var(--on-primary);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-on-secondary: var(--on-secondary);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(circle at 20% 20%, var(--bg-spot-1) 0, transparent 38%),
+    radial-gradient(circle at 80% 10%, var(--bg-spot-2) 0, transparent 40%),
+    radial-gradient(circle at 60% 90%, var(--bg-spot-3) 0, transparent 45%);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-headline);
+  color: var(--primary-container);
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
 }

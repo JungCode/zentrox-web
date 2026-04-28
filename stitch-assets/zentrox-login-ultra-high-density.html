@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Zentrox AI Automation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-secondary-fixed-variant": "#0039b4",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#121b31",
+                        "on-primary-container": "#8286a2",
+                        "secondary-fixed-dim": "#b7c4ff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "primary-fixed-dim": "#c1c5e3",
+                        "surface-dim": "#d9dadb",
+                        "surface-container-highest": "#e1e3e4",
+                        "background": "#f8f9fa",
+                        "on-tertiary-fixed-variant": "#3d465e",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#01081e",
+                        "on-tertiary-container": "#7f88a2",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#172036",
+                        "primary-fixed": "#dde1ff",
+                        "inverse-on-surface": "#f0f1f2",
+                        "tertiary-fixed-dim": "#bdc6e3",
+                        "secondary-fixed": "#dce1ff",
+                        "tertiary-fixed": "#d9e2ff",
+                        "on-surface": "#191c1d",
+                        "outline-variant": "#c7c5ce",
+                        "on-primary-fixed-variant": "#41455f",
+                        "surface-container-high": "#e7e8e9",
+                        "primary": "#03071d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#46464d",
+                        "error": "#ba1a1a",
+                        "secondary": "#2951cb",
+                        "surface-bright": "#f8f9fa",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary-fixed": "#151a31",
+                        "on-error": "#ffffff",
+                        "surface-container": "#edeeef",
+                        "primary-container": "#1a1f36",
+                        "inverse-primary": "#c1c5e3",
+                        "secondary-container": "#476be5",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary-fixed": "#001551",
+                        "surface": "#f8f9fa",
+                        "surface-tint": "#585d77",
+                        "outline": "#77767e",
+                        "inverse-surface": "#2e3132",
+                        "on-background": "#191c1d"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .ai-grid-background {
+            background-image: radial-gradient(circle at 2px 2px, #1a1f36 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface antialiased overflow-hidden">
+<main class="flex min-h-screen">
+<!-- Left Side: Technical Visual/Editorial Section -->
+<section class="hidden lg:flex w-7/12 bg-primary-container relative overflow-hidden flex-col justify-between p-16">
+<!-- Decorative Background Element -->
+<div class="absolute inset-0 opacity-10 ai-grid-background"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 bg-secondary blur-[120px] opacity-20"></div>
+<div class="relative z-10">
+<div class="flex items-center gap-3 mb-12">
+<div class="w-8 h-8 bg-secondary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-white text-sm" data-icon="auto_settings">auto_mode</span>
+</div>
+<span class="font-headline text-2xl font-bold tracking-tighter text-white">Zentrox</span>
+</div>
+<div class="max-w-xl">
+<h1 class="font-headline text-5xl font-bold text-white tracking-tight leading-[1.1] mb-8">
+                        The Logic Layer for <br/><span class="text-secondary-container">Autonomous Enterprise.</span>
+</h1>
+<p class="text-on-primary-container text-lg leading-relaxed mb-12">
+                        Zentrox orchestrates complex cross-functional workflows using high-density AI nodes. Precision automation is no longer a luxury—it's the architecture of your competitive advantage.
+                    </p>
+<!-- Quote Component -->
+<div class="bg-primary p-8 rounded border-l-4 border-secondary">
+<p class="text-white font-medium italic mb-4">"Zentrox didn't just automate our tasks; it re-engineered our operational logic from the ground up."</p>
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded bg-surface-container-highest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of a technology executive in a dark suit with a clean architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpHQ7KkD423lo6If6k5NcKIBw2Ar801Eo74F7Mrl7pgG97TrvHlcCDdyjELsI9Zh64ox46xxy1BhDI4_gGfipaUJwZsCLex46Wt_DMSvvz5Cs_132Gx1SjaVt1C6vA2j2fCk5cAtitEXzs-Z0H8eDSQ0l3B0UCMFw7FLjMICt1zZK0I6hjHzXLVjpXDrIVo9cIkLbIAPAE_Y6fOXsJI28ASAPUTxcwWwzAOtYGAdc-YL4uowUTdACrlVxwwD1IrCSonJ3HE452X9GK"/>
+</div>
+<div>
+<p class="text-sm font-bold text-white uppercase tracking-wider">Marcus Chen</p>
+<p class="text-xs text-on-primary-container uppercase tracking-widest">CTO, Vertex Logistics</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Meta/Status Footer -->
+<div class="relative z-10 flex justify-between items-end">
+<div class="flex gap-8">
+<div>
+<p class="text-[10px] font-label font-bold uppercase tracking-[0.1em] text-on-primary-container mb-1">Architecture</p>
+<p class="text-xs text-white font-mono">v4.0.2-stable</p>
+</div>
+<div>
+<p class="text-[10px] font-label font-bold uppercase tracking-[0.1em] text-on-primary-container mb-1">Latency</p>
+<p class="text-xs text-white font-mono">14ms average</p>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-primary/40 px-3 py-1.5 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
+<span class="text-[10px] font-label uppercase tracking-widest text-white">All systems operational</span>
+</div>
+</div>
+</section>
+<!-- Right Side: Login Form -->
+<section class="w-full lg:w-5/12 bg-white flex flex-col justify-center px-8 sm:px-16 lg:px-24 py-12">
+<div class="max-w-md w-full mx-auto">
+<!-- Mobile Branding (Hidden on Desktop) -->
+<div class="lg:hidden flex items-center gap-2 mb-12">
+<div class="w-6 h-6 bg-primary flex items-center justify-center rounded-sm">
+<span class="material-symbols-outlined text-white text-[14px]" data-icon="auto_settings">auto_mode</span>
+</div>
+<span class="font-headline text-lg font-bold tracking-tighter text-primary">Zentrox</span>
+</div>
+<div class="mb-10">
+<h2 class="font-headline text-3xl font-bold text-primary tracking-tight mb-2">Access Command Center</h2>
+<p class="text-on-surface-variant text-sm">Deploy and manage your AI automation workflows.</p>
+</div>
+<!-- Social Login -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<button class="flex items-center justify-center gap-3 py-2.5 px-4 border border-outline-variant rounded hover:bg-surface-container-low transition-colors duration-200">
+<img alt="Google" class="w-4 h-4" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXH5x1V83two5DyJGlWI1capaeFwYumhZqFEe-IhloNivzwoI-oGceb-Ulyni6eYZrwaEKsAy33-LlnXfhvg69nuFMc0-lOeX6obHkMeJSmzQewMKP66jCiV41jHk-2kL9_M0-8IyInd6mMEdZ5HUWrtOHParb8looTD25_2XdblBgD3Xm6tBpf-61e_xq_t0Gtqg7ElD9XcnUSEAEh2_qCQkXd3aP98lEkspiy4YWEVd4i6zfpL9xk_wkFwVPSy6hasLHEOvV_gKV"/>
+<span class="text-xs font-semibold text-primary">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 py-2.5 px-4 border border-outline-variant rounded hover:bg-surface-container-low transition-colors duration-200">
+<svg class="w-4 h-4 fill-primary" viewbox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
+<span class="text-xs font-semibold text-primary">GitHub</span>
+</button>
+</div>
+<div class="relative flex items-center mb-8">
+<div class="flex-grow border-t border-outline-variant/30"></div>
+<span class="flex-shrink mx-4 text-[10px] font-label uppercase tracking-widest text-outline">Or credentials</span>
+<div class="flex-grow border-t border-outline-variant/30"></div>
+</div>
+<!-- Form Section -->
+<form class="space-y-5" onsubmit="return false;">
+<div>
+<label class="block text-[10px] font-label font-bold uppercase tracking-widest text-primary mb-1.5" for="email">Email Address</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-all" id="email" name="email" placeholder="name@company.com" type="email"/>
+</div>
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="block text-[10px] font-label font-bold uppercase tracking-widest text-primary" for="password">Password</label>
+<a class="text-[10px] font-label font-bold text-secondary uppercase tracking-widest hover:underline transition-all" href="#">Forgot password?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border border-outline-variant/40 rounded px-4 py-3 text-sm focus:outline-none focus:ring-1 focus:ring-secondary focus:border-secondary transition-all" id="password" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center gap-2 py-1">
+<input class="w-4 h-4 rounded border-outline-variant text-secondary focus:ring-secondary cursor-pointer" id="remember" name="remember" type="checkbox"/>
+<label class="text-xs text-on-surface-variant font-medium select-none cursor-pointer" for="remember">Remember this session for 30 days</label>
+</div>
+<button class="w-full bg-primary text-white font-headline font-bold py-4 rounded hover:bg-primary-container active:scale-[0.98] transition-all duration-150 flex items-center justify-center gap-2" type="submit">
+<span>Authenticate Session</span>
+<span class="material-symbols-outlined text-sm" data-icon="login">login</span>
+</button>
+</form>
+<div class="mt-12 text-center">
+<p class="text-sm text-on-surface-variant">
+                        New to the platform? 
+                        <a class="text-secondary font-bold hover:underline" href="#">Create an account</a>
+</p>
+</div>
+</div>
+<!-- Mobile Footer (System Status) -->
+<div class="mt-auto pt-8 border-t border-surface-container lg:hidden flex justify-between items-center">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+<span class="text-[10px] font-label uppercase tracking-widest text-on-surface-variant">System Status: Operational</span>
+</div>
+<div class="flex gap-4">
+<a class="text-[10px] font-label uppercase tracking-widest text-outline hover:text-primary" href="#">Legal</a>
+<a class="text-[10px] font-label uppercase tracking-widest text-outline hover:text-primary" href="#">Privacy</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Global Footer Component (Fixed as per JSON) -->
+<footer class="bg-transparent text-slate-500 font-body text-[10px] uppercase tracking-[0.05em] w-full fixed bottom-0 hidden lg:block pointer-events-none">
+<div class="flex justify-center gap-8 w-full py-6 pointer-events-auto">
+<span class="text-[#1A1F36] dark:text-slate-400">© 2024 Zentrox AI. All rights reserved.</span>
+<a class="hover:underline opacity-80" href="#">Privacy Policy</a>
+<a class="hover:underline opacity-80" href="#">Terms of Service</a>
+<a class="hover:underline opacity-80" href="#">Security</a>
+</div>
+</footer>
+</body></html>

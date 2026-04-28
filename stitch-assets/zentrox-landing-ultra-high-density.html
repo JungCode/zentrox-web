@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zentrox - High-Density AI Automation Platform</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-container": "#172036",
+              "secondary-container": "#476be5",
+              "surface-bright": "#f8f9fa",
+              "on-background": "#191c1d",
+              "secondary-fixed": "#dce1ff",
+              "primary-fixed": "#dde1ff",
+              "primary-fixed-dim": "#c1c5e3",
+              "on-tertiary": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-container": "#fffbff",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#0039b4",
+              "on-tertiary-fixed": "#121b31",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#e1e3e4",
+              "on-error": "#ffffff",
+              "background": "#f8f9fa",
+              "on-secondary-fixed": "#001551",
+              "tertiary": "#01081e",
+              "on-surface-variant": "#46464d",
+              "error": "#ba1a1a",
+              "surface-container-highest": "#e1e3e4",
+              "tertiary-fixed": "#d9e2ff",
+              "inverse-surface": "#2e3132",
+              "primary-container": "#1A1F36",
+              "on-tertiary-container": "#7f88a2",
+              "surface-container-high": "#e7e8e9",
+              "error-container": "#ffdad6",
+              "surface-container": "#edeeef",
+              "on-error-container": "#93000a",
+              "on-tertiary-fixed-variant": "#3d465e",
+              "secondary": "#2951cb",
+              "on-primary-fixed": "#151a31",
+              "inverse-on-surface": "#f0f1f2",
+              "on-primary-container": "#8286a2",
+              "surface": "#f8f9fa",
+              "tertiary-fixed-dim": "#bdc6e3",
+              "surface-tint": "#585d77",
+              "secondary-fixed-dim": "#b7c4ff",
+              "outline": "#77767e",
+              "surface-container-low": "#f3f4f5",
+              "inverse-primary": "#c1c5e3",
+              "primary": "#03071d",
+              "outline-variant": "#c7c5ce",
+              "on-surface": "#191c1d",
+              "surface-dim": "#d9dadb",
+              "on-primary-fixed-variant": "#41455f"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .grid-pattern {
+            background-image: radial-gradient(#c7c5ce 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface overflow-x-hidden">
+<main>
+<!-- Hero Section (High Density) -->
+<section class="max-w-7xl mx-auto px-8 py-16 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
+<div class="space-y-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-low rounded-lg border border-outline-variant/20">
+<span class="text-[10px] font-label font-bold uppercase tracking-widest text-secondary">New Release</span>
+<span class="h-1 w-1 bg-secondary rounded-full"></span>
+<span class="text-[10px] font-label font-bold uppercase tracking-widest text-on-surface-variant">v2.4 Engine Now Live</span>
+</div>
+<h1 class="text-6xl lg:text-8xl font-bold text-primary-container leading-[1.05] tracking-tight">
+                Engineering <br/> <span class="text-secondary">Precision</span> AI.
+            </h1>
+<p class="text-xl text-on-surface-variant max-w-xl leading-relaxed">
+                Build robust, high-availability automation logic with our low-latency neural engine. Designed for teams that treat automation as core infrastructure.
+            </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-primary-container text-on-primary px-8 py-4 rounded font-bold hover:bg-primary transition-all duration-200 shadow-lg shadow-primary-container/20">
+                    Get Started Free
+                </button>
+<button class="bg-white border border-outline-variant text-primary-container px-8 py-4 rounded font-bold hover:bg-surface-container transition-all duration-200">
+                    Technical Docs
+                </button>
+</div>
+<!-- Trusted By Strip -->
+<div class="pt-8 space-y-4">
+<span class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/60">Trusted by Infrastructure Leaders</span>
+<div class="flex flex-wrap gap-x-10 gap-y-4 opacity-40 grayscale contrast-125">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-2xl">rocket_launch</span>
+<span class="font-bold text-xl tracking-tighter">AEROCORE</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-2xl">memory</span>
+<span class="font-bold text-xl tracking-tighter">SILICONX</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-2xl">database</span>
+<span class="font-bold text-xl tracking-tighter">DATAFLOW</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-2xl">shield_with_heart</span>
+<span class="font-bold text-xl tracking-tighter">SECURE.IO</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Technical Mockup Visual -->
+<div class="relative bg-primary-container p-1 rounded-xl shadow-2xl overflow-hidden group">
+<div class="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant/10 min-h-[500px] flex flex-col gap-6 grid-pattern relative">
+<div class="flex justify-between items-center pb-4 border-b border-outline-variant/10">
+<div class="flex gap-1.5">
+<div class="w-2 h-2 rounded-full bg-error/40"></div>
+<div class="w-2 h-2 rounded-full bg-secondary/40"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container/20"></div>
+</div>
+<span class="text-[10px] font-mono text-on-surface-variant/40 uppercase">zentrox-orchestrator-v2.4.yaml</span>
+</div>
+<div class="space-y-6 max-w-sm mx-auto w-full pt-10">
+<div class="bg-white p-4 rounded-lg border border-outline-variant/20 shadow-sm flex gap-4 items-center">
+<div class="w-12 h-12 bg-primary-container/5 rounded-lg flex items-center justify-center shrink-0 border border-primary-container/10">
+<span class="material-symbols-outlined text-primary-container text-xl">hub</span>
+</div>
+<div>
+<div class="text-[9px] font-bold uppercase tracking-wider text-secondary">WEBHOOK_LISTENER</div>
+<div class="text-sm font-bold text-primary-container">PostgreSQL Cluster Update</div>
+</div>
+</div>
+<div class="flex justify-center -my-3 relative z-10">
+<div class="w-px h-12 bg-gradient-to-b from-primary-container/20 to-secondary"></div>
+</div>
+<div class="bg-primary-container p-5 rounded-lg border border-primary text-white w-full flex gap-4 items-center shadow-2xl relative">
+<div class="absolute -right-1.5 -top-1.5 w-3 h-3 bg-secondary rounded-full animate-pulse shadow-glow"></div>
+<div class="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white text-xl" style="font-variation-settings: 'FILL' 1;">psychology</span>
+</div>
+<div>
+<div class="text-[9px] font-bold uppercase tracking-wider text-secondary-fixed-dim">AI_PROCESSOR</div>
+<div class="text-sm font-bold">Heuristic Node Analysis</div>
+</div>
+</div>
+<div class="flex justify-center -my-3 relative z-10">
+<div class="w-px h-12 bg-gradient-to-b from-secondary to-primary-container/20"></div>
+</div>
+<div class="bg-white p-4 rounded-lg border border-outline-variant/20 shadow-sm flex gap-4 items-center">
+<div class="w-12 h-12 bg-primary-container/5 rounded-lg flex items-center justify-center shrink-0 border border-primary-container/10">
+<span class="material-symbols-outlined text-primary-container text-xl">terminal</span>
+</div>
+<div>
+<div class="text-[9px] font-bold uppercase tracking-wider text-on-surface-variant/60">ACTION_EXECUTE</div>
+<div class="text-sm font-bold text-primary-container">K8s Pod Rescheduling</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How it Works (Visual Process) -->
+<section class="py-24 border-y border-outline-variant/10 bg-white" id="how-it-works">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+<div class="max-w-xl">
+<span class="text-xs font-bold uppercase tracking-[0.2em] text-secondary block mb-4">The Implementation</span>
+<h2 class="text-5xl font-bold text-primary-container leading-tight">From Deployment to Autonomy.</h2>
+</div>
+<p class="text-on-surface-variant max-w-xs text-sm leading-relaxed border-l-2 border-secondary pl-6">
+                    Integration takes minutes. The AI models refine themselves over hours. Production stability is forever.
+                </p>
+</div>
+<div class="grid md:grid-cols-4 gap-12 relative">
+<!-- Connector Line (Hidden on Mobile) -->
+<div class="hidden md:block absolute top-10 left-0 right-0 h-px bg-outline-variant/30 -z-10"></div>
+<div class="group">
+<div class="w-20 h-20 bg-primary-container text-white rounded-2xl flex items-center justify-center font-headline text-3xl font-bold mb-8 transition-transform group-hover:-translate-y-2">01</div>
+<h4 class="font-bold text-xl text-primary-container mb-3">Connect Sources</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Map your GraphQL, REST, or DB endpoints. Zentrox handles auth and rate limiting automatically.</p>
+</div>
+<div class="group">
+<div class="w-20 h-20 bg-surface-container text-primary-container rounded-2xl flex items-center justify-center font-headline text-3xl font-bold mb-8 border border-outline-variant transition-transform group-hover:-translate-y-2">02</div>
+<h4 class="font-bold text-xl text-primary-container mb-3">Define Logic</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Design logic trees visually. Mix standard operators with generative AI decision nodes.</p>
+</div>
+<div class="group">
+<div class="w-20 h-20 bg-surface-container text-primary-container rounded-2xl flex items-center justify-center font-headline text-3xl font-bold mb-8 border border-outline-variant transition-transform group-hover:-translate-y-2">03</div>
+<h4 class="font-bold text-xl text-primary-container mb-3">Dry Run Test</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Execute logic in sandbox environments. Compare AI predictions against historical production logs.</p>
+</div>
+<div class="group">
+<div class="w-20 h-20 bg-secondary text-white rounded-2xl flex items-center justify-center font-headline text-3xl font-bold mb-8 shadow-xl shadow-secondary/20 transition-transform group-hover:-translate-y-2">04</div>
+<h4 class="font-bold text-xl text-primary-container mb-3">Ship to Prod</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Blue/green deployments for every automation script. Rollback instantly if anomalies are detected.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Expanded Features Grid (Technical focus) -->
+<section class="bg-surface-container-low py-32 px-8" id="features">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-24">
+<span class="text-xs font-bold uppercase tracking-[0.2em] text-secondary">Advanced Architecture</span>
+<h2 class="text-5xl font-bold text-primary-container mt-4">Engineered for High-Density Workloads</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Security -->
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:border-secondary/30 transition-all group">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-container text-white mb-6 rounded-lg group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined">shield_lock</span>
+</div>
+<h3 class="text-xl font-bold text-primary-container mb-4">Enterprise Guardrails</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        SOC2 Type II, GDPR, and HIPAA compliant. Zentrox includes field-level encryption and full PII masking before data reaches AI models.
+                    </p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-[11px] font-bold text-primary-container opacity-60 uppercase">
+<span class="w-1 h-1 bg-secondary rounded-full"></span> Role-Based Access Control
+                        </li>
+<li class="flex items-center gap-2 text-[11px] font-bold text-primary-container opacity-60 uppercase">
+<span class="w-1 h-1 bg-secondary rounded-full"></span> Immutable Audit Logs
+                        </li>
+</ul>
+</div>
+<!-- API Access -->
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:border-secondary/30 transition-all group">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-container text-white mb-6 rounded-lg group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined">api</span>
+</div>
+<h3 class="text-xl font-bold text-primary-container mb-4">Low-Latency API Gateway</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        Ultra-fast execution with sub-50ms overhead. Use our gRPC or REST APIs to trigger complex workflows from within your own applications.
+                    </p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-[11px] font-bold text-primary-container opacity-60 uppercase">
+<span class="w-1 h-1 bg-secondary rounded-full"></span> 10,000+ Req/Second
+                        </li>
+<li class="flex items-center gap-2 text-[11px] font-bold text-primary-container opacity-60 uppercase">
+<span class="w-1 h-1 bg-secondary rounded-full"></span> Type-Safe SDKs (Go, TS, Py)
+                        </li>
+</ul>
+</div>
+<!-- Hybrid Deployment -->
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:border-secondary/30 transition-all group">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-container text-white mb-6 rounded-lg group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined">cloud_sync</span>
+</div>
+<h3 class="text-xl font-bold text-primary-container mb-4">Hybrid-Cloud Mobility</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        Deploy nodes on-premise for data sovereignty or use our global cluster. Native support for AWS PrivateLink and Azure VNet Integration.
+                    </p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-[11px] font-bold text-primary-container opacity-60 uppercase">
+<span class="w-1 h-1 bg-secondary rounded-full"></span> Private Cloud Deployment
+                        </li>
+<li class="flex items-center gap-2 text-[11px] font-bold text-primary-container opacity-60 uppercase">
+<span class="w-1 h-1 bg-secondary rounded-full"></span> Edge Logic Execution
+                        </li>
+</ul>
+</div>
+<!-- Reliability -->
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:border-secondary/30 transition-all group">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-container text-white mb-6 rounded-lg group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined">published_with_changes</span>
+</div>
+<h3 class="text-xl font-bold text-primary-container mb-4">Self-Healing Logic</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        The engine automatically adjusts to API schema changes and network instability using intelligent retry strategies.
+                    </p>
+</div>
+<!-- Observability -->
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:border-secondary/30 transition-all group">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-container text-white mb-6 rounded-lg group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined">insights</span>
+</div>
+<h3 class="text-xl font-bold text-primary-container mb-4">Real-time Telemetry</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        Native Prometheus and Datadog integrations. Export every execution metric to your existing observability stack.
+                    </p>
+</div>
+<!-- Custom Logic -->
+<div class="bg-white p-8 rounded-xl border border-outline-variant/10 shadow-sm hover:border-secondary/30 transition-all group">
+<div class="w-12 h-12 flex items-center justify-center bg-primary-container text-white mb-6 rounded-lg group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined">code_blocks</span>
+</div>
+<h3 class="text-xl font-bold text-primary-container mb-4">Universal Node SDK</h3>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-6">
+                        Extend the platform with custom WASM-based nodes. Write logic in any language that compiles to WebAssembly.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Pricing Section -->
+<section class="py-32 px-8 max-w-7xl mx-auto" id="pricing">
+<div class="text-center mb-20">
+<h2 class="text-5xl font-bold text-primary-container">Predictable Units. No Surprises.</h2>
+<p class="text-on-surface-variant mt-4 text-lg">Infrastructure-grade pricing for serious engineering teams.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8 items-stretch">
+<!-- Starter -->
+<div class="bg-white p-10 rounded-xl border border-outline-variant/20 flex flex-col h-full shadow-sm">
+<div class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/60 mb-6">Developer</div>
+<div class="flex items-baseline gap-1 mb-8">
+<span class="text-5xl font-headline font-bold text-primary-container">$0</span>
+<span class="text-on-surface-variant text-sm">/free</span>
+</div>
+<ul class="space-y-4 mb-12 flex-grow">
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        5 Active Logic Nodes
+                    </li>
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        10k Executions/Month
+                    </li>
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        Standard Community Support
+                    </li>
+</ul>
+<button class="w-full py-4 bg-surface-container-highest text-primary-container rounded font-bold hover:bg-surface-container-high transition-colors">
+                    Start Coding
+                </button>
+</div>
+<!-- Professional -->
+<div class="bg-primary-container p-10 rounded-xl border border-primary text-white flex flex-col h-full shadow-2xl scale-105 relative z-10">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-secondary text-[10px] font-bold uppercase px-4 py-1.5 rounded-full tracking-widest">Most Deployed</div>
+<div class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-primary-container/60 mb-6">Production</div>
+<div class="flex items-baseline gap-1 mb-8">
+<span class="text-5xl font-headline font-bold">$149</span>
+<span class="text-on-primary-container text-sm">/mo</span>
+</div>
+<ul class="space-y-4 mb-12 flex-grow">
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        Unlimited Logic Nodes
+                    </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        1M Executions/Month
+                    </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        AI Pattern Clustering
+                    </li>
+<li class="flex items-center gap-3 text-sm">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        Priority 4h Support SLA
+                    </li>
+</ul>
+<button class="w-full py-4 bg-secondary text-white rounded font-bold hover:bg-secondary/90 transition-colors shadow-lg shadow-secondary/20">
+                    Deploy Now
+                </button>
+</div>
+<!-- Enterprise -->
+<div class="bg-white p-10 rounded-xl border border-outline-variant/20 flex flex-col h-full shadow-sm">
+<div class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant/60 mb-6">Enterprise</div>
+<div class="flex items-baseline gap-1 mb-8">
+<span class="text-5xl font-headline font-bold text-primary-container">Scale</span>
+</div>
+<p class="text-sm text-on-surface-variant mb-8">For global platforms requiring dedicated resources and uptime guarantees.</p>
+<ul class="space-y-4 mb-12 flex-grow">
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        Dedicated Cluster Instance
+                    </li>
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        SSO / SCIM Provisioning
+                    </li>
+<li class="flex items-center gap-3 text-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-lg">check_circle</span>
+                        24/7 Dedicated Support
+                    </li>
+</ul>
+<button class="w-full py-4 bg-surface-container-highest text-primary-container rounded font-bold hover:bg-surface-container-high transition-colors">
+                    Talk to Engineering
+                </button>
+</div>
+</div>
+</section>
+<!-- Detailed FAQ Section -->
+<section class="py-32 bg-surface-container-lowest border-t border-outline-variant/10 px-8" id="faq">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-24">
+<h2 class="text-5xl font-bold text-primary-container">Frequently Asked Questions</h2>
+<p class="text-on-surface-variant mt-4">Technical details for the discerning architect.</p>
+</div>
+<div class="grid gap-6">
+<div class="p-8 bg-white rounded-xl border border-outline-variant/15 shadow-sm">
+<h4 class="font-bold text-xl text-primary-container mb-3">Is there a hard limit on execution calls?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">We don't charge per individual call, but rather based on 'Logic Units' which account for complexity. Our Professional plan handles up to 1 million standard executions before any overage applies.</p>
+</div>
+<div class="p-8 bg-white rounded-xl border border-outline-variant/15 shadow-sm">
+<h4 class="font-bold text-xl text-primary-container mb-3">How does Zentrox handle API rate limiting for third-party services?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Our orchestrator features built-in smart queuing and exponential backoff. It automatically detects 429 status codes and throttles execution at the node level to ensure your external API keys remain in good standing.</p>
+</div>
+<div class="p-8 bg-white rounded-xl border border-outline-variant/15 shadow-sm">
+<h4 class="font-bold text-xl text-primary-container mb-3">Can I export my automation logic to code?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes. Every workflow can be exported as a standard YAML configuration file or a set of TypeScript functions, allowing you to include your automation logic in your version control system (Git).</p>
+</div>
+<div class="p-8 bg-white rounded-xl border border-outline-variant/15 shadow-sm">
+<h4 class="font-bold text-xl text-primary-container mb-3">What AI models power the decision nodes?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">We use a multi-model approach. For simple routing, we use proprietary lightweight BERT-based models for speed. For complex reasoning, you can select between GPT-4o, Claude 3.5, or your own fine-tuned models hosted on-premise.</p>
+</div>
+<div class="p-8 bg-white rounded-xl border border-outline-variant/15 shadow-sm">
+<h4 class="font-bold text-xl text-primary-container mb-3">How is data security handled during AI processing?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Data is never used for training global models. We utilize Zero-Retention APIs for cloud models and offer local execution nodes where data never leaves your infrastructure.</p>
+</div>
+<div class="p-8 bg-white rounded-xl border border-outline-variant/15 shadow-sm">
+<h4 class="font-bold text-xl text-primary-container mb-3">Is there support for custom protocols?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Zentrox supports HTTP/2, gRPC, WebSockets, and MQTT out of the box. For legacy or proprietary protocols, you can develop custom adapters using our WASM SDK.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Rich Comprehensive Footer -->
+<footer class="bg-primary-container text-white border-t border-outline-variant/10">
+<div class="max-w-7xl mx-auto px-8 pt-24 pb-12">
+<div class="grid grid-cols-2 md:grid-cols-6 gap-12 mb-20">
+<div class="col-span-2 space-y-8">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-secondary rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-white text-lg">automation</span>
+</div>
+<span class="text-white font-headline text-3xl font-bold tracking-tighter">Zentrox</span>
+</div>
+<p class="text-on-primary-container/60 text-sm max-w-xs leading-relaxed">
+                    The automation backbone for modern software engineering teams. Precision-engineered for high-density logic execution and AI orchestration.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-secondary transition-all" href="#">
+<span class="material-symbols-outlined text-base">terminal</span>
+</a>
+<a class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-secondary transition-all" href="#">
+<span class="material-symbols-outlined text-base">alternate_email</span>
+</a>
+<a class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-secondary transition-all" href="#">
+<span class="material-symbols-outlined text-base">hub</span>
+</a>
+<a class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center hover:bg-secondary transition-all" href="#">
+<span class="material-symbols-outlined text-base">share</span>
+</a>
+</div>
+</div>
+<div class="space-y-6">
+<h5 class="text-secondary font-bold text-xs uppercase tracking-[0.2em]">Product</h5>
+<ul class="space-y-3 text-sm text-white/60">
+<li><a class="hover:text-white transition-colors" href="#">Core Engine</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Visual Builder</a></li>
+<li><a class="hover:text-white transition-colors" href="#">AI Marketplace</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Connectors</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Pricing</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-secondary font-bold text-xs uppercase tracking-[0.2em]">Developers</h5>
+<ul class="space-y-3 text-sm text-white/60">
+<li><a class="hover:text-white transition-colors" href="#">Documentation</a></li>
+<li><a class="hover:text-white transition-colors" href="#">API Reference</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Status Page</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Open Source</a></li>
+<li><a class="hover:text-white transition-colors" href="#">CLI Tool</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-secondary font-bold text-xs uppercase tracking-[0.2em]">Resources</h5>
+<ul class="space-y-3 text-sm text-white/60">
+<li><a class="hover:text-white transition-colors" href="#">Blog</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Case Studies</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Automation Guides</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Webinars</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Partners</a></li>
+</ul>
+</div>
+<div class="space-y-6">
+<h5 class="text-secondary font-bold text-xs uppercase tracking-[0.2em]">Company</h5>
+<ul class="space-y-3 text-sm text-white/60">
+<li><a class="hover:text-white transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Security</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/40">
+<span>© 2024 Zentrox Systems Inc.</span>
+<span class="hidden md:inline">•</span>
+<span>All Rights Reserved</span>
+</div>
+<div class="flex items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/40">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                    Operational: Global v2.4
+                </div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">public</span>
+                    Regions: US-East, EU-West, AP-South
+                </div>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

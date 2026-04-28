@@ -18,7 +18,6 @@ export type Incremental<T> =
   | {
       [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never;
     };
-
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   Boolean: { input: boolean; output: boolean };

@@ -1,5 +1,9 @@
 import Image from 'next/image';
 
+import { ApolloWrapper } from '@/shared/api/apollo/provider';
+
+import { Text } from './Text';
+
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">
@@ -59,6 +63,9 @@ export default function Home() {
             Documentation
           </a>
         </div>
+        <ApolloWrapper>
+          <Text />
+        </ApolloWrapper>
       </main>
     </div>
   );

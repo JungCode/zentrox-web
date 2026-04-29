@@ -25,6 +25,10 @@ applyTo: 'app/**, src/**, scripts/**'
 - app/**/page.tsx and app/**/layout.tsx must use default exports.
 - All other components use named exports (export { Component }).
 - These export rules do not apply to src/shared/components/ui (keep shadcn defaults).
+- Use named/module exports for constants, hooks, and utilities (avoid default exports).
+- Add or update an index.ts barrel in the closest folder when adding a new module.
+- Re-export new modules from the feature-level index.ts to avoid deep imports.
+- Keep src/shared/components/ui reserved for shadcn/radix primitives; place custom components in src/shared/components with PascalCase filenames and export them from src/shared/components/index.ts.
 
 Structure map:
 

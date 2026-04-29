@@ -32,6 +32,9 @@
   --danger: #b3261e;
   --danger-container: #f9dedc;
   --on-danger: #ffffff;
+  --success: #1f7a3a;
+  --success-container: #e6f5ec;
+  --on-success: #ffffff;
 
   --accent-glow: rgba(41, 81, 203, 0.24);
   --shadow-color: rgba(3, 7, 29, 0.16);
@@ -119,6 +122,9 @@
   --danger: #f2b8b5;
   --danger-container: #8c1d18;
   --on-danger: #601410;
+  --success: #6be3a5;
+  --success-container: #0e2a1c;
+  --on-success: #08150f;
 
   --accent-glow: rgba(125, 162, 255, 0.25);
   --shadow-color: rgba(7, 10, 26, 0.5);
@@ -194,6 +200,9 @@
   --color-danger: var(--danger);
   --color-danger-container: var(--danger-container);
   --color-on-danger: var(--on-danger);
+  --color-success: var(--success);
+  --color-success-container: var(--success-container);
+  --color-on-success: var(--on-success);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-heading: var(--font-headline);

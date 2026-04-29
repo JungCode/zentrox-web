@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
+import { Toaster } from '@/shared/components/ui/sonner';
 import { cn } from '@/shared/lib/utils';
 
 export const metadata: Metadata = {
@@ -17,7 +18,10 @@ const RootLayout = ({
 }>) => {
   return (
     <html className={cn('h-full', 'antialiased')} lang="en">
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        <Toaster position="top-center" />
+      </body>
     </html>
   );
 };

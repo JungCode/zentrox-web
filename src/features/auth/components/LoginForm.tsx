@@ -1,9 +1,11 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { useLogin } from '@/features/auth/hooks/useLogin';
+import { loginSchema } from '@/features/constants/authValidation';
 import type { LoginInput } from '@/shared/api/auth/schemas';
 import { ComingSoonModal } from '@/shared/components/ComingSoonModal';
 import { Button } from '@/shared/components/ui/button';
@@ -14,39 +16,23 @@ import { Label } from '@/shared/components/ui/label';
 type LoginFormValues = LoginInput;
 
 export const LoginForm = () => {
-  const { error, loading, login } = useLogin();
+  const { loading, login } = useLogin();
   const {
-    clearErrors,
     formState: { errors, isSubmitting },
     handleSubmit,
     register,
-    setError,
   } = useForm<LoginFormValues>({
     defaultValues: {
       email: '',
       password: '',
     },
+    resolver: zodResolver(loginSchema),
   });
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(true);
 
   const onSubmit = async (values: LoginFormValues) => {
-    clearErrors('root');
-
-    try {
-      const tokens = await login(values.email, values.password, remember);
-
-      if (!tokens) {
-        setError('root', {
-          message: 'Unable to authenticate. Check your credentials.',
-        });
-        return;
-      }
-    } catch {
-      setError('root', {
-        message: 'Unable to authenticate. Please try again.',
-      });
-    }
+    await login(values.email, values.password, remember);
   };
 
   return (
@@ -60,15 +46,7 @@ export const LoginForm = () => {
           autoComplete="email"
           id="email"
           placeholder="name@company.com"
-          required
-          type="email"
-          {...register('email', {
-            pattern: {
-              message: 'Enter a valid email address.',
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-            },
-            required: 'Email is required.',
-          })}
+          {...register('email')}
         />
         {errors.email && (
           <p className="text-danger mt-2 text-xs">{errors.email.message}</p>
@@ -93,11 +71,8 @@ export const LoginForm = () => {
             autoComplete="current-password"
             id="password"
             placeholder="••••••••"
-            required
             type={showPassword ? 'text' : 'password'}
-            {...register('password', {
-              required: 'Password is required.',
-            })}
+            {...register('password')}
           />
           <button
             aria-label={showPassword ? 'Hide password' : 'Show password'}
@@ -156,14 +131,6 @@ export const LoginForm = () => {
           <path d="M10 17l5-5-5-5" />
         </svg>
       </Button>
-      {(errors.root || error) && (
-        <p
-          aria-live="polite"
-          className="border-danger/40 bg-danger-container text-danger rounded border px-4 py-3 text-xs tracking-[0.18em] uppercase"
-        >
-          {errors.root?.message ?? error?.message ?? 'Authentication failed.'}
-        </p>
-      )}
     </form>
   );
 };

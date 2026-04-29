@@ -3,7 +3,7 @@ import { Dialog as DialogPrimitive } from 'radix-ui';
 import * as React from 'react';
 
 import { Button } from '@/shared/components/ui/button';
-import { cn } from '@/shared/lib/utils';
+import { cn } from '@/shared/utils/tailwind';
 
 function Dialog({
   ...props

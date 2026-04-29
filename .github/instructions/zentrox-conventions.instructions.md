@@ -16,7 +16,7 @@ applyTo: 'app/**, src/**, scripts/**'
 - Routes and layouts live in app/, with segment folders containing layout.tsx and page.tsx.
 - Feature modules live in src/features/<feature>, with feature-level exports in index.ts (required).
 - Feature components are folders: src/features/<feature>/components/<Component>/ with index.ts and optional components/ and hooks/.
-- Shared building blocks live in src/shared, split into api/, components/, lib/, utils/, helpers/, and constants/.
+- Shared building blocks live in src/shared, split into api/, components/, constants/, helpers/, and utils/.
 - UI primitives live in src/shared/components/ui (shadcn/radix). Prefer these before custom controls.
 
 ## Component exports and functions
@@ -38,6 +38,7 @@ Structure map:
 | |- <segment>/
 | | |- layout.tsx
 | | |- page.tsx
+| | |- ...
 |
 |- src/
 | |- features/
@@ -49,14 +50,27 @@ Structure map:
 | | | | | |- components/
 | | | | | |- hooks/
 | | | |- hooks/
+| | | |- ... # other features
 | |- shared/
 | | |- api/
+| | | |- auth/
+| | | | |- auth.schemas.tsx
+| | | | |- schemas.tsx
+| | | | |- mutations/
+| | | | |- queries/
 | | |- components/
+| | | |- ApolloWrapper.tsx
+| | | |- ComingSoonModal.tsx
+| | | |- index.ts
 | | | |- ui/
-| | |- lib/
-| | |- utils/
-| | |- helpers/
+| | | | |- alert.tsx
+| | | | |- button.tsx
+| | | | |- checkbox.tsx
+| | | | |- ...
 | | |- constants/
+| | |- helpers/
+| | |- utils/
+| | |- ... # other shared modules
 
 ## Styling and theme
 

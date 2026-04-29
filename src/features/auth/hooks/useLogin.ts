@@ -9,7 +9,7 @@ import {
   type LoginMutation,
   type LoginMutationVariables,
 } from '@/shared/api/auth/auth.schemas';
-import { setAuthTokens } from '@/shared/lib/storage';
+import { setAuthTokens } from '@/shared/utils/storage';
 
 export const useLogin = () => {
   const rememberRef = useRef(false);

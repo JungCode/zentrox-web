@@ -6,7 +6,6 @@ import {
   AuthProviderButtons,
   RegisterForm,
 } from '@/features/auth/components';
-import { ApolloWrapper } from '@/shared/components/ApolloWrapper';
 import { Button } from '@/shared/components/ui/button';
 
 export const metadata: Metadata = {
@@ -25,9 +24,7 @@ const RegisterPage = () => {
         githubMessage="GitHub sign-up is coming soon."
         googleMessage="Google sign-up is coming soon."
       />
-      <ApolloWrapper>
-        <RegisterForm />
-      </ApolloWrapper>
+      <RegisterForm />
       <div className="text-on-surface-variant text-center text-sm">
         Already have access?{' '}
         <Button

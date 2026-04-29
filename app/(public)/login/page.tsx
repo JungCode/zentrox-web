@@ -6,7 +6,6 @@ import {
   AuthProviderButtons,
   LoginForm,
 } from '@/features/auth/components';
-import { ApolloWrapper } from '@/shared/components/ApolloWrapper';
 import { Button } from '@/shared/components/ui/button';
 
 export const metadata: Metadata = {
@@ -25,9 +24,7 @@ const LoginPage = () => {
         githubMessage="GitHub sign-in is coming soon."
         googleMessage="Google sign-in is coming soon."
       />
-      <ApolloWrapper>
-        <LoginForm />
-      </ApolloWrapper>
+      <LoginForm />
       <div className="text-on-surface-variant text-center text-sm">
         New to the platform?{' '}
         <Button

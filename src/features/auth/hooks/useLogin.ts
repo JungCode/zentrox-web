@@ -1,7 +1,8 @@
 'use client';
 
 import { useMutation } from '@apollo/client/react';
-import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useRef } from 'react';
 import { toast } from 'sonner';
 
 import {
@@ -9,10 +10,11 @@ import {
   type LoginMutation,
   type LoginMutationVariables,
 } from '@/shared/api/auth/auth.schemas';
-import { setAuthTokens } from '@/shared/utils/storage';
+import { getAccessToken, setAuthTokens } from '@/shared/utils/storage';
 
 export const useLogin = () => {
   const rememberRef = useRef(false);
+  const router = useRouter();
 
   const [mutate, { data, error, loading }] = useMutation<
     LoginMutation,
@@ -29,6 +31,8 @@ export const useLogin = () => {
       toast.success('Signed in', {
         description: 'Welcome back to Zentrox.',
       });
+
+      router.replace('/workflow');
     },
     onError: (error) => {
       toast.error(error.message, {
@@ -56,6 +60,13 @@ export const useLogin = () => {
       return null;
     }
   };
+
+  useEffect(() => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      router.replace('/workflow');
+    }
+  }, []);
 
   return {
     data,

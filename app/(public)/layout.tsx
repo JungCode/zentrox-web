@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { ZentroxIcon } from '@/shared/assets/icons';
+
 const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
     <main className="flex min-h-screen flex-col lg:flex-row">
@@ -14,13 +16,8 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
         />
         <div className="bg-secondary/40 absolute -bottom-24 -left-24 h-80 w-80 rounded-full blur-[120px]" />
         <div className="mb-12 flex items-center gap-3">
-          <div className="bg-secondary text-on-secondary flex h-9 w-9 items-center justify-center rounded">
-            <span
-              className="material-symbols-outlined text-sm text-white"
-              data-icon="auto_settings"
-            >
-              auto_mode
-            </span>
+          <div className="text-on-secondary flex h-9 w-9 items-center justify-center rounded">
+            <ZentroxIcon />
           </div>
           <span className="text-on-primary text-2xl font-semibold tracking-tight">
             Zentrox
@@ -31,7 +28,7 @@ const PublicLayout = ({ children }: { children: ReactNode }) => {
             <h1 className="text-on-primary text-5xl leading-[1.1] font-bold tracking-tight">
               The logic layer for
               <br />
-              <span className="text-secondary">autonomous enterprise.</span>
+              <span className="text-secondary">Autonomous enterprise.</span>
             </h1>
             <p className="text-on-primary-container text-lg">
               Zentrox orchestrates cross-functional workflows with high-density

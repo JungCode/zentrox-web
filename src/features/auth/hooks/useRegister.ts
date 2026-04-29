@@ -2,6 +2,7 @@
 
 import { useMutation } from '@apollo/client/react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 
 import {
@@ -9,6 +10,7 @@ import {
   type RegisterMutation,
   type RegisterMutationVariables,
 } from '@/shared/api/auth/auth.schemas';
+import { getAccessToken } from '@/shared/utils/storage';
 
 export const useRegister = () => {
   const router = useRouter();
@@ -43,6 +45,13 @@ export const useRegister = () => {
       return null;
     }
   };
+
+  useEffect(() => {
+    const accessToken = getAccessToken();
+    if (accessToken) {
+      router.replace('/workflow');
+    }
+  }, []);
 
   return {
     data,

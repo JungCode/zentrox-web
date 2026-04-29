@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 import { LoginForm } from '@/features/auth';
-import { ApolloWrapper } from '@/shared/api/apollo/provider';
+import { ApolloWrapper } from '@/shared/components/ApolloWrapper';
 import { ComingSoonModal } from '@/shared/components/ComingSoonModal';
 import { Button } from '@/shared/components/ui/button';
 

@@ -46,6 +46,14 @@ export const getAccessToken = () => {
   return localStorage.getItem(ACCESS_TOKEN_KEY);
 };
 
+export const getRefreshToken = () => {
+  if (!isBrowser) {
+    return null;
+  }
+
+  return localStorage.getItem(REFRESH_TOKEN_KEY);
+};
+
 export const clearAuthTokens = () => {
   if (!isBrowser) {
     return;

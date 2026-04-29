@@ -33,10 +33,6 @@ export type LoginInput = {
   password: Scalars['String']['input'];
 };
 
-export type LogoutInput = {
-  userId: Scalars['String']['input'];
-};
-
 export type RefreshTokenInput = {
   refreshToken: Scalars['String']['input'];
 };

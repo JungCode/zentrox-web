@@ -1,9 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Material+Symbols+Outlined:wght@400&display=swap');
 @import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
 
 :root,
 .theme-light,
 [data-theme='light'] {
   color-scheme: light;
+  /* Your original theme */
   --background: #f8f9fa;
   --foreground: #191c1d;
   --primary: #03071d;
@@ -23,6 +29,10 @@
   --on-primary: #ffffff;
   --on-primary-container: #8286a2;
   --on-secondary: #ffffff;
+  --danger: #b3261e;
+  --danger-container: #f9dedc;
+  --on-danger: #ffffff;
+
   --accent-glow: rgba(41, 81, 203, 0.24);
   --shadow-color: rgba(3, 7, 29, 0.16);
   --selection-bg: rgba(41, 81, 203, 0.22);
@@ -31,11 +41,53 @@
   --bg-spot-1: rgba(199, 197, 206, 0.28);
   --bg-spot-2: rgba(41, 81, 203, 0.15);
   --bg-spot-3: rgba(3, 7, 29, 0.12);
+
   --font-sans: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --font-headline:
-    'Space Grotesk', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    'Space Grotesk', 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --font-mono:
     'JetBrains Mono', 'SFMono-Regular', 'Menlo', 'Consolas', monospace;
+
+  /* shadcn compatibility, derived from your theme */
+  --card: var(--surface-container-lowest);
+  --card-foreground: var(--on-surface);
+
+  --popover: var(--surface-container-lowest);
+  --popover-foreground: var(--on-surface);
+
+  --primary-foreground: var(--on-primary);
+
+  --secondary-foreground: var(--on-secondary);
+
+  --muted: var(--surface-container);
+  --muted-foreground: var(--on-surface-variant);
+
+  --accent: var(--surface-container-high);
+  --accent-foreground: var(--primary-container);
+
+  --destructive: var(--danger);
+  --destructive-foreground: var(--on-danger);
+
+  --border: var(--outline-variant);
+  --input: var(--outline-variant);
+  --ring: var(--secondary);
+
+  --chart-1: var(--secondary);
+  --chart-2: var(--primary-container);
+  --chart-3: var(--on-primary-container);
+  --chart-4: var(--outline);
+  --chart-5: var(--danger);
+
+  --radius: 0.75rem;
+
+  --sidebar: var(--surface-container-lowest);
+  --sidebar-foreground: var(--on-surface);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--on-primary);
+  --sidebar-accent: var(--surface-container);
+  --sidebar-accent-foreground: var(--primary-container);
+  --sidebar-border: var(--outline-variant);
+  --sidebar-ring: var(--secondary);
 }
 
 :root.theme-dark,
@@ -43,6 +95,8 @@
 .dark,
 [data-theme='dark'] {
   color-scheme: dark;
+
+  /* Your original theme */
   --background: #0b0f1d;
   --foreground: #e8ebf1;
   --primary: #dde1ff;
@@ -62,6 +116,10 @@
   --on-primary: #0b1022;
   --on-primary-container: #c8cdea;
   --on-secondary: #0b1022;
+  --danger: #f2b8b5;
+  --danger-container: #8c1d18;
+  --on-danger: #601410;
+
   --accent-glow: rgba(125, 162, 255, 0.25);
   --shadow-color: rgba(7, 10, 26, 0.5);
   --selection-bg: rgba(125, 162, 255, 0.3);
@@ -70,6 +128,47 @@
   --bg-spot-1: rgba(22, 35, 67, 0.6);
   --bg-spot-2: rgba(41, 81, 203, 0.25);
   --bg-spot-3: rgba(3, 7, 29, 0.6);
+
+  /* shadcn compatibility, derived from your theme */
+  --card: var(--surface-container);
+  --card-foreground: var(--on-surface);
+
+  --popover: var(--surface-container-high);
+  --popover-foreground: var(--on-surface);
+
+  --primary-foreground: var(--on-primary);
+
+  --secondary-foreground: var(--on-secondary);
+
+  --muted: var(--surface-container-high);
+  --muted-foreground: var(--on-surface-variant);
+
+  --accent: var(--surface-container-highest);
+  --accent-foreground: var(--on-surface);
+
+  --destructive: var(--danger);
+  --destructive-foreground: var(--on-danger);
+
+  --border: var(--outline-variant);
+  --input: var(--outline-variant);
+  --ring: var(--secondary);
+
+  --chart-1: var(--secondary);
+  --chart-2: var(--primary);
+  --chart-3: var(--on-primary-container);
+  --chart-4: var(--outline);
+  --chart-5: var(--danger);
+
+  --radius: 0.75rem;
+
+  --sidebar: var(--surface-container-low);
+  --sidebar-foreground: var(--on-surface);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--on-primary);
+  --sidebar-accent: var(--surface-container-high);
+  --sidebar-accent-foreground: var(--on-surface);
+  --sidebar-border: var(--outline-variant);
+  --sidebar-ring: var(--secondary);
 }
 
 @theme inline {
@@ -92,8 +191,46 @@
   --color-on-primary: var(--on-primary);
   --color-on-primary-container: var(--on-primary-container);
   --color-on-secondary: var(--on-secondary);
+  --color-danger: var(--danger);
+  --color-danger-container: var(--danger-container);
+  --color-on-danger: var(--on-danger);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
+  --font-heading: var(--font-headline);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 *,
@@ -113,10 +250,19 @@ body {
     radial-gradient(circle at 80% 10%, var(--bg-spot-2) 0, transparent 40%),
     radial-gradient(circle at 60% 90%, var(--bg-spot-3) 0, transparent 45%);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-headline);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+  vertical-align: middle;
 }
 
 h1,
@@ -126,7 +272,6 @@ h4,
 h5,
 h6 {
   font-family: var(--font-headline);
-  color: var(--primary-container);
 }
 
 ::selection {
@@ -137,4 +282,16 @@ h6 {
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    font-family: var(--font-headline);
+  }
 }

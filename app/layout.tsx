@@ -4,8 +4,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 
 import { cn } from '@/lib/ui/utils';
-import { ApolloWrapper } from '@/shared/components/ApolloWrapper';
-import { ThemeProvider } from '@/shared/components/ThemeProvider';
+import { ApolloWrapper, ThemeProvider } from '@/shared/components';
 import { Toaster } from '@/shared/components/ui/sonner';
 import { TooltipProvider } from '@/shared/components/ui/tooltip';
 

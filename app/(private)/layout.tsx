@@ -3,16 +3,15 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { AppSidebar } from '@/features/workflow/components/AppSidebar/AppSidebar';
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from '@/shared/components/ui/sidebar';
+import { AppHeader, AppSidebar } from '@/shared/components';
+import { SidebarInset, SidebarProvider } from '@/shared/components/ui/sidebar';
+import { useInitAuth } from '@/shared/hooks/useInitAuth';
 import { getAccessToken } from '@/shared/utils/storage';
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
+
+  useInitAuth();
 
   useEffect(() => {
     const accessToken = getAccessToken();
@@ -24,8 +23,8 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
-        <SidebarTrigger />
+      <SidebarInset className="bg-background">
+        <AppHeader />
         <main>{children}</main>
       </SidebarInset>
     </SidebarProvider>

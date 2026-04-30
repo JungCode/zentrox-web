@@ -5,10 +5,18 @@ import { useTheme } from 'next-themes';
 
 import { cn } from '@/lib/ui/utils';
 
-import { Switch } from './ui/switch';
+import { Switch } from '../ui/switch';
+import { useEffect, useState } from 'react';
 
-const ThemeToggleInner = ({ className }: { className?: string }) => {
+const ThemeToggle = ({ className }: { className?: string }) => {
   const { resolvedTheme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const isDark = resolvedTheme === 'dark';
 
@@ -39,4 +47,4 @@ const ThemeToggleInner = ({ className }: { className?: string }) => {
   );
 };
 
-export { ThemeToggleInner };
+export { ThemeToggle };

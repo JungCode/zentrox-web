@@ -10,6 +10,7 @@ import type { RegisterInput } from '@/shared/api/auth/schemas';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
+import { Spinner } from '@/shared/components/ui/spinner';
 
 type RegisterFormValues = RegisterInput & { confirmPassword: string };
 
@@ -151,7 +152,8 @@ export const RegisterForm = () => {
         disabled={loading || isSubmitting}
         type="submit"
       >
-        {loading || isSubmitting ? 'Creating account...' : 'Create account'}
+        {loading && <Spinner data-icon="inline-start" />}
+        Create account
         <svg
           aria-hidden="true"
           className="h-4 w-4"

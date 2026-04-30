@@ -1,4 +1,4 @@
-import { ComingSoonModal } from '@/shared/components/ComingSoonModal';
+import { ComingSoonModal } from '@/shared/components';
 
 type AuthProviderButtonsProps = {
   githubMessage: string;

@@ -83,14 +83,14 @@
 
   --radius: 0.75rem;
 
-  --sidebar: var(--surface-container-lowest);
-  --sidebar-foreground: var(--on-surface);
-  --sidebar-primary: var(--primary);
-  --sidebar-primary-foreground: var(--on-primary);
-  --sidebar-accent: var(--surface-container);
-  --sidebar-accent-foreground: var(--primary-container);
-  --sidebar-border: var(--outline-variant);
-  --sidebar-ring: var(--secondary);
+  --sidebar: #e2e8f0;
+  --sidebar-foreground: #1e293b;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: #ffffff;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #cbd5e1;
+  --sidebar-ring: #94a3b8;
 }
 
 :root.theme-dark,
@@ -167,14 +167,14 @@
 
   --radius: 0.75rem;
 
-  --sidebar: var(--surface-container-low);
-  --sidebar-foreground: var(--on-surface);
-  --sidebar-primary: var(--primary);
-  --sidebar-primary-foreground: var(--on-primary);
-  --sidebar-accent: var(--surface-container-high);
-  --sidebar-accent-foreground: var(--on-surface);
-  --sidebar-border: var(--outline-variant);
-  --sidebar-ring: var(--secondary);
+  --sidebar: #1e293b;
+  --sidebar-foreground: #e2e8f0;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #f8fafc;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #334155;
+  --sidebar-ring: #94a3b8;
 }
 
 @theme inline {

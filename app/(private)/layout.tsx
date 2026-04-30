@@ -4,7 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { AppSidebar } from '@/features/workflow/components/AppSidebar/AppSidebar';
-import { SidebarInset, SidebarProvider } from '@/shared/components/ui/sidebar';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/shared/components/ui/sidebar';
 import { getAccessToken } from '@/shared/utils/storage';
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
@@ -21,6 +25,7 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
+        <SidebarTrigger />
         <main>{children}</main>
       </SidebarInset>
     </SidebarProvider>

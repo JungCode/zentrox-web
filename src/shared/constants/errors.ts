@@ -10,6 +10,5 @@ export enum StatusCode {
 export enum ErrorCode {
   SessionExpired = 'EXPIRED_SESSION',
   AccountAlreadyActivated = 'ACCOUNT_ALREADY_ACTIVATED',
-  hehe = 'HEHE',
   Unauthorized = 'UNAUTHORIZED',
 }

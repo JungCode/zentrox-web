@@ -28,7 +28,7 @@ applyTo: 'app/**, src/**, scripts/**'
 - Use named/module exports for constants, hooks, and utilities (avoid default exports).
 - Add or update an index.ts barrel in the closest folder when adding a new module.
 - Re-export new modules from the feature-level index.ts to avoid deep imports.
-- Keep src/shared/components/ui reserved for shadcn/radix primitives; place custom components in src/shared/components with PascalCase filenames and export them from src/shared/components/index.ts.
+- Keep src/shared/components/ui reserved for shadcn/radix primitives; place custom components in src/shared/components with PascalCase filenames and export them from src/shared/components/index.ts when they are meant to be consumed broadly.
 
 Structure map:
 
@@ -76,11 +76,11 @@ Structure map:
 
 - Tailwind v4 is configured via app/globals.css imports and @theme inline tokens.
 - Prefer theme variables from globals.css (background, foreground, primary, etc.) over hard-coded colors.
-- Use cn from src/shared/lib/utils for class merging.
+- Use cn from src/lib/ui/utils (aliased as @/lib/ui/utils) for class merging.
 
 ## GraphQL and API
 
-- Apollo client wrapper is src/shared/api/apollo/provider.tsx.
+- Apollo client lives in src/lib/apollo/index.ts, and the shared wrapper is src/shared/components/ApolloWrapper.tsx.
 - GraphQL documents live under src/shared/api/<entity>/\*\* as .gql or .graphql.
 - Generated types live in src/shared/api/<entity>/schemas.tsx and \*.schemas.tsx. Do not edit generated files.
 - Run pnpm codegen to select entity and regenerate types. CODEGEN_ENTITY and NEXT_PUBLIC_API_ENDPOINT drive codegen.

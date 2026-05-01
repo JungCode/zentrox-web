@@ -4,21 +4,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useLogin } from '@/features/auth/hooks/useLogin';
-import { loginSchema } from '@/features/constants/authValidation';
+import { loginSchema } from '@/features/auth/constants';
+import { useLogin } from '@/features/auth/hooks';
 import type { LoginInput } from '@/shared/api/auth/schemas';
-import { ComingSoonModal } from '@/shared/components/ComingSoonModal';
+import { ComingSoonModal } from '@/shared/components';
 import { Button } from '@/shared/components/ui/button';
 import { Checkbox } from '@/shared/components/ui/checkbox';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';
+import { Spinner } from '@/shared/components/ui/spinner';
 
 type LoginFormValues = LoginInput;
 
 export const LoginForm = () => {
   const { loading, login } = useLogin();
   const {
-    formState: { errors, isSubmitting },
+    formState: { errors },
     handleSubmit,
     register,
   } = useForm<LoginFormValues>({
@@ -112,12 +113,9 @@ export const LoginForm = () => {
           Remember this session for 30 days
         </Label>
       </div>
-      <Button
-        className="w-full"
-        disabled={loading || isSubmitting}
-        type="submit"
-      >
-        {loading || isSubmitting ? 'Authenticating...' : 'Authenticate Session'}
+      <Button className="w-full" disabled={loading} type="submit">
+        {loading && <Spinner data-icon="inline-start" />}
+        Authenticate Session
         <svg
           aria-hidden="true"
           className="h-4 w-4"

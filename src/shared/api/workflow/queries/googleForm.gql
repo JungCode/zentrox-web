@@ -1,0 +1,8 @@
+query GoogleForms($integrationAccountId: ID!) {
+  googleForms(integrationAccountId: $integrationAccountId) {
+    id
+    name
+    createdTime
+    modifiedTime
+  }
+}

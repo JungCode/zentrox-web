@@ -5,6 +5,7 @@ import { GraphQLFormattedError } from 'graphql';
 
 import { ErrorCode, StatusCode } from '@/shared/constants/errors';
 import { SKIP_REFRESH_OPERATIONS } from '@/shared/constants/operations';
+import { AUTH_ROUTES } from '@/shared/constants/routes';
 import { handleRefreshToken } from '@/shared/helpers/refreshToken';
 
 interface GraphQLErrorExtension extends GraphQLFormattedError {
@@ -30,7 +31,7 @@ const errorLink = new ErrorLink(
       apiResponseError.statusCode === StatusCode.Unauthorized &&
       apiResponseError.code === ErrorCode.SessionExpired
     ) {
-      window.location.href = '/login';
+      window.location.href = AUTH_ROUTES.LOGIN;
       return;
     }
 

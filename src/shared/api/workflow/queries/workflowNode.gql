@@ -1,0 +1,16 @@
+query WorkflowNode($workflowId: ID!, $nodeId: ID!) {
+  workflowNode(workflowId: $workflowId, nodeId: $nodeId) {
+    id
+    integrationAccountId
+    nodeType
+    providerApp
+    actionKey
+    label
+    positionX
+    positionY
+    configJson
+    connectionStatus
+    lastTestedAt
+    testErrorMessage
+  }
+}

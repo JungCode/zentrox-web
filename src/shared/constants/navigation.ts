@@ -10,6 +10,8 @@ import {
   TerminalIcon,
 } from '@/shared/assets/icons';
 
+import { APP_ROUTES, SUPPORT_ROUTES } from './routes';
+
 type NavItem = {
   href: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -17,18 +19,18 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { href: '/workflow', icon: DashboardIcon, title: 'Home' },
-  { href: '/workflow/workflows', icon: SiteMapIcon, title: 'Workflows' },
-  { href: '/workflow/assets', icon: ArchiveIcon, title: 'Assets' },
-  { href: '/workflow/templates', icon: LayerIcon, title: 'Templates' },
-  { href: '/workflow/marketplace', icon: StoreIcon, title: 'Marketplace' },
-  { href: '/workflow/logs', icon: TerminalIcon, title: 'Logs' },
-  { href: '/workflow/settings', icon: SettingsIcon, title: 'Settings' },
+  { href: APP_ROUTES.HOME, icon: DashboardIcon, title: 'Home' },
+  { href: APP_ROUTES.WORKFLOW, icon: SiteMapIcon, title: 'Workflow' },
+  { href: APP_ROUTES.ASSETS, icon: ArchiveIcon, title: 'Assets' },
+  { href: APP_ROUTES.TEMPLATES, icon: LayerIcon, title: 'Templates' },
+  { href: APP_ROUTES.MARKETPLACE, icon: StoreIcon, title: 'Marketplace' },
+  { href: APP_ROUTES.LOGS, icon: TerminalIcon, title: 'Logs' },
+  { href: APP_ROUTES.SETTINGS, icon: SettingsIcon, title: 'Settings' },
 ];
 
 const supportItems: NavItem[] = [
-  { href: '/workflow/docs', icon: DocumentIcon, title: 'Documentation' },
-  { href: '/workflow/support', icon: HelpIcon, title: 'Support' },
+  { href: SUPPORT_ROUTES.DOCS, icon: DocumentIcon, title: 'Documentation' },
+  { href: SUPPORT_ROUTES.SUPPORT, icon: HelpIcon, title: 'Support' },
 ];
 
 export { type NavItem, navItems, supportItems };

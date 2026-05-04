@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/shared/components/ui/dropdown-menu';
+import { AUTH_ROUTES } from '@/shared/constants/routes';
 import { clearAuthTokens } from '@/shared/utils/storage';
 
 import { ThemeToggle } from '../Theme';
@@ -39,7 +40,7 @@ export const UserDropdown = ({
   const [logout, { loading }] = useMutation(LogoutDocument, {
     onCompleted: () => {
       clearAuthTokens();
-      window.location.href = '/login';
+      window.location.href = AUTH_ROUTES.LOGIN;
     },
   });
 

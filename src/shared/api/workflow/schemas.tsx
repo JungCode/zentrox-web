@@ -32,17 +32,17 @@ export type Scalars = {
 
 export type CreateWorkflowNodeInput = {
   label: Scalars['String']['input'];
-  nodeType: WorkflowNodeType;
+  nodeType?: InputMaybe<WorkflowNodeType>;
   positionX?: InputMaybe<Scalars['Float']['input']>;
   positionY?: InputMaybe<Scalars['Float']['input']>;
-  providerApp: WorkflowProviderApp;
-  sourceHandle?: InputMaybe<Scalars['String']['input']>;
+  providerApp?: InputMaybe<WorkflowProviderApp>;
+  sourceHandle?: InputMaybe<WorkflowEdgeSourceHandle>;
   sourceNodeId?: InputMaybe<Scalars['ID']['input']>;
 };
 
 export type EdgeInput = {
   sourceClientId: Scalars['ID']['input'];
-  sourceHandle: Scalars['String']['input'];
+  sourceHandle: WorkflowEdgeSourceHandle;
   targetClientId: Scalars['ID']['input'];
   targetHandle?: InputMaybe<Scalars['String']['input']>;
 };
@@ -88,6 +88,12 @@ export type UpdateWorkflowNodeInput = {
   positionX?: InputMaybe<Scalars['Float']['input']>;
   positionY?: InputMaybe<Scalars['Float']['input']>;
 };
+
+export enum WorkflowEdgeSourceHandle {
+  Default = 'DEFAULT',
+  False = 'FALSE',
+  True = 'TRUE',
+}
 
 export enum WorkflowNodeType {
   Action = 'ACTION',

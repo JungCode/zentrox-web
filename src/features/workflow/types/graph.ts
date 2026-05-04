@@ -43,8 +43,6 @@ export type NodeQueryData = NonNullable<WorkflowQueryData['nodes']>[number];
 export type EdgeQueryData = NonNullable<WorkflowQueryData['edges']>[number];
 
 export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
-  /** Whether the user has selected an app for this step */
-  assigned: boolean;
   /**
    * True only for the last node in the workflow.
    * When true, WorkflowNode renders an "Add step" (+) button
@@ -53,6 +51,9 @@ export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
   isLast?: boolean;
   /** 1-based ordinal position in the workflow (shown as "1.", "2.", etc.) */
   stepNumber: number;
+  targetNodeIds: string[];
+  /** Whether the user has selected an app for this step */
+  workflowId: string;
 }
 
 /**
@@ -60,7 +61,9 @@ export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
  *
  * Must extend `Record<string, unknown>` to satisfy the XYFlow generic constraint.
  */
-export type CanvasEdgeData = Record<string, unknown>;
+export interface CanvasEdgeData extends Record<string, unknown> {
+  workflowId: string;
+}
 
 /** XYFlow Node type alias carrying our custom data shape */
 export type CanvasNode = Node<CanvasNodeData, 'workflowNode'>;

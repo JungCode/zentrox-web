@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { WorkflowDocument } from '@/shared/api/workflow/workflow.schemas';
 
+import { getTargetNodeIds } from '../components/helpers/node';
 import { sortWorkflowNodesByEdges } from '../components/helpers/sort';
 import { NODE_VERTICAL_GAP } from '../constants';
 import type { CanvasEdge, CanvasNode } from '../types/graph';
@@ -90,6 +91,8 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
         assigned: !!node.providerApp,
         isLast: index === sortedNodes.length - 1,
         stepNumber: index + 1,
+        targetNodeIds: getTargetNodeIds(node.id, edgesQueryData),
+        workflowId,
       },
       draggable: false,
       id: node.id,
@@ -103,6 +106,7 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
       source: edge.sourceNodeId,
       target: edge.targetNodeId,
       type: 'workflowEdge',
+      workflowId,
     }));
 
     setNodes(initialNodes);

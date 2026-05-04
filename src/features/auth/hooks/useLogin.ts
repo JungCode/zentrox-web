@@ -10,6 +10,7 @@ import {
   type LoginMutation,
   type LoginMutationVariables,
 } from '@/shared/api/auth/auth.schemas';
+import { ROUTES } from '@/shared/constants';
 import { getAccessToken, setAuthTokens } from '@/shared/utils/storage';
 
 export const useLogin = () => {
@@ -32,7 +33,7 @@ export const useLogin = () => {
         description: 'Welcome back to Zentrox.',
       });
 
-      router.replace('/app/workflow');
+      router.replace(ROUTES.app.WORKFLOW);
     },
     onError: (error) => {
       toast.error(error.message, {
@@ -64,7 +65,7 @@ export const useLogin = () => {
   useEffect(() => {
     const accessToken = getAccessToken();
     if (accessToken) {
-      router.replace('/app/workflow');
+      router.replace(ROUTES.app.WORKFLOW);
     }
   }, []);
 

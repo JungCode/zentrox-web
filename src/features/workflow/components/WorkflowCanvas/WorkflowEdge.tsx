@@ -1,5 +1,6 @@
 'use client';
 
+import { PlusIcon } from '@phosphor-icons/react';
 import {
   BaseEdge,
   EdgeLabelRenderer,
@@ -7,6 +8,7 @@ import {
   getStraightPath,
 } from '@xyflow/react';
 
+import { Button } from '@/shared/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
@@ -68,28 +70,17 @@ const WorkflowEdge = ({
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <button
-                className="nodrag nopan border-outline-variant bg-surface-container-lowest text-outline hover:border-secondary hover:bg-secondary hover:text-on-secondary absolute flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-2 shadow-sm transition-all duration-150 hover:scale-110 hover:shadow-[0_0_0_4px_var(--accent-glow)]"
+              <Button
+                className="nodrag nopan border-outline-variant bg-surface-container-lowest text-outline hover:border-secondary hover:bg-secondary hover:text-on-secondary absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 shadow-sm transition-all duration-150 hover:scale-110 hover:shadow-[0_0_0_4px_var(--accent-glow)]"
                 onClick={() => {
                   console.log("'Add step' button clicked between nodes");
                 }}
+                size="icon-xs"
                 style={{ left: labelX, pointerEvents: 'all', top: labelY }}
-                type="button"
+                variant="ghost"
               >
-                <svg
-                  className="h-3 w-3"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M12 4v16m8-8H4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
+                <PlusIcon size={12} weight="bold" />
+              </Button>
             </TooltipTrigger>
             <TooltipContent side="right">Add step</TooltipContent>
           </Tooltip>

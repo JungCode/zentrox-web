@@ -1,0 +1,20 @@
+mutation TestRunWorkflowNode($workflowId: ID!, $nodeId: ID!) {
+  testRunWorkflowNode(workflowId: $workflowId, nodeId: $nodeId) {
+    node {
+      id
+      createdAt
+      updatedAt
+      workflowVersionId
+      integrationAccountId
+      nodeType
+      providerApp
+      actionKey
+      label
+      configJson
+      connectionStatus
+      lastTestedAt
+      testErrorMessage
+    }
+    sampleResponses
+  }
+}

@@ -176,10 +176,54 @@ const PlusIcon = (props: IIconProps) => (
   </svg>
 );
 
+const GoogleFormIcon = (props: IIconProps) => (
+  <svg
+    fill="none"
+    height="48px"
+    viewBox="0 0 48 48"
+    width="48px"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M37,45H11c-1.657,0-3-1.343-3-3V6c0-1.657,1.343-3,3-3h19l10,10v29C40,43.657,38.657,45,37,45z"
+      fill="#5E35B1"
+    />
+    <path d="M40 13L30 13 30 3z" fill="#9575CD" />
+    <path d="M22 17H32V20H22zM22 25H32V28H22zM22 33H32V36H22z" fill="#FFFFFF" />
+    <circle cx="16" cy="18.5" fill="#FFFFFF" r="2.5" />
+    <circle cx="16" cy="26.5" fill="#FFFFFF" r="2.5" />
+    <circle cx="16" cy="34.5" fill="#FFFFFF" r="2.5" />
+  </svg>
+);
+
+const GoogleSheetIcon = (props: IIconProps) => (
+  <svg
+    fill="none"
+    height="48px"
+    viewBox="0 0 48 48"
+    width="48px"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M37,45H11c-1.657,0-3-1.343-3-3V6c0-1.657,1.343-3,3-3h19l10,10v29C40,43.657,38.657,45,37,45z"
+      fill="#4CAF50"
+    />
+    <path d="M40 13L30 13 30 3z" fill="#81C784" />
+    <path d="M15 17H33V35H15z" fill="#E8F5E9" />
+    <path d="M21 17H23V35H21z" fill="#4CAF50" />
+    <path d="M15 22H33V24H15z" fill="#4CAF50" />
+    <path d="M15 28H33V30H15z" fill="#4CAF50" />
+  </svg>
+);
+
 export {
   ArchiveIcon,
   DashboardIcon,
   DocumentIcon,
+  GoogleFormIcon,
+  GoogleSheetIcon,
   HelpIcon,
   LayerIcon,
   PlusIcon,

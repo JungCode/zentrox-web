@@ -21,6 +21,7 @@
     "@phosphor-icons/react": "^2.1.10",
     "@radix-ui/react-dialog": "^1.1.15",
     "@typescript/native-preview": "7.0.0-dev.20260401.1",
+    "@xyflow/react": "^12.10.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "graphql": "^16.13.2",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
+    "@graphql-codegen/add": "^7.0.0",
     "@graphql-codegen/cli": "^6.3.1",
     "@graphql-codegen/near-operation-file-preset": "^5.1.0",
     "@graphql-codegen/typescript-react-apollo": "^4.4.2",

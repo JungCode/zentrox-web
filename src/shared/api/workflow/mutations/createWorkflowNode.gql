@@ -1,0 +1,10 @@
+mutation CreateWorkflowNode(
+  $workflowId: ID!
+  $input: CreateWorkflowNodeInput!
+) {
+  createWorkflowNode(workflowId: $workflowId, input: $input) {
+    node {
+      id
+    }
+  }
+}

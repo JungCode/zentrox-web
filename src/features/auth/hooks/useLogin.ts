@@ -32,7 +32,7 @@ export const useLogin = () => {
         description: 'Welcome back to Zentrox.',
       });
 
-      router.replace('/workflow');
+      router.replace('/app/workflow');
     },
     onError: (error) => {
       toast.error(error.message, {
@@ -64,7 +64,7 @@ export const useLogin = () => {
   useEffect(() => {
     const accessToken = getAccessToken();
     if (accessToken) {
-      router.replace('/workflow');
+      router.replace('/app/workflow');
     }
   }, []);
 

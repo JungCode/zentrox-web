@@ -12,7 +12,10 @@ import {
 } from '@/shared/api/workflow/workflow.schemas';
 import { Button } from '@/shared/components/ui/button';
 
-import { ProviderAppMetadataRecord } from '../../../constants';
+import {
+  NODE_CONNECTOR_HEIGHT,
+  ProviderAppMetadataRecord,
+} from '../../../constants';
 import type { CanvasNode } from '../../../types/graph';
 import { WorkflowNodeAssigned } from './WorkflowNodeAssigned';
 import { WorkflowNodeUnassigned } from './WorkflowNodeUnassigned';
@@ -56,8 +59,10 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
       {assigned && providerAppMetadata ? (
         <WorkflowNodeAssigned
           label={label}
+          nodeId={id}
           providerAppMetadata={providerAppMetadata}
           stepNumber={stepNumber}
+          workflowId={workflowId}
         />
       ) : (
         <WorkflowNodeUnassigned label={label} stepNumber={stepNumber} />
@@ -78,7 +83,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
             className="absolute left-1/2 -translate-x-px"
             style={{
               backgroundColor: 'var(--outline-variant)',
-              height: 24,
+              height: NODE_CONNECTOR_HEIGHT,
               top: '100%',
               width: 2,
             }}
@@ -86,7 +91,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
           {/* Plus button */}
           <div
             className="absolute left-1/2 -translate-x-1/2"
-            style={{ top: 'calc(100% + 24px)' }}
+            style={{ top: `calc(100% + ${NODE_CONNECTOR_HEIGHT}px)` }}
           >
             <Button
               className={cn(

@@ -1,29 +1,69 @@
 'use client';
 
+import { useMutation } from '@apollo/client/react';
 import {
   DotsThreeVerticalIcon,
   LightningIcon,
+  TrashIcon,
   WarningCircleIcon,
 } from '@phosphor-icons/react';
 
-import { BaseDropdownMenu } from '@/shared/components/BaseDropdownMenu';
+import {
+  DeleteWorkflowNodeDocument,
+  WorkflowDocument,
+} from '@/shared/api/workflow/workflow.schemas';
+import {
+  BaseDropdownMenu,
+  BaseDropdownMenuItem,
+} from '@/shared/components/BaseDropdownMenu';
 import { Button } from '@/shared/components/ui/button';
 
-import { WORKFLOW_NODE_MENU_ITEMS } from '../../../constants';
 import type { ProviderAppMetadataType } from '../../../types/providerAppSelector';
 
 interface WorkflowNodeAssignedProps {
   label: string;
+  nodeId: string;
   providerAppMetadata: ProviderAppMetadataType;
   stepNumber: number;
+  workflowId: string;
 }
 
 const WorkflowNodeAssigned = ({
   label,
+  nodeId,
   providerAppMetadata,
   stepNumber,
+  workflowId,
 }: WorkflowNodeAssignedProps) => {
   const { icon: Icon, name } = providerAppMetadata;
+
+  const [deleteWorkflowNode] = useMutation(DeleteWorkflowNodeDocument, {
+    refetchQueries: [WorkflowDocument],
+    //TODO: handle onCompleted, loading and onError.
+  });
+
+  const handleDeleteNode = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    deleteWorkflowNode({
+      variables: { nodeId, workflowId },
+    });
+  };
+
+  const menuItems: BaseDropdownMenuItem[] = [
+    // TODO: implement later
+    // {
+    //   icon: PencilSimpleIcon,
+    //   label: 'Edit',
+    //   onClick: () => {},
+    // },
+    // { type: 'separator' },
+    {
+      icon: TrashIcon,
+      label: 'Delete',
+      onClick: handleDeleteNode,
+      variant: 'destructive',
+    },
+  ];
 
   return (
     <div className="bg-surface-container-lowest border-outline-variant/40 hover:border-secondary/40 cursor-pointer overflow-hidden rounded-md border shadow-[0_1px_6px_var(--shadow-color)] transition-all duration-150 select-none hover:shadow-[0_2px_12px_var(--accent-glow)]">
@@ -60,7 +100,7 @@ const WorkflowNodeAssigned = ({
         {/* Three-dot menu */}
         <BaseDropdownMenu
           align="start"
-          items={WORKFLOW_NODE_MENU_ITEMS}
+          items={menuItems}
           side="right"
           trigger={
             <Button

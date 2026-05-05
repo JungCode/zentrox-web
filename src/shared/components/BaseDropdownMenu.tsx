@@ -13,7 +13,7 @@ import {
 type BaseDropdownMenuActionItem = {
   icon?: React.ElementType<{ className?: string }>;
   label: string;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
   type?: 'item';
   variant?: 'default' | 'destructive';
 };

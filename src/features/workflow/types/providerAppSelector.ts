@@ -1,4 +1,4 @@
-import { ElementType } from 'react';
+import { ComponentType, ElementType } from 'react';
 
 import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 import { IIconProps } from '@/shared/assets/types';
@@ -20,3 +20,9 @@ export type ProviderAppMetadataRecordType = Record<
   WorkflowProviderApp,
   ProviderAppMetadataType
 >;
+
+export interface Category {
+  Icon: ComponentType<{ className?: string; size?: number }>;
+  id: string;
+  label: string;
+}

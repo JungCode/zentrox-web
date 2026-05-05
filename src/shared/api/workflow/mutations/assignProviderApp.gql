@@ -1,0 +1,27 @@
+mutation AssignProviderApp(
+  $workflowId: ID!
+  $nodeId: ID!
+  $providerApp: WorkflowProviderApp!
+) {
+  assignProviderApp(
+    workflowId: $workflowId
+    nodeId: $nodeId
+    providerApp: $providerApp
+  ) {
+    id
+    createdAt
+    updatedAt
+    workflowVersionId
+    integrationAccountId
+    nodeType
+    providerApp
+    actionKey
+    label
+    positionX
+    positionY
+    configJson
+    connectionStatus
+    lastTestedAt
+    testErrorMessage
+  }
+}

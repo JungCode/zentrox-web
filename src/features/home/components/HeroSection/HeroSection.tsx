@@ -4,6 +4,7 @@ import { ArrowRightIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 
 import { Button } from '@/shared/components/ui/button';
+import { ROUTES } from '@/shared/constants';
 
 export const HeroSection = () => {
   return (
@@ -38,7 +39,7 @@ export const HeroSection = () => {
                 className="h-11 px-5 text-sm font-semibold tracking-normal normal-case"
                 size="lg"
               >
-                <Link href="/register">
+                <Link href={ROUTES.auth.REGISTER}>
                   Get Started Free
                   <ArrowRightIcon className="size-4" weight="bold" />
                 </Link>

@@ -6,7 +6,7 @@ import { useShallow } from 'zustand/shallow';
 import { cn } from '@/lib/ui/utils';
 import { Button } from '@/shared/components/ui/button';
 import { SidebarTrigger } from '@/shared/components/ui/sidebar';
-import { useAuthStore } from '@/shared/stores/authStore';
+import { useAuthStore } from '@/shared/stores';
 
 import { UserDropdown } from './UserDropdown';
 

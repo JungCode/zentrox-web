@@ -5,11 +5,11 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import {
-  AppSelectorDialog,
   StepConfigPanel,
   WorkflowCanvas,
   WorkflowHeader,
 } from '@/features/workflow/components';
+import { AppSelectorContainer } from '@/features/workflow/components/AppSelectorContainer';
 import { useWorkflowGraph } from '@/features/workflow/hooks/useWorkflowGraph';
 
 const WorkflowPage = () => {
@@ -19,14 +19,12 @@ const WorkflowPage = () => {
   const [isPublishing, setIsPublishing] = useState(false);
 
   const {
-    appSelectorNodeId,
     configPanelNodeId,
     edges,
     handleNodeClick,
     nodes,
     onEdgesChange,
     onNodesChange,
-    setAppSelectorNodeId,
     setConfigPanelNodeId,
   } = useWorkflowGraph({ workflowId });
 
@@ -68,12 +66,7 @@ const WorkflowPage = () => {
       </div>
 
       {/* App selector dialog — portal, rendered above everything */}
-      <AppSelectorDialog
-        nodeId={appSelectorNodeId}
-        onOpenChange={(open) => !open && setAppSelectorNodeId(null)}
-        onSelectApp={() => {}}
-        open={!!appSelectorNodeId}
-      />
+      <AppSelectorContainer workflowId={workflowId} />
     </ReactFlowProvider>
   );
 };

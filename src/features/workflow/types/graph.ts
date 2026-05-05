@@ -1,6 +1,7 @@
 import type { Edge, Node } from '@xyflow/react';
 import { ElementType } from 'react';
 
+import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 import { WorkflowQuery } from '@/shared/api/workflow/workflow.schemas';
 import { IIconProps } from '@/shared/assets/types';
 
@@ -14,8 +15,7 @@ export interface AppProviderSelectOption {
   description: string;
   /** Optional custom icon for the app */
   icon: ElementType<IIconProps>;
-  id: string;
-
+  id: WorkflowProviderApp;
   name: string;
 }
 

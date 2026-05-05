@@ -12,11 +12,7 @@ import { ComponentType } from 'react';
 import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 import { GoogleFormIcon, GoogleSheetIcon } from '@/shared/assets/icons';
 
-import {
-  IconByAppProviderKey,
-  ProviderAppMetadataRecordType,
-  ProviderAppMetadataType,
-} from '../types';
+import { ProviderAppMetadataRecordType } from '../types';
 import type { AppProviderSelectOption } from '../types/graph';
 
 export const APP_PROVIDER_CATEGORIES: {
@@ -39,94 +35,84 @@ export const MOCK_APP_PROVIDERS: AppProviderSelectOption[] = [
     category: 'Apps',
     description: 'Collect data via forms',
     icon: GoogleFormIcon,
-    id: 'google-forms',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Google Forms',
   },
   {
     category: 'Communication',
     description: 'Send messages to channels',
     icon: GoogleSheetIcon,
-    id: 'slack',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Slack',
   },
   {
     category: 'Communication',
     description: 'Send and receive emails',
     icon: GoogleFormIcon,
-
-    id: 'gmail',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Gmail',
   },
   {
     category: 'Productivity',
     description: 'Manage pages and databases',
     icon: GoogleFormIcon,
-
-    id: 'notion',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Notion',
   },
   {
     category: 'Developer Tools',
     description: 'Code repositories and CI',
     icon: GoogleFormIcon,
-
-    id: 'github',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'GitHub',
   },
   {
     category: 'Apps',
     description: 'Spreadsheet data processing',
-    icon: GoogleFormIcon,
-
-    id: 'google-sheets',
+    icon: GoogleSheetIcon,
+    id: WorkflowProviderApp.GoogleSheet,
     name: 'Google Sheets',
   },
   {
     category: 'Productivity',
     description: 'Calendar and scheduling events',
     icon: GoogleFormIcon,
-
-    id: 'google-calendar',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Google Calendar',
   },
   {
     category: 'Finance',
     description: 'Payment processing',
     icon: GoogleFormIcon,
-
-    id: 'stripe',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Stripe',
   },
   {
     category: 'Sales & CRM',
     description: 'CRM and marketing automation',
     icon: GoogleFormIcon,
-
-    id: 'hubspot',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'HubSpot',
   },
   {
     category: 'Communication',
     description: 'Community messaging',
     icon: GoogleFormIcon,
-
-    id: 'discord',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Discord',
   },
   {
     category: 'Productivity',
     description: 'Database and spreadsheets',
     icon: GoogleFormIcon,
-
-    id: 'airtable',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Airtable',
   },
   {
     category: 'Productivity',
     description: 'Cloud file storage',
     icon: GoogleFormIcon,
-
-    id: 'google-drive',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Google Drive',
   },
 ];
@@ -138,7 +124,7 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
     description: 'Generate text with AI',
     icon: GoogleFormIcon,
 
-    id: 'ai-assistant',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'AI Assistant',
   },
   {
@@ -146,7 +132,7 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
     description: 'Stop a workflow from running',
     icon: GoogleFormIcon,
 
-    id: 'filter',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Filter',
   },
   {
@@ -154,7 +140,7 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
     description: 'Transform data formats',
     icon: GoogleFormIcon,
 
-    id: 'formatter',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Formatter',
   },
   {
@@ -162,7 +148,7 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
     description: 'Branch your workflow',
     icon: GoogleFormIcon,
 
-    id: 'paths',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Paths',
   },
   {
@@ -170,7 +156,7 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
     description: 'Pause your workflow',
     icon: GoogleFormIcon,
 
-    id: 'delay',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Delay',
   },
   {
@@ -178,7 +164,7 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
     description: 'Send or receive HTTP requests',
     icon: GoogleFormIcon,
 
-    id: 'webhooks',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Webhooks',
   },
   {
@@ -186,7 +172,7 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
     description: 'Run custom JavaScript or Python',
     icon: GoogleFormIcon,
 
-    id: 'code',
+    id: WorkflowProviderApp.GoogleForm,
     name: 'Code',
   },
 ];

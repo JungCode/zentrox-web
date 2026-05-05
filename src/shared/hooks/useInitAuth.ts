@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client/react';
 import { useEffect } from 'react';
 
 import { MeDocument } from '../api/auth/auth.schemas';
-import { useAuthStore } from '../stores/authStore';
+import { useAuthStore } from '../stores';
 
 export const useInitAuth = () => {
   const setAuthInfo = useAuthStore((state) => state.setAuthInfo);

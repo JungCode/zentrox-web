@@ -1,19 +1,8 @@
 import { create } from 'zustand';
 
-type State = {
-  avatarKey: string | undefined | null;
-  email: string;
-  id: string;
-  userName: string;
-};
+import { AuthStore } from '@/shared/types';
 
-type Actions = {
-  setAuthInfo: (authInfo: Partial<State>) => void;
-};
-
-type Store = State & Actions;
-
-export const useAuthStore = create<Store>((set) => ({
+export const useAuthStore = create<AuthStore>((set) => ({
   avatarKey: undefined,
   email: '',
   id: '',

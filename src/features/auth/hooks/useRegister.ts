@@ -10,6 +10,7 @@ import {
   type RegisterMutation,
   type RegisterMutationVariables,
 } from '@/shared/api/auth/auth.schemas';
+import { AUTH_ROUTES, ROUTES } from '@/shared/constants/routes';
 import { getAccessToken } from '@/shared/utils/storage';
 
 export const useRegister = () => {
@@ -23,7 +24,7 @@ export const useRegister = () => {
         description: 'Sign in to access the command center.',
       });
 
-      router.push('/login');
+      router.push(AUTH_ROUTES.LOGIN);
     },
     onError: (error) => {
       toast.error(error.message, {
@@ -49,7 +50,7 @@ export const useRegister = () => {
   useEffect(() => {
     const accessToken = getAccessToken();
     if (accessToken) {
-      router.replace('/workflow');
+      router.replace(ROUTES.app.WORKFLOW);
     }
   }, []);
 

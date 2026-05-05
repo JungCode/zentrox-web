@@ -31,7 +31,14 @@ const config: CodegenConfig = {
         onlyOperationTypes: true,
         skipTypename: true,
       },
-      plugins: ['typescript'],
+      plugins: [
+        {
+          add: {
+            content: '/* eslint-disable @typescript-eslint/no-explicit-any */',
+          },
+        },
+        'typescript',
+      ],
     },
     'src/': {
       config: {
@@ -41,7 +48,15 @@ const config: CodegenConfig = {
       hooks: {
         afterOneFileWrite: ['eslint --fix', 'prettier --write'],
       },
-      plugins: ['typescript-operations', 'typed-document-node'],
+      plugins: [
+        {
+          add: {
+            content: '/* eslint-disable @typescript-eslint/no-explicit-any */',
+          },
+        },
+        'typescript-operations',
+        'typed-document-node',
+      ],
       preset: 'near-operation-file',
       presetConfig: {
         baseTypesPath,

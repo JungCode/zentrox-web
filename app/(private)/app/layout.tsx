@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 
 import { AppHeader, AppSidebar } from '@/shared/components';
 import { SidebarInset, SidebarProvider } from '@/shared/components/ui/sidebar';
+import { ROUTES } from '@/shared/constants';
 import { useInitAuth } from '@/shared/hooks/useInitAuth';
 import { getAccessToken } from '@/shared/utils/storage';
 
@@ -16,7 +17,7 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const accessToken = getAccessToken();
     if (!accessToken) {
-      router.replace('/login');
+      router.replace(ROUTES.auth.LOGIN);
     }
   }, []);
 

@@ -1,0 +1,9 @@
+mutation UpdateWorkflowNode(
+  $workflowId: ID!
+  $nodeId: ID!
+  $input: UpdateWorkflowNodeInput!
+) {
+  updateWorkflowNode(workflowId: $workflowId, nodeId: $nodeId, input: $input) {
+    id
+  }
+}

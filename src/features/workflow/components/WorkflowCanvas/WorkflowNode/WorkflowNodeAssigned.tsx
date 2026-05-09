@@ -66,7 +66,7 @@ const WorkflowNodeAssigned = ({
   ];
 
   return (
-    <div className="bg-surface-container-lowest border-outline-variant/40 hover:border-secondary/40 cursor-pointer overflow-hidden rounded-md border shadow-[0_1px_6px_var(--shadow-color)] transition-all duration-150 select-none hover:shadow-[0_2px_12px_var(--accent-glow)]">
+    <div className="bg-surface-container-lowest border-outline-variant/40 hover:border-secondary/40 h-20 cursor-pointer overflow-hidden rounded-md border shadow-[0_1px_6px_var(--shadow-color)] transition-all duration-150 select-none hover:shadow-[0_2px_12px_var(--accent-glow)]">
       {/* Row 1: status · app pill · action chip · menu */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2">
         {/* Status indicator */}

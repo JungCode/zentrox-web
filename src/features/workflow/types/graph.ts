@@ -43,6 +43,11 @@ export type NodeQueryData = NonNullable<WorkflowQueryData['nodes']>[number];
 export type EdgeQueryData = NonNullable<WorkflowQueryData['edges']>[number];
 
 export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
+  /** Can delete those when we don't need animation */
+  /** True briefly when a node is created to drive enter animation */
+  isEntering?: boolean;
+  /** True briefly before a node is removed to drive exit animation */
+  isExiting?: boolean;
   /**
    * True only for the last node in the workflow.
    * When true, WorkflowNode renders an "Add step" (+) button
@@ -51,6 +56,7 @@ export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
   isLast?: boolean;
   /** 1-based ordinal position in the workflow (shown as "1.", "2.", etc.) */
   stepNumber: number;
+
   targetNodeIds: string[];
   /** Whether the user has selected an app for this step */
   workflowId: string;
@@ -61,7 +67,7 @@ export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
  *
  * Must extend `Record<string, unknown>` to satisfy the XYFlow generic constraint.
  */
-export interface CanvasEdgeData extends Record<string, unknown> {
+export interface CanvasEdgeData extends EdgeQueryData, Record<string, unknown> {
   workflowId: string;
 }
 

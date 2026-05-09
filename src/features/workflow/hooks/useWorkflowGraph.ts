@@ -12,6 +12,7 @@ import { NODE_VERTICAL_GAP } from '../constants';
 import { getTargetNodeIds } from '../helpers/node';
 import { sortWorkflowNodesByEdges } from '../helpers/sort';
 import type { CanvasEdge, CanvasNode } from '../types/graph';
+import { useWorkflowNodeTransitions } from './useWorkflowNodeTransitions';
 import { useWorkflowStore } from './useWorkflowStore';
 
 interface UseWorkflowGraphProps {
@@ -61,6 +62,7 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
   // ── React Flow state ───────────────────────────────────────────────────
   const [nodes, setNodes, onNodesChange] = useNodesState<CanvasNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CanvasEdge>([]);
+  const { syncNodesWithTransitions } = useWorkflowNodeTransitions({ setNodes });
 
   // ── UI overlay state ───────────────────────────────────────────────────
   const {
@@ -100,6 +102,8 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
       data: {
         ...node,
         assigned: !!node.providerApp,
+        isEntering: false,
+        isExiting: false,
         isLast: index === sortedNodes.length - 1,
         stepNumber: index + 1,
         targetNodeIds: getTargetNodeIds(node.id, edgesQueryData),
@@ -113,14 +117,19 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
 
     const initialEdges: CanvasEdge[] = edgesQueryData.map((edge) => ({
       animated: false,
+      data: {
+        ...edge,
+        workflowId,
+      },
       id: edge.id,
       source: edge.sourceNodeId,
       target: edge.targetNodeId,
       type: 'workflowEdge',
-      workflowId,
     }));
 
-    setNodes(initialNodes);
+    // setNode if no animation, otherwise let the hook handle it
+    syncNodesWithTransitions(initialNodes);
+
     setEdges(initialEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, data]);

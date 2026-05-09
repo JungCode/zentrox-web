@@ -9,9 +9,9 @@ export const NODE_VERTICAL_GAP = 180;
 export const NODE_WIDTH = 360;
 
 /** Approximate rendered height of a workflow node card (px) */
-export const NODE_HEIGHT = 77;
+export const NODE_HEIGHT = 80;
 
-export const PLUS_BUTTON_SIZE = 29;
+export const PLUS_BUTTON_SIZE = 28;
 
 /** Height of the connector line between the last node card and the "+" append button.
  *  Derived to visually match the half-line on either side of the edge "+" button. */

@@ -1,6 +1,5 @@
 'use client';
 
-import { useMutation } from '@apollo/client/react';
 import { PlusIcon } from '@phosphor-icons/react';
 import { Handle, type NodeProps, Position } from '@xyflow/react';
 
@@ -8,13 +7,9 @@ import {
   NODE_CONNECTOR_HEIGHT,
   ProviderAppMetadataRecord,
 } from '@/features/workflow/constants';
+import { useCreateWorkflowNode } from '@/features/workflow/hooks';
 import type { CanvasNode } from '@/features/workflow/types/graph';
 import { cn } from '@/lib/ui/utils';
-import { WorkflowEdgeSourceHandle } from '@/shared/api/workflow/schemas';
-import {
-  CreateWorkflowNodeDocument,
-  WorkflowDocument,
-} from '@/shared/api/workflow/workflow.schemas';
 import { Button } from '@/shared/components/ui/button';
 
 import { WorkflowNodeAssigned } from './WorkflowNodeAssigned';
@@ -26,28 +21,26 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
   const providerAppMetadata =
     providerApp && ProviderAppMetadataRecord[providerApp];
 
-  const [createWorkflowNode] = useMutation(CreateWorkflowNodeDocument, {
-    refetchQueries: [WorkflowDocument],
-    //TODO: handle onCompleted, loading and onError.
+  const { createNode } = useCreateWorkflowNode({
+    sourceNodeId: id,
+    stepNumber,
+    workflowId,
   });
 
   const handleAddStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-
-    createWorkflowNode({
-      variables: {
-        input: {
-          label: `New step ${stepNumber + 1}`,
-          sourceHandle: WorkflowEdgeSourceHandle.Default,
-          sourceNodeId: id,
-        },
-        workflowId,
-      },
-    });
+    createNode();
   };
 
   return (
-    <div className="relative w-90">
+    <div
+      className={cn(
+        'relative w-90 transition-all duration-200 ease-out',
+        data.isEntering && 'translate-y-1 scale-[0.985] opacity-0',
+        data.isExiting &&
+          'pointer-events-none -translate-y-1 scale-[0.985] opacity-0',
+      )}
+    >
       {/* Invisible target handle at the top edge */}
       <Handle
         className="pointer-events-none! border-none! bg-transparent!"

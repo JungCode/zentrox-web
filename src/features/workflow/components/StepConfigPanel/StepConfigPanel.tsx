@@ -7,6 +7,7 @@ import type { ConfigStep } from '@/features/workflow/types/graph';
 import { cn } from '@/lib/ui/utils';
 
 import { StepConfigPanelHeader } from './StepConfigPanelHeader/StepConfigPanelHeader';
+import { StepConfigPanelLoadingSkeleton } from './StepConfigPanelLoadingSkeleton';
 import { StepConfigTabs } from './StepConfigTabs';
 import { TabContent } from './TabContent';
 
@@ -35,7 +36,7 @@ const StepConfigPanel = ({
   open,
   workflowId,
 }: StepConfigPanelProps) => {
-  const { node, providerAppMetadata } = useStepConfigNode({
+  const { loading, node, providerAppMetadata } = useStepConfigNode({
     nodeId,
     workflowId,
   });
@@ -50,22 +51,31 @@ const StepConfigPanel = ({
         open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
       )}
     >
-      <StepConfigPanelHeader
-        node={node}
-        nodeIndex={nodeIndex}
-        onClose={onClose}
-        providerAppMetadata={providerAppMetadata}
-        workflowId={workflowId}
-      />
+      {loading ? (
+        <StepConfigPanelLoadingSkeleton />
+      ) : (
+        <>
+          <StepConfigPanelHeader
+            node={node}
+            nodeIndex={nodeIndex}
+            onClose={onClose}
+            providerAppMetadata={providerAppMetadata}
+            workflowId={workflowId}
+          />
 
-      <StepConfigTabs activeStep={activeStep} onStepChange={setActiveStep} />
+          <StepConfigTabs
+            activeStep={activeStep}
+            onStepChange={setActiveStep}
+          />
 
-      <TabContent
-        activeStep={activeStep}
-        node={node}
-        providerAppMetadata={providerAppMetadata}
-        workflowId={workflowId}
-      />
+          <TabContent
+            activeStep={activeStep}
+            node={node}
+            providerAppMetadata={providerAppMetadata}
+            workflowId={workflowId}
+          />
+        </>
+      )}
     </aside>
   );
 };

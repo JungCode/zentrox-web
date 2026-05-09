@@ -8,6 +8,7 @@ import {
   getStraightPath,
 } from '@xyflow/react';
 
+import { useInsertWorkflowNodeBetween } from '@/features/workflow/hooks';
 import { cn } from '@/lib/ui/utils';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -32,11 +33,18 @@ import type { CanvasEdge } from '../../types/graph';
 const WorkflowEdge = ({
   data,
   id,
+  source,
   sourceX,
   sourceY,
+  target,
   targetX,
   targetY,
 }: EdgeProps<CanvasEdge>) => {
+  const { insertNode } = useInsertWorkflowNodeBetween({
+    sourceNodeId: source,
+    targetNodeId: target,
+    workflowId: data?.workflowId ?? '',
+  });
   /**
    * `getStraightPath` returns:
    * - `edgePath` — the SVG path `d` attribute string
@@ -78,9 +86,7 @@ const WorkflowEdge = ({
                   'hover:border-secondary hover:bg-secondary hover:text-on-secondary hover:scale-110',
                   'hover:shadow-[0_0_0_4px_var(--accent-glow)]',
                 )}
-                onClick={() => {
-                  console.log("'Add step' button clicked between nodes");
-                }}
+                onClick={insertNode}
                 size="icon-sm"
                 style={{ left: labelX, pointerEvents: 'all', top: labelY }}
                 variant="ghost"

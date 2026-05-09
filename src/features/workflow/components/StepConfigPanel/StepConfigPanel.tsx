@@ -1,17 +1,14 @@
 'use client';
 
-import { useQuery } from '@apollo/client/react';
-import { CheckCircleIcon, XIcon } from '@phosphor-icons/react';
 import { useState } from 'react';
 
+import { useStepConfigNode } from '@/features/workflow/hooks';
+import type { ConfigStep } from '@/features/workflow/types/graph';
 import { cn } from '@/lib/ui/utils';
-import { WorkflowNodeDocument } from '@/shared/api/workflow/workflow.schemas';
-import { Button } from '@/shared/components/ui/button';
 
-import type { ConfigStep, NodeQueryData } from '../../types/graph';
-import { ConfigureTabContent } from './ConfigureTabContent';
-import { SetupTabContent } from './SetupTabContent';
-import { TestTabContent } from './TestTabContent';
+import { StepConfigPanelHeader } from './StepConfigPanelHeader/StepConfigPanelHeader';
+import { StepConfigTabs } from './StepConfigTabs';
+import { TabContent } from './TabContent';
 
 interface StepConfigPanelProps {
   nodeId: string | undefined;
@@ -23,13 +20,6 @@ interface StepConfigPanelProps {
   /** The currently-selected workflow node being configured */
   workflowId: string;
 }
-
-/** Tab metadata for the three-step configuration stepper */
-const CONFIG_STEPS: { id: ConfigStep; label: string; number: string }[] = [
-  { id: 'setup', label: 'Setup', number: '1' },
-  { id: 'configure', label: 'Configure', number: '2' },
-  { id: 'test', label: 'Test', number: '3' },
-];
 
 /**
  * StepConfigPanel slides in from the RIGHT over the workflow canvas.
@@ -45,16 +35,10 @@ const StepConfigPanel = ({
   open,
   workflowId,
 }: StepConfigPanelProps) => {
-  const { data } = useQuery(WorkflowNodeDocument, {
-    skip: !nodeId,
-    variables: {
-      nodeId: nodeId ?? '',
-      workflowId: workflowId,
-    },
+  const { node, providerAppMetadata } = useStepConfigNode({
+    nodeId,
+    workflowId,
   });
-
-  const node = data?.workflowNode as NodeQueryData;
-
   const [activeStep, setActiveStep] = useState<ConfigStep>('setup');
 
   return (
@@ -66,82 +50,22 @@ const StepConfigPanel = ({
         open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
       )}
     >
-      {/* ── Panel header ────────────────────────────────────────── */}
-      <div className="border-border/60 flex items-center gap-3 border-b px-4 py-3">
-        {/* {app && (
-          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-base shadow-sm">
-            {<app.icon />}
-          </span>
-        )} */}
-        icon
-        <div className="min-w-0 flex-1">
-          <p className="text-on-surface truncate text-sm font-semibold">
-            {nodeIndex}. {node?.label ?? 'Step'}
-          </p>
-          <p className="text-on-surface-variant truncate text-xs">
-            {node?.actionKey ?? 'Configure this step'}
-          </p>
-        </div>
-        <Button
-          className="shrink-0"
-          onClick={onClose}
-          size="icon-sm"
-          variant="ghost"
-        >
-          <XIcon size={14} />
-        </Button>
-      </div>
+      <StepConfigPanelHeader
+        node={node}
+        nodeIndex={nodeIndex}
+        onClose={onClose}
+        providerAppMetadata={providerAppMetadata}
+        workflowId={workflowId}
+      />
 
-      {/* ── Step tabs ───────────────────────────────────────────── */}
-      <div className="border-border/60 flex items-center border-b px-4">
-        {CONFIG_STEPS.map((step, idx) => {
-          const isActive = activeStep === step.id;
-          const isDone =
-            CONFIG_STEPS.findIndex((s) => s.id === activeStep) > idx;
+      <StepConfigTabs activeStep={activeStep} onStepChange={setActiveStep} />
 
-          return (
-            <button
-              className={cn(
-                'flex items-center gap-1.5 border-b-2 py-3 text-xs font-semibold transition-colors',
-                idx > 0 && 'ml-4',
-                isActive
-                  ? 'border-secondary text-secondary'
-                  : 'text-on-surface-variant hover:text-on-surface border-transparent',
-              )}
-              key={step.id}
-              onClick={() => setActiveStep(step.id)}
-              type="button"
-            >
-              {isDone ? (
-                <CheckCircleIcon
-                  className="text-success"
-                  size={13}
-                  weight="fill"
-                />
-              ) : (
-                <span
-                  className={cn(
-                    'flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold',
-                    isActive
-                      ? 'bg-secondary text-on-secondary'
-                      : 'bg-surface-container text-on-surface-variant',
-                  )}
-                >
-                  {step.number}
-                </span>
-              )}
-              {step.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* ── Tab content ─────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto p-4">
-        {activeStep === 'setup' && <SetupTabContent node={node} />}
-        {activeStep === 'configure' && <ConfigureTabContent node={node} />}
-        {activeStep === 'test' && <TestTabContent node={node} />}
-      </div>
+      <TabContent
+        activeStep={activeStep}
+        node={node}
+        providerAppMetadata={providerAppMetadata}
+        workflowId={workflowId}
+      />
     </aside>
   );
 };

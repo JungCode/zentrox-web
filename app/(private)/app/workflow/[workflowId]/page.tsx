@@ -19,13 +19,14 @@ const WorkflowPage = () => {
   const [isPublishing, setIsPublishing] = useState(false);
 
   const {
-    configPanelNodeId,
+    closeConfigPanel,
     edges,
     handleNodeClick,
+    isConfigPanelOpen,
     nodes,
     onEdgesChange,
     onNodesChange,
-    setConfigPanelNodeId,
+    selectedNode,
   } = useWorkflowGraph({ workflowId });
 
   const handlePublish = () => {
@@ -56,10 +57,10 @@ const WorkflowPage = () => {
             onNodesChange={onNodesChange}
           />
           <StepConfigPanel
-            nodeId={configPanelNodeId || ''}
+            nodeId={selectedNode?.id || ''}
             nodeIndex={1}
-            onClose={() => setConfigPanelNodeId(null)}
-            open={!!configPanelNodeId}
+            onClose={closeConfigPanel}
+            open={isConfigPanelOpen}
             workflowId={workflowId}
           />
         </div>

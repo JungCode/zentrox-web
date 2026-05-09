@@ -4,6 +4,11 @@ import { useMutation } from '@apollo/client/react';
 import { PlusIcon } from '@phosphor-icons/react';
 import { Handle, type NodeProps, Position } from '@xyflow/react';
 
+import {
+  NODE_CONNECTOR_HEIGHT,
+  ProviderAppMetadataRecord,
+} from '@/features/workflow/constants';
+import type { CanvasNode } from '@/features/workflow/types/graph';
 import { cn } from '@/lib/ui/utils';
 import { WorkflowEdgeSourceHandle } from '@/shared/api/workflow/schemas';
 import {
@@ -12,11 +17,6 @@ import {
 } from '@/shared/api/workflow/workflow.schemas';
 import { Button } from '@/shared/components/ui/button';
 
-import {
-  NODE_CONNECTOR_HEIGHT,
-  ProviderAppMetadataRecord,
-} from '../../../constants';
-import type { CanvasNode } from '../../../types/graph';
 import { WorkflowNodeAssigned } from './WorkflowNodeAssigned';
 import { WorkflowNodeUnassigned } from './WorkflowNodeUnassigned';
 

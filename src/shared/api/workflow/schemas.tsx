@@ -53,7 +53,7 @@ export type LoginInput = {
 };
 
 export type NodeInput = {
-  actionKey?: InputMaybe<Scalars['String']['input']>;
+  actionKey?: InputMaybe<WorkflowActionKey>;
   clientId: Scalars['ID']['input'];
   configJson?: InputMaybe<Scalars['JSONObject']['input']>;
   integrationAccountId?: InputMaybe<Scalars['ID']['input']>;
@@ -81,13 +81,21 @@ export type UpdateWorkflowInput = {
 };
 
 export type UpdateWorkflowNodeInput = {
-  actionKey?: InputMaybe<Scalars['String']['input']>;
+  actionKey?: InputMaybe<WorkflowActionKey>;
   configJson?: InputMaybe<Scalars['JSONObject']['input']>;
   integrationAccountId?: InputMaybe<Scalars['ID']['input']>;
   label?: InputMaybe<Scalars['String']['input']>;
   positionX?: InputMaybe<Scalars['Float']['input']>;
   positionY?: InputMaybe<Scalars['Float']['input']>;
 };
+
+export enum WorkflowActionKey {
+  GoogleFormCreated = 'GOOGLE_FORM_CREATED',
+  GoogleFormCreatedOrUpdated = 'GOOGLE_FORM_CREATED_OR_UPDATED',
+  GoogleSheetChangeSheetProperties = 'GOOGLE_SHEET_CHANGE_SHEET_PROPERTIES',
+  GoogleSheetCreateColumn = 'GOOGLE_SHEET_CREATE_COLUMN',
+  GoogleSheetCreateRow = 'GOOGLE_SHEET_CREATE_ROW',
+}
 
 export enum WorkflowEdgeSourceHandle {
   Default = 'DEFAULT',

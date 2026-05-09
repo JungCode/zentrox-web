@@ -5,5 +5,19 @@ mutation UpdateWorkflowNode(
 ) {
   updateWorkflowNode(workflowId: $workflowId, nodeId: $nodeId, input: $input) {
     id
+    createdAt
+    updatedAt
+    workflowVersionId
+    integrationAccountId
+    nodeType
+    providerApp
+    actionKey
+    label
+    positionX
+    positionY
+    configJson
+    connectionStatus
+    lastTestedAt
+    testErrorMessage
   }
 }

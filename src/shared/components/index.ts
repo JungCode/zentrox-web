@@ -1,5 +1,6 @@
 export * from './ApolloWrapper';
 export * from './BaseDropdownMenu';
+export * from './BaseForm';
 export * from './ComingSoonModal';
 export * from './Layout';
 export * from './Layout/AppHeader';

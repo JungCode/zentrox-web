@@ -13,11 +13,16 @@ applyTo: 'app/**, src/**, scripts/**'
 
 ## Structure
 
-- Routes and layouts live in app/, with segment folders containing layout.tsx and page.tsx.
-- Feature modules live in src/features/<feature>, with feature-level exports in index.ts (required).
-- Feature components are folders: src/features/<feature>/components/<Component>/ with index.ts and optional components/ and hooks/.
-- Shared building blocks live in src/shared, split into api/, components/, constants/, helpers/, and utils/.
+- Routes and layouts live in app/, with route groups (private)/ and (public)/ for auth-gated vs public pages. The private app shell is under (private)/app/.
+- Feature modules live in src/features/<feature>, with a feature-level index.ts barrel for features that expose public APIs (e.g. workflow, landing). Features with only internal usage (e.g. auth) may omit the top-level index.ts.
+- Feature components can be folder-based: src/features/<feature>/components/<Component>/ with index.ts and optional sub-folders. Simple, self-contained components may also be flat files: src/features/<feature>/components/<Component>.tsx.
+- Features may also contain constants/, hooks/, and types/ subdirectories alongside components/.
+- Shared building blocks live in src/shared, split into api/, assets/, components/, constants/, helpers/, hooks/, stores/, types/, and utils/.
 - UI primitives live in src/shared/components/ui (shadcn/radix). Prefer these before custom controls.
+- Shared layout components live in src/shared/components/Layout/ (AppHeader, AppSidebar, UserDropdown).
+- Theme utilities live in src/shared/components/Theme/ (ThemeProvider, ThemeToggle).
+- Shared hooks live in src/shared/hooks/, with UI-specific hooks under src/shared/hooks/ui/.
+- Global state stores live in src/shared/stores/ with an index.ts barrel.
 
 ## Component exports and functions
 
@@ -35,42 +40,49 @@ Structure map:
 |- app/
 | |- layout.tsx
 | |- page.tsx
-| |- <segment>/
+| |- (private)/ # auth-gated pages
+| | |- app/
+| | | |- layout.tsx
+| | | |- <feature>/
+| |- (public)/ # unauthenticated pages
 | | |- layout.tsx
-| | |- page.tsx
-| | |- ...
+| | |- <route>/
 |
 |- src/
 | |- features/
-| | |- auth/
-| | | |- index.ts # required feature exports
+| | |- <feature>/
+| | | |- index.ts # barrel (if feature has public API)
 | | | |- components/
-| | | | |- LoginForm/
-| | | | | |- index.ts # component entry
-| | | | | |- components/
-| | | | | |- hooks/
+| | | | |- <Component>/ # folder component (index.ts + tsx)
+| | | | |- <Component>.tsx # flat component (simple cases)
+| | | |- constants/
 | | | |- hooks/
-| | | |- ... # other features
+| | | |- types/
 | |- shared/
 | | |- api/
-| | | |- auth/
-| | | | |- auth.schemas.tsx
-| | | | |- schemas.tsx
-| | | | |- mutations/
-| | | | |- queries/
+| | | |- <entity>/
+| | | | |- schemas.tsx # generated — do not edit
+| | | | |- mutations/ # .gql files
+| | | | |- queries/ # .gql files
+| | |- assets/
 | | |- components/
-| | | |- ApolloWrapper.tsx
-| | | |- ComingSoonModal.tsx
 | | | |- index.ts
-| | | |- ui/
-| | | | |- alert.tsx
-| | | | |- button.tsx
-| | | | |- checkbox.tsx
-| | | | |- ...
+| | | |- Layout/ # AppHeader, AppSidebar, etc.
+| | | |- Theme/ # ThemeProvider, ThemeToggle
+| | | |- ui/ # shadcn/radix primitives
 | | |- constants/
 | | |- helpers/
+| | |- hooks/
+| | | |- ui/ # UI-specific hooks
+| | |- stores/
+| | |- types/
 | | |- utils/
-| | |- ... # other shared modules
+
+## UI primitives
+
+- Always use the shadcn `Button` component (`@/shared/components/ui/button`) instead of a native `<button>` element.
+- Always use the shadcn `Input` component (`@/shared/components/ui/input`) instead of a native `<input>` element.
+- Never render bare `<button>` or `<input>` HTML elements in feature or shared components. The only exception is inside `src/shared/components/ui/` itself (shadcn source files).
 
 ## Styling and theme
 

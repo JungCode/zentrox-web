@@ -33,14 +33,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
   };
 
   return (
-    <div
-      className={cn(
-        'relative w-90 transition-all duration-200 ease-out',
-        data.isEntering && 'translate-y-1 scale-[0.985] opacity-0',
-        data.isExiting &&
-          'pointer-events-none -translate-y-1 scale-[0.985] opacity-0',
-      )}
-    >
+    <div className="relative w-90">
       {/* Invisible target handle at the top edge */}
       <Handle
         className="pointer-events-none! border-none! bg-transparent!"

@@ -1,4 +1,4 @@
-import { EdgeQueryData } from '../../types';
+import { EdgeQueryData } from '../types';
 
 type edge = Pick<EdgeQueryData, 'sourceNodeId' | 'targetNodeId'>;
 

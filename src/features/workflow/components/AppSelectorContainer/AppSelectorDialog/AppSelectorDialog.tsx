@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '@/shared/components/ui/dialog';
 
-import { filterApps } from '../../helpers';
+import { filterApps } from '../../../helpers';
 import { AppSelectorAppColumn } from './AppSelectorAppColumn';
 import { AppSelectorCategorySidebar } from './AppSelectorCategorySidebar';
 import { AppSelectorSearchBar } from './AppSelectorSearchBar';

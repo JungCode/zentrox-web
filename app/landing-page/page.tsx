@@ -1,4 +1,8 @@
-import { FeaturesGrid, HeroSection, HowItWorks } from '@/features/landing';
+import {
+  FeaturesGrid,
+  HeroSection,
+  HowItWorks,
+} from '@/features/landing/components';
 
 const LandingPage = () => {
   return (

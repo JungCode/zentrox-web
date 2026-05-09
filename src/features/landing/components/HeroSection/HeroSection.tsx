@@ -1,3 +1,4 @@
+'use client';
 import { ArrowRightIcon } from '@phosphor-icons/react';
 import Link from 'next/link';
 
@@ -96,7 +97,7 @@ export const HeroSection = () => {
 
           <div className="relative">
             <div className="bg-primary-container overflow-hidden p-1 shadow-2xl">
-              <div className="bg-surface-container-lowest border-outline-variant/10 flex min-h-[500px] flex-col gap-6 border p-6">
+              <div className="bg-surface-container-lowest border-outline-variant/10 flex min-h-125 flex-col gap-6 border p-6">
                 <div className="border-outline-variant/10 flex items-center justify-between border-b pb-4">
                   <div className="flex gap-1.5">
                     <div className="bg-danger/40 h-2 w-2 rounded-full" />
@@ -126,7 +127,7 @@ export const HeroSection = () => {
                   </div>
 
                   <div className="relative z-10 -mt-7 mb-0 flex justify-center">
-                    <div className="from-primary-container/20 to-secondary h-12 w-px bg-gradient-to-b"></div>
+                    <div className="from-primary-container/20 to-secondary h-12 w-px bg-linear-to-b"></div>
                   </div>
 
                   <div className="bg-primary-container border-primary relative flex w-full items-center gap-4 rounded-lg border p-5 text-white shadow-2xl">
@@ -150,7 +151,7 @@ export const HeroSection = () => {
                   </div>
 
                   <div className="relative z-10 -mt-7 mb-0 flex justify-center">
-                    <div className="from-primary-container/20 to-secondary h-12 w-px bg-gradient-to-b"></div>
+                    <div className="from-primary-container/20 to-secondary h-12 w-px bg-linear-to-b"></div>
                   </div>
 
                   <div className="border-outline-variant/20 bg-surface-container-high flex items-center gap-4 rounded-lg border p-4 shadow-sm">

@@ -1,56 +1,57 @@
+'use client';
 
 import {
-  ShieldCheck,
-  Plugs,
   Cloud,
-  Pulse,
   Eye,
   Gauge,
+  Plugs,
+  Pulse,
+  ShieldCheck,
 } from '@phosphor-icons/react';
 
 export const FeaturesGrid = () => {
   const features = [
     {
-      icon: ShieldCheck,
-      title: 'Enterprise Guardrails',
       description:
         'SOC2 Type II, GDPR, and HIPAA compliant. Zentrox includes field-level encryption and full PII masking before data reaches AI models.',
+      icon: ShieldCheck,
       items: ['Role-Based Access Control', 'Immutable Audit Logs'],
+      title: 'Enterprise Guardrails',
     },
     {
-      icon: Plugs,
-      title: 'Low-Latency API Gateway',
       description:
         'Ultra-fast execution with sub-50ms overhead. Use our gRPC or REST APIs to trigger complex workflows from within your own applications.',
+      icon: Plugs,
       items: ['10,000+ Req/Second', 'Type-Safe SDKs (Go, TS, Py)'],
+      title: 'Low-Latency API Gateway',
     },
     {
-      icon: Cloud,
-      title: 'Hybrid-Cloud Mobility',
       description:
         'Deploy nodes on-premise for data sovereignty or use our global cluster. Native support for AWS PrivateLink and Azure VNet Integration.',
+      icon: Cloud,
       items: ['Private Cloud Deployment', 'Edge Logic Execution'],
+      title: 'Hybrid-Cloud Mobility',
     },
     {
-      icon: Pulse,
-      title: 'Self-Healing Logic',
       description:
         'The engine automatically adjusts to API schema changes and network instability using intelligent retry strategies.',
+      icon: Pulse,
       items: ['Auto-Retries', 'Schema Adaptation'],
+      title: 'Self-Healing Logic',
     },
     {
-      icon: Eye,
-      title: 'Real-time Telemetry',
       description:
         'Native Prometheus and Datadog integrations. Export every execution metric to your existing observability stack.',
+      icon: Eye,
       items: ['Prometheus Export', 'Datadog Integration'],
+      title: 'Real-time Telemetry',
     },
     {
-      icon: Gauge,
-      title: 'Performance Analytics',
       description:
         'Deep insights into workflow execution patterns, latency distributions, and AI decision confidence scores across your entire automation portfolio.',
+      icon: Gauge,
       items: ['Latency Analysis', 'Confidence Scoring'],
+      title: 'Performance Analytics',
     },
   ];
 
@@ -71,8 +72,8 @@ export const FeaturesGrid = () => {
             const Icon = feature.icon;
             return (
               <div
-                key={idx}
                 className="bg-surface-container-lowest border-outline-variant/10 hover:border-secondary/30 group rounded-xl border p-8 shadow-sm transition-all"
+                key={idx}
               >
                 <div className="bg-primary-container group-hover:bg-secondary mb-6 flex h-12 w-12 items-center justify-center rounded-lg text-white transition-colors">
                   <Icon className="size-6" weight="bold" />
@@ -88,8 +89,8 @@ export const FeaturesGrid = () => {
                 <ul className="space-y-2">
                   {feature.items.map((it, i) => (
                     <li
-                      key={i}
                       className="text-primary flex items-center gap-2 text-[11px] font-bold uppercase opacity-60"
+                      key={i}
                     >
                       <span className="bg-secondary h-1 w-1 rounded-full" />
                       {it}

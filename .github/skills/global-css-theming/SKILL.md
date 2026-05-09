@@ -15,12 +15,15 @@ argument-hint: 'Optional notes (palette updates, new tokens, or layout constrain
 ## Procedure
 
 1. Read app/globals.css and confirm the current token names and theme selectors.
-2. Keep the theme selectors consistent: .theme-light / .theme-dark (class-based).
-3. Define token blocks for light and dark using the same variable names.
-4. Update background/selection/focus styles to use the theme variables.
-5. Ensure typography variables exist for body/headline/mono.
-6. Preserve Tailwind @theme inline mappings and keep them in sync with tokens.
-7. Validate color-scheme is set for both themes.
+2. Keep the theme selectors consistent:
+   - Light: `:root, .theme-light, [data-theme='light']`
+   - Dark: `:root.theme-dark, .theme-dark, .dark, [data-theme='dark']`
+3. Keep `@custom-variant dark (&:is(.dark *))` at the top for Tailwind's dark variant.
+4. Define token blocks for light and dark using the same variable names.
+5. Update background/selection/focus styles to use the theme variables.
+6. Ensure typography variables exist for `--font-sans`, `--font-headline`, `--font-mono`.
+7. Preserve the `@theme inline` block and keep its `--color-*` / `--font-*` mappings in sync with CSS variable tokens.
+8. Validate `color-scheme` is set for both themes.
 
 ## Quality Checks
 

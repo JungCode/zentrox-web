@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Button } from '@/shared/components/ui/button';
 
-import type { NodeQueryData } from '../../types/graph';
+import type { NodeQueryData } from '@/features/workflow/types/graph';
 
 const ConfigureTabContent = ({
   node: _node,

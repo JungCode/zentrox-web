@@ -15,8 +15,8 @@ argument-hint: 'Toast type, title, description, optional action'
 ## Procedure
 
 1. **Use Sonner**
-   - Import `toast` from `sonner`.
-   - Ensure the `Toaster` is mounted in `app/layout.tsx`.
+   - Import `toast` from `sonner` (the imperative API).
+   - Import `Toaster` from `@/shared/components/ui/sonner` and mount it in `app/layout.tsx` with `position="top-center"` outside any provider wrappers.
 2. **Trigger toasts in hooks**
    - Use `onCompleted` for success messages.
    - Use `onError` for failure messages.

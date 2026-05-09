@@ -2,14 +2,15 @@
 
 import { useQuery } from '@apollo/client/react';
 import { useEdgesState, useNodesState } from '@xyflow/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { WorkflowDocument } from '@/shared/api/workflow/workflow.schemas';
+import { useToggle } from '@/shared/hooks/useToggle';
 
-import { getTargetNodeIds } from '../components/helpers/node';
-import { sortWorkflowNodesByEdges } from '../components/helpers/sort';
 import { NODE_VERTICAL_GAP } from '../constants';
+import { getTargetNodeIds } from '../helpers/node';
+import { sortWorkflowNodesByEdges } from '../helpers/sort';
 import type { CanvasEdge, CanvasNode } from '../types/graph';
 import { useWorkflowStore } from './useWorkflowStore';
 
@@ -48,31 +49,35 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
     },
   });
 
-  const { openAppSelectorDialog, setSelectedNode } = useWorkflowStore(
-    useShallow((state) => ({
-      openAppSelectorDialog: state.openAppSelectorDialog,
-      setSelectedNode: state.setSelectedNode,
-    })),
-  );
+  const { openAppSelectorDialog, selectedNode, setSelectedNode } =
+    useWorkflowStore(
+      useShallow((state) => ({
+        openAppSelectorDialog: state.openAppSelectorDialog,
+        selectedNode: state.selectedNode,
+        setSelectedNode: state.setSelectedNode,
+      })),
+    );
 
   // ── React Flow state ───────────────────────────────────────────────────
   const [nodes, setNodes, onNodesChange] = useNodesState<CanvasNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CanvasEdge>([]);
 
   // ── UI overlay state ───────────────────────────────────────────────────
-  const [configPanelNodeId, setConfigPanelNodeId] = useState<string | null>(
-    null,
-  );
+  const {
+    close: closeConfigPanel,
+    isOpen: isConfigPanelOpen,
+    open: openConfigPanel,
+  } = useToggle();
 
   // ── Node click handler – exposed to WorkflowCanvas ────────────────────
   const handleNodeClick = (canvasNode: CanvasNode) => {
     const { data } = canvasNode;
-    const { assigned, id } = data;
+    const { assigned } = data;
 
     setSelectedNode(data);
 
     if (assigned) {
-      setConfigPanelNodeId(id);
+      openConfigPanel();
     } else {
       openAppSelectorDialog();
     }
@@ -121,16 +126,17 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
   }, [loading, data]);
 
   return {
-    configPanelNodeId,
+    closeConfigPanel,
+    // React Flow state
     edges,
-    // Actions
     handleNodeClick,
-    // React Flow
+    // Dialog / panel
+    isConfigPanelOpen,
     nodes,
     onEdgesChange,
     onNodesChange,
-    setConfigPanelNodeId,
-    // Dialog / panel
+    openConfigPanel,
+    selectedNode,
     setSelectedNode,
   };
 };

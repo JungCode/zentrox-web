@@ -12,6 +12,20 @@ mutation InsertWorkflowNodeBetween(
   ) {
     newNode {
       id
+      createdAt
+      updatedAt
+      workflowVersionId
+      integrationAccountId
+      nodeType
+      providerApp
+      actionKey
+      label
+      positionX
+      positionY
+      configJson
+      connectionStatus
+      lastTestedAt
+      testErrorMessage
     }
     updatedSourceEdge {
       id

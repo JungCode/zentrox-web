@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 import { useShallow } from 'zustand/shallow';
 
 import { useWorkflowStore } from '@/features/workflow/hooks/useWorkflowStore';
-import { WorkflowEdgeSourceHandle } from '@/shared/api/workflow/schemas';
 import {
   InsertWorkflowNodeBetweenDocument,
   type InsertWorkflowNodeBetweenMutation,

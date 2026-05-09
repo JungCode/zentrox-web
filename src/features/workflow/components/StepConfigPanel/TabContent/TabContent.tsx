@@ -5,13 +5,14 @@ import {
   ProviderAppMetadataType,
 } from '@/features/workflow/types';
 
-import { ConfigureTabContent } from './ConfigureTabContent';
+import { ConfigureTabContent } from './ConfigureTabContent/ConfigureTabContent';
 import { SetupTabContent } from './SetupTabContent/SetupTabContent';
 import { TestTabContent } from './TestTabContent';
 
 interface TabContentProps {
   activeStep: ConfigStep;
   node: NodeQueryData | undefined;
+  onStepChange?: (step: ConfigStep) => void;
   providerAppMetadata: ProviderAppMetadataType | undefined;
   workflowId: string;
 }
@@ -19,6 +20,7 @@ interface TabContentProps {
 export const TabContent = ({
   activeStep,
   node,
+  onStepChange,
   providerAppMetadata,
   workflowId,
 }: TabContentProps) => {
@@ -27,16 +29,30 @@ export const TabContent = ({
     workflowId,
   });
 
+  const handleMoveToConfigureStep = () => {
+    onStepChange?.('configure');
+  };
+  const handleMoveToTestStep = () => {
+    onStepChange?.('test');
+  };
+
   return (
     <div className="flex-1 overflow-y-auto p-4">
       {activeStep === 'setup' && (
         <SetupTabContent
           node={node}
+          onMoveToNextStep={handleMoveToConfigureStep}
           providerAppMetadata={providerAppMetadata}
           updateNode={updateNode}
         />
       )}
-      {activeStep === 'configure' && <ConfigureTabContent node={node} />}
+      {activeStep === 'configure' && (
+        <ConfigureTabContent
+          node={node}
+          onMoveToNextStep={handleMoveToTestStep}
+          updateNode={updateNode}
+        />
+      )}
       {activeStep === 'test' && <TestTabContent node={node} />}
     </div>
   );

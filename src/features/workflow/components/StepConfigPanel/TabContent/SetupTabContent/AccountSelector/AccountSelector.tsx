@@ -7,6 +7,7 @@ import { BaseSelector } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
 import { useOAuthConnect } from '@/shared/hooks/useOAuthConnect';
 
+import { AccountSelectorLabel } from '.';
 import { AccountOption } from './AccountOption';
 
 interface AccountSelectorProps {
@@ -49,6 +50,14 @@ const AccountSelector = ({ onValueChange, value }: AccountSelectorProps) => {
       onValueChange={onValueChange}
       options={options}
       placeholder={loading ? 'Loading…' : 'Select account…'}
+      renderLabel={(selectedOption) => {
+        return (
+          <AccountSelectorLabel
+            loading={loading}
+            selectedOption={selectedOption}
+          />
+        );
+      }}
       renderOption={(option) => <AccountOption option={option} />}
       value={value}
     />

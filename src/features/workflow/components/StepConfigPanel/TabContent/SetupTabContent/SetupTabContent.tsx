@@ -21,12 +21,14 @@ import { TriggerEventOption } from './TriggerEventOption';
 
 interface SetupTabContentProps {
   node: NodeQueryData | undefined;
+  onMoveToNextStep?: () => void;
   providerAppMetadata: ProviderAppMetadataType | undefined;
   updateNode: (input: UpdateWorkflowNodeInput) => Promise<unknown>;
 }
 
 const SetupTabContent = ({
   node,
+  onMoveToNextStep,
   providerAppMetadata,
   updateNode,
 }: SetupTabContentProps) => {
@@ -47,6 +49,7 @@ const SetupTabContent = ({
       actionKey: values.actionKey,
       integrationAccountId: values.integrationAccountId,
     });
+    onMoveToNextStep?.();
   });
 
   return (

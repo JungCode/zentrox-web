@@ -8,7 +8,7 @@
  * getDefaultValues(node, { actionKey: '', integrationAccountId: '' })
  * // → { actionKey: node.actionKey ?? '', integrationAccountId: node.integrationAccountId ?? '' }
  */
-const getDefaultValues = <T extends Record<string, unknown>>(
+const getDefaultValues = <T>(
   source: { [K in keyof T]?: T[K] | null } | null | undefined,
   fallbacks: T,
 ): T => {

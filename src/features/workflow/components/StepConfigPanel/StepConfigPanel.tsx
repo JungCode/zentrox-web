@@ -72,7 +72,6 @@ const StepConfigPanel = ({
             activeStep={activeStep}
             node={node}
             onStepChange={setActiveStep}
-            providerAppMetadata={providerAppMetadata}
             workflowId={workflowId}
           />
         </>

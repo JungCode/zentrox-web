@@ -1,19 +1,14 @@
 import { useUpdateWorkflowNode } from '@/features/workflow/hooks';
-import {
-  ConfigStep,
-  NodeQueryData,
-  ProviderAppMetadataType,
-} from '@/features/workflow/types';
+import { ConfigStep, NodeQueryData } from '@/features/workflow/types';
 
 import { ConfigureTabContent } from './ConfigureTabContent/ConfigureTabContent';
 import { SetupTabContent } from './SetupTabContent/SetupTabContent';
-import { TestTabContent } from './TestTabContent';
+import { TestTabContent } from './TestTabContent/TestTabContent';
 
 interface TabContentProps {
   activeStep: ConfigStep;
   node: NodeQueryData | undefined;
   onStepChange?: (step: ConfigStep) => void;
-  providerAppMetadata: ProviderAppMetadataType | undefined;
   workflowId: string;
 }
 
@@ -21,7 +16,6 @@ export const TabContent = ({
   activeStep,
   node,
   onStepChange,
-  providerAppMetadata,
   workflowId,
 }: TabContentProps) => {
   const { updateNode } = useUpdateWorkflowNode({
@@ -37,12 +31,11 @@ export const TabContent = ({
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-4">
+    <div className="flex flex-1 flex-col overflow-hidden">
       {activeStep === 'setup' && (
         <SetupTabContent
           node={node}
           onMoveToNextStep={handleMoveToConfigureStep}
-          providerAppMetadata={providerAppMetadata}
           updateNode={updateNode}
         />
       )}
@@ -53,7 +46,9 @@ export const TabContent = ({
           updateNode={updateNode}
         />
       )}
-      {activeStep === 'test' && <TestTabContent node={node} />}
+      {activeStep === 'test' && (
+        <TestTabContent node={node} workflowId={workflowId} />
+      )}
     </div>
   );
 };

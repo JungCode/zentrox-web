@@ -11,16 +11,16 @@ interface GoogleFormSelectorProps {
   integrationAccountId: string;
   onFormChange?: (form: GoogleFormConfig) => void;
   onValueChange?: (value: string) => void;
-  value?: string;
   side?: 'top' | 'right' | 'bottom' | 'left';
+  value?: string;
 }
 
 const GoogleFormSelector = ({
   integrationAccountId,
   onFormChange,
   onValueChange,
-  value,
   side,
+  value,
 }: GoogleFormSelectorProps) => {
   const { forms, loading } = useGoogleForms({ integrationAccountId });
 
@@ -34,7 +34,6 @@ const GoogleFormSelector = ({
 
   return (
     <BaseSelector
-      side={side}
       disabled={!integrationAccountId || loading}
       onValueChange={(selectedId) => {
         onValueChange?.(selectedId);
@@ -61,6 +60,7 @@ const GoogleFormSelector = ({
         );
       }}
       renderOption={(option) => <GoogleFormOption option={option} />}
+      side={side}
       value={value}
     />
   );

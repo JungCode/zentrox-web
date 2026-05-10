@@ -12,6 +12,7 @@ import { FormItem } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
 import { getDefaultValues } from '@/shared/utils';
 
+import { StepConfigContentLayout } from '../StepConfigContentLayout';
 import { GoogleFormSelector } from './GoogleFormSelector';
 
 interface ConfigureTabContentProps {
@@ -52,28 +53,38 @@ const ConfigureTabContent = ({
   });
 
   return (
-    <form className="space-y-4" onSubmit={onSubmit}>
-      <FormItem label="Form">
-        <Controller
-          control={control}
-          name="configJson.formId"
-          render={({ field }) => (
-            <GoogleFormSelector
-              integrationAccountId={node?.integrationAccountId ?? ''}
-              onFormChange={(form) => {
-                setValue('configJson.formName', form.configJson?.formName);
-              }}
-              onValueChange={field.onChange}
-              value={field.value ?? ''}
-            />
-          )}
-        />
-      </FormItem>
-
-      <Button className="w-full" size="lg" type="submit" variant="secondary">
-        Continue
-      </Button>
-    </form>
+    <StepConfigContentLayout
+      footer={
+        <Button
+          className="w-full"
+          form="configure-form"
+          size="lg"
+          type="submit"
+          variant="secondary"
+        >
+          Continue
+        </Button>
+      }
+    >
+      <form className="space-y-4" id="configure-form" onSubmit={onSubmit}>
+        <FormItem label="Form">
+          <Controller
+            control={control}
+            name="configJson.formId"
+            render={({ field }) => (
+              <GoogleFormSelector
+                integrationAccountId={node?.integrationAccountId ?? ''}
+                onFormChange={(form) => {
+                  setValue('configJson.formName', form.configJson?.formName);
+                }}
+                onValueChange={field.onChange}
+                value={field.value ?? ''}
+              />
+            )}
+          />
+        </FormItem>
+      </form>
+    </StepConfigContentLayout>
   );
 };
 

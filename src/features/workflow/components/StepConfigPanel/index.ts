@@ -1,4 +1,5 @@
-export { StepConfigPanel } from './StepConfigPanel';
-export { ConfigureTabContent } from './TabContent/ConfigureTabContent/ConfigureTabContent';
-export { SetupTabContent } from './TabContent/SetupTabContent/SetupTabContent';
-export { TestTabContent } from './TabContent/TestTabContent';
+export * from './StepConfigPanel';
+export * from './StepConfigPanelHeader';
+export * from './StepConfigPanelLoadingSkeleton';
+export * from './StepConfigTabs';
+export * from './TabContent';

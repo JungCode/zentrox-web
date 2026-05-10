@@ -5,29 +5,26 @@ import { Controller, useForm } from 'react-hook-form';
 import { GOOGLE_FORM_TRIGGER_EVENT_OPTIONS } from '@/features/workflow/constants';
 import { SETUP_FORM_FALLBACKS } from '@/features/workflow/constants/formFallback';
 import { useWorkflowStore } from '@/features/workflow/hooks';
-import type {
-  NodeQueryData,
-  ProviderAppMetadataType,
-  SetupFormValues,
-} from '@/features/workflow/types';
+import type { NodeQueryData, SetupFormValues } from '@/features/workflow/types';
 import type { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
 import { BaseSelector, FormItem } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
 import { getDefaultValues } from '@/shared/utils';
 
+import { StepConfigContentLayout } from '../StepConfigContentLayout';
 import { AccountSelector } from './AccountSelector/AccountSelector';
 import { AppField } from './AppField';
 import { TriggerEventOption } from './TriggerEventOption';
 
 interface SetupTabContentProps {
   node: NodeQueryData | undefined;
-  providerAppMetadata: ProviderAppMetadataType | undefined;
+  onMoveToNextStep?: () => void;
   updateNode: (input: UpdateWorkflowNodeInput) => Promise<unknown>;
 }
 
 const SetupTabContent = ({
   node,
-  providerAppMetadata,
+  onMoveToNextStep,
   updateNode,
 }: SetupTabContentProps) => {
   const openAppSelectorDialog = useWorkflowStore(
@@ -47,56 +44,65 @@ const SetupTabContent = ({
       actionKey: values.actionKey,
       integrationAccountId: values.integrationAccountId,
     });
+    onMoveToNextStep?.();
   });
 
   return (
-    <form className="space-y-4" onSubmit={onSubmit}>
-      <FormItem label="App">
-        <AppField
-          node={node}
-          onChangeClick={openAppSelectorDialog}
-          providerAppMetadata={providerAppMetadata}
-        />
-      </FormItem>
+    <StepConfigContentLayout
+      footer={
+        <Button
+          className="w-full"
+          form="setup-form"
+          size="lg"
+          type="submit"
+          variant="secondary"
+        >
+          Continue
+        </Button>
+      }
+    >
+      <form className="space-y-4" id="setup-form" onSubmit={onSubmit}>
+        <FormItem label="App">
+          <AppField node={node} onChangeClick={openAppSelectorDialog} />
+        </FormItem>
 
-      <FormItem label="Trigger Event">
-        <Controller
-          control={control}
-          name="actionKey"
-          render={({ field }) => (
-            <BaseSelector
-              onValueChange={field.onChange}
-              options={GOOGLE_FORM_TRIGGER_EVENT_OPTIONS}
-              placeholder="Select trigger event…"
-              renderOption={(opt) => <TriggerEventOption option={opt} />}
-              value={field.value ?? ''}
-            />
-          )}
-        />
-      </FormItem>
+        <FormItem label="Trigger Event">
+          <Controller
+            control={control}
+            name="actionKey"
+            render={({ field }) => (
+              <BaseSelector
+                onValueChange={field.onChange}
+                options={GOOGLE_FORM_TRIGGER_EVENT_OPTIONS}
+                placeholder="Select trigger event…"
+                renderOption={(opt) => <TriggerEventOption option={opt} />}
+                side="left"
+                value={field.value ?? ''}
+              />
+            )}
+          />
+        </FormItem>
 
-      <FormItem label="Account">
-        <Controller
-          control={control}
-          name="integrationAccountId"
-          render={({ field }) => (
-            <AccountSelector
-              onValueChange={field.onChange}
-              value={field.value ?? ''}
-            />
-          )}
-        />
-      </FormItem>
+        <FormItem label="Account">
+          <Controller
+            control={control}
+            name="integrationAccountId"
+            render={({ field }) => (
+              <AccountSelector
+                onValueChange={field.onChange}
+                side="left"
+                value={field.value ?? ''}
+              />
+            )}
+          />
+        </FormItem>
 
-      <p className="text-on-surface-variant bg-surface-container rounded-md p-3 text-xs leading-relaxed">
-        This app is a secure partner with Zentrox. Your credentials are
-        encrypted and can be removed at any time.
-      </p>
-
-      <Button className="w-full" size="lg" type="submit" variant="secondary">
-        Continue
-      </Button>
-    </form>
+        <p className="text-on-surface-variant bg-surface-container rounded-md p-3 text-xs leading-relaxed">
+          This app is a secure partner with Zentrox. Your credentials are
+          encrypted and can be removed at any time.
+        </p>
+      </form>
+    </StepConfigContentLayout>
   );
 };
 

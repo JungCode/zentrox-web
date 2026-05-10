@@ -51,6 +51,7 @@ export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
   isLast?: boolean;
   /** 1-based ordinal position in the workflow (shown as "1.", "2.", etc.) */
   stepNumber: number;
+
   targetNodeIds: string[];
   /** Whether the user has selected an app for this step */
   workflowId: string;
@@ -61,7 +62,7 @@ export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
  *
  * Must extend `Record<string, unknown>` to satisfy the XYFlow generic constraint.
  */
-export interface CanvasEdgeData extends Record<string, unknown> {
+export interface CanvasEdgeData extends EdgeQueryData, Record<string, unknown> {
   workflowId: string;
 }
 

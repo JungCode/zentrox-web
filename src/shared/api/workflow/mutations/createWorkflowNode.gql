@@ -5,6 +5,20 @@ mutation CreateWorkflowNode(
   createWorkflowNode(workflowId: $workflowId, input: $input) {
     node {
       id
+      createdAt
+      updatedAt
+      workflowVersionId
+      integrationAccountId
+      nodeType
+      providerApp
+      actionKey
+      label
+      positionX
+      positionY
+      configJson
+      connectionStatus
+      lastTestedAt
+      testErrorMessage
     }
   }
 }

@@ -1,3 +1,4 @@
+export * from '../ConfigureTabContent/GoogleFormSelector';
 export * from './AccountSelector';
 export * from './AppField';
 export * from './SetupTabContent';

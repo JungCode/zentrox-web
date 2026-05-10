@@ -113,14 +113,18 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
 
     const initialEdges: CanvasEdge[] = edgesQueryData.map((edge) => ({
       animated: false,
+      data: {
+        ...edge,
+        workflowId,
+      },
       id: edge.id,
       source: edge.sourceNodeId,
       target: edge.targetNodeId,
       type: 'workflowEdge',
-      workflowId,
     }));
 
     setNodes(initialNodes);
+
     setEdges(initialEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, data]);

@@ -8,7 +8,6 @@ import {
   type EdgeChange,
   type NodeChange,
   type NodeMouseHandler,
-  PanOnScrollMode,
   ReactFlow,
 } from '@xyflow/react';
 import { type EdgeTypes, type NodeTypes } from '@xyflow/react';

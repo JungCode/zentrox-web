@@ -8,6 +8,13 @@ export type SetupFormValues = Pick<
   'actionKey' | 'integrationAccountId'
 >;
 
+export interface GoogleFormConfig {
+  configJson?: {
+    formId?: string;
+    formName?: string;
+  };
+}
+
 export type LabelFormValues = {
   label: string;
 };

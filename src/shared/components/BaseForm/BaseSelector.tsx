@@ -18,6 +18,7 @@ export interface BaseSelectorOption<T> {
 }
 
 interface BaseSelectorProps<T = unknown> {
+  algin?: 'start' | 'center' | 'end';
   className?: string;
   defaultValue?: string;
   disabled?: boolean;
@@ -28,10 +29,12 @@ interface BaseSelectorProps<T = unknown> {
   position?: 'popper' | 'item-aligned';
   renderLabel?: (selected: BaseSelectorOption<T> | undefined) => ReactNode;
   renderOption?: (option: BaseSelectorOption<T>) => ReactNode;
+  side?: 'top' | 'right' | 'bottom' | 'left';
   value?: string;
 }
 
 const BaseSelector = <T,>({
+  algin = 'start',
   className,
   defaultValue,
   disabled,
@@ -42,6 +45,7 @@ const BaseSelector = <T,>({
   position = 'popper',
   renderLabel,
   renderOption,
+  side = 'bottom',
   value,
 }: BaseSelectorProps<T>) => {
   const selectedOption = options.find((opt) => opt.value === value);
@@ -72,8 +76,10 @@ const BaseSelector = <T,>({
         )}
       </SelectTrigger>
       <SelectContent
+        align={algin}
         className="w-(--radix-select-trigger-width)"
         position={position}
+        side={side}
       >
         {headerSlot}
         {options.map((opt) => (

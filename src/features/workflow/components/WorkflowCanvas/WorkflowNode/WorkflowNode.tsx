@@ -1,6 +1,5 @@
 'use client';
 
-import { useMutation } from '@apollo/client/react';
 import { PlusIcon } from '@phosphor-icons/react';
 import { Handle, type NodeProps, Position } from '@xyflow/react';
 
@@ -8,13 +7,12 @@ import {
   NODE_CONNECTOR_HEIGHT,
   ProviderAppMetadataRecord,
 } from '@/features/workflow/constants';
+import {
+  useCreateWorkflowNode,
+  useWorkflowStore,
+} from '@/features/workflow/hooks';
 import type { CanvasNode } from '@/features/workflow/types/graph';
 import { cn } from '@/lib/ui/utils';
-import { WorkflowEdgeSourceHandle } from '@/shared/api/workflow/schemas';
-import {
-  CreateWorkflowNodeDocument,
-  WorkflowDocument,
-} from '@/shared/api/workflow/workflow.schemas';
 import { Button } from '@/shared/components/ui/button';
 
 import { WorkflowNodeAssigned } from './WorkflowNodeAssigned';
@@ -25,25 +23,17 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
   const assigned = !!providerApp;
   const providerAppMetadata =
     providerApp && ProviderAppMetadataRecord[providerApp];
+  const isSelected = useWorkflowStore((state) => state.selectedNode?.id === id);
 
-  const [createWorkflowNode] = useMutation(CreateWorkflowNodeDocument, {
-    refetchQueries: [WorkflowDocument],
-    //TODO: handle onCompleted, loading and onError.
+  const { createNode } = useCreateWorkflowNode({
+    sourceNodeId: id,
+    stepNumber,
+    workflowId,
   });
 
   const handleAddStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-
-    createWorkflowNode({
-      variables: {
-        input: {
-          label: `New step ${stepNumber + 1}`,
-          sourceHandle: WorkflowEdgeSourceHandle.Default,
-          sourceNodeId: id,
-        },
-        workflowId,
-      },
-    });
+    createNode();
   };
 
   return (
@@ -58,6 +48,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
 
       {assigned && providerAppMetadata ? (
         <WorkflowNodeAssigned
+          isSelected={isSelected}
           label={label}
           nodeId={id}
           providerAppMetadata={providerAppMetadata}
@@ -65,7 +56,11 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
           workflowId={workflowId}
         />
       ) : (
-        <WorkflowNodeUnassigned label={label} stepNumber={stepNumber} />
+        <WorkflowNodeUnassigned
+          isSelected={isSelected}
+          label={label}
+          stepNumber={stepNumber}
+        />
       )}
 
       {/* Invisible source handle at the bottom edge */}

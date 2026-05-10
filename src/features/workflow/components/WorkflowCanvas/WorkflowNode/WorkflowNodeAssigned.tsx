@@ -8,6 +8,7 @@ import {
   WarningCircleIcon,
 } from '@phosphor-icons/react';
 
+import { cn } from '@/lib/ui/utils';
 import {
   DeleteWorkflowNodeDocument,
   WorkflowDocument,
@@ -21,6 +22,7 @@ import { Button } from '@/shared/components/ui/button';
 import type { ProviderAppMetadataType } from '../../../types/providerAppSelector';
 
 interface WorkflowNodeAssignedProps {
+  isSelected: boolean;
   label: string;
   nodeId: string;
   providerAppMetadata: ProviderAppMetadataType;
@@ -29,6 +31,7 @@ interface WorkflowNodeAssignedProps {
 }
 
 const WorkflowNodeAssigned = ({
+  isSelected,
   label,
   nodeId,
   providerAppMetadata,
@@ -66,7 +69,16 @@ const WorkflowNodeAssigned = ({
   ];
 
   return (
-    <div className="bg-surface-container-lowest border-outline-variant/40 hover:border-secondary/40 cursor-pointer overflow-hidden rounded-md border shadow-[0_1px_6px_var(--shadow-color)] transition-all duration-150 select-none hover:shadow-[0_2px_12px_var(--accent-glow)]">
+    <div
+      className={cn(
+        'bg-surface-container-lowest h-20 cursor-pointer overflow-hidden rounded-md border shadow-[0_1px_6px_var(--shadow-color)] transition-all duration-150 select-none',
+        {
+          'border-outline-variant/40 hover:border-secondary/40 hover:shadow-[0_2px_12px_var(--accent-glow)]':
+            !isSelected,
+          'border-secondary shadow-[0_0_0_3px_var(--accent-glow)]': isSelected,
+        },
+      )}
+    >
       {/* Row 1: status · app pill · action chip · menu */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2">
         {/* Status indicator */}

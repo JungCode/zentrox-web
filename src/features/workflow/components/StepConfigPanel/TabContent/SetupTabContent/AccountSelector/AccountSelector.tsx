@@ -7,14 +7,20 @@ import { BaseSelector } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
 import { useOAuthConnect } from '@/shared/hooks/useOAuthConnect';
 
+import { AccountSelectorLabel } from '.';
 import { AccountOption } from './AccountOption';
 
 interface AccountSelectorProps {
   onValueChange?: (value: string) => void;
+  side?: 'top' | 'right' | 'bottom' | 'left';
   value?: string;
 }
 
-const AccountSelector = ({ onValueChange, value }: AccountSelectorProps) => {
+const AccountSelector = ({
+  onValueChange,
+  side,
+  value,
+}: AccountSelectorProps) => {
   const { accounts, loading, refetch } = useIntegrationAccounts();
 
   const { connect } = useOAuthConnect({
@@ -49,7 +55,16 @@ const AccountSelector = ({ onValueChange, value }: AccountSelectorProps) => {
       onValueChange={onValueChange}
       options={options}
       placeholder={loading ? 'Loading…' : 'Select account…'}
+      renderLabel={(selectedOption) => {
+        return (
+          <AccountSelectorLabel
+            loading={loading}
+            selectedOption={selectedOption}
+          />
+        );
+      }}
       renderOption={(option) => <AccountOption option={option} />}
+      side={side}
       value={value}
     />
   );

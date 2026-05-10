@@ -1,20 +1,19 @@
 'use client';
 
-import type { ProviderAppMetadataType } from '@/features/workflow/types';
+import { ProviderAppMetadataRecord } from '@/features/workflow/constants';
 import type { NodeQueryData } from '@/features/workflow/types/graph';
 import { Button } from '@/shared/components/ui/button';
 
 interface AppFieldProps {
   node: NodeQueryData | undefined;
   onChangeClick: () => void;
-  providerAppMetadata: ProviderAppMetadataType | undefined;
 }
 
-const AppField = ({
-  node,
-  onChangeClick,
-  providerAppMetadata,
-}: AppFieldProps) => {
+const AppField = ({ node, onChangeClick }: AppFieldProps) => {
+  const providerAppMetadata = node?.providerApp
+    ? ProviderAppMetadataRecord[node.providerApp]
+    : undefined;
+
   return (
     <div className="border-border flex items-center gap-2.5 rounded-xs border px-3 py-2.5">
       {node ? (

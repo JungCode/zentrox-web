@@ -15,6 +15,5 @@ mutation TestRunWorkflowNode($workflowId: ID!, $nodeId: ID!) {
       lastTestedAt
       testErrorMessage
     }
-    sampleResponses
   }
 }

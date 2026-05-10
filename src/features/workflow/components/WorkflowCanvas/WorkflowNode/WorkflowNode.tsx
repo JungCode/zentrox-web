@@ -7,7 +7,10 @@ import {
   NODE_CONNECTOR_HEIGHT,
   ProviderAppMetadataRecord,
 } from '@/features/workflow/constants';
-import { useCreateWorkflowNode } from '@/features/workflow/hooks';
+import {
+  useCreateWorkflowNode,
+  useWorkflowStore,
+} from '@/features/workflow/hooks';
 import type { CanvasNode } from '@/features/workflow/types/graph';
 import { cn } from '@/lib/ui/utils';
 import { Button } from '@/shared/components/ui/button';
@@ -20,6 +23,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
   const assigned = !!providerApp;
   const providerAppMetadata =
     providerApp && ProviderAppMetadataRecord[providerApp];
+  const isSelected = useWorkflowStore((state) => state.selectedNode?.id === id);
 
   const { createNode } = useCreateWorkflowNode({
     sourceNodeId: id,
@@ -44,6 +48,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
 
       {assigned && providerAppMetadata ? (
         <WorkflowNodeAssigned
+          isSelected={isSelected}
           label={label}
           nodeId={id}
           providerAppMetadata={providerAppMetadata}
@@ -51,7 +56,11 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
           workflowId={workflowId}
         />
       ) : (
-        <WorkflowNodeUnassigned label={label} stepNumber={stepNumber} />
+        <WorkflowNodeUnassigned
+          isSelected={isSelected}
+          label={label}
+          stepNumber={stepNumber}
+        />
       )}
 
       {/* Invisible source handle at the bottom edge */}

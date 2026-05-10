@@ -12,10 +12,15 @@ import { AccountOption } from './AccountOption';
 
 interface AccountSelectorProps {
   onValueChange?: (value: string) => void;
+  side?: 'top' | 'right' | 'bottom' | 'left';
   value?: string;
 }
 
-const AccountSelector = ({ onValueChange, value }: AccountSelectorProps) => {
+const AccountSelector = ({
+  onValueChange,
+  side,
+  value,
+}: AccountSelectorProps) => {
   const { accounts, loading, refetch } = useIntegrationAccounts();
 
   const { connect } = useOAuthConnect({
@@ -59,6 +64,7 @@ const AccountSelector = ({ onValueChange, value }: AccountSelectorProps) => {
         );
       }}
       renderOption={(option) => <AccountOption option={option} />}
+      side={side}
       value={value}
     />
   );

@@ -1,2 +1,2 @@
 export * from './ConfigureTabContent';
-export * from './FormSelector';
+export * from './GoogleFormSelector';

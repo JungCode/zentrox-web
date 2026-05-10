@@ -72,6 +72,7 @@ const SetupTabContent = ({
               options={GOOGLE_FORM_TRIGGER_EVENT_OPTIONS}
               placeholder="Select trigger event…"
               renderOption={(opt) => <TriggerEventOption option={opt} />}
+              side="left"
               value={field.value ?? ''}
             />
           )}
@@ -85,6 +86,7 @@ const SetupTabContent = ({
           render={({ field }) => (
             <AccountSelector
               onValueChange={field.onChange}
+              side="left"
               value={field.value ?? ''}
             />
           )}

@@ -12,7 +12,7 @@ import { FormItem } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
 import { getDefaultValues } from '@/shared/utils';
 
-import { FormSelector } from './FormSelector';
+import { GoogleFormSelector } from './GoogleFormSelector';
 
 interface ConfigureTabContentProps {
   node: NodeQueryData | undefined;
@@ -58,7 +58,7 @@ const ConfigureTabContent = ({
           control={control}
           name="configJson.formId"
           render={({ field }) => (
-            <FormSelector
+            <GoogleFormSelector
               integrationAccountId={node?.integrationAccountId ?? ''}
               onFormChange={(form) => {
                 setValue('configJson.formName', form.configJson?.formName);

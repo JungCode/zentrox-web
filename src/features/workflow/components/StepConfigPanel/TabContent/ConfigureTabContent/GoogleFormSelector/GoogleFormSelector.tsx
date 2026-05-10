@@ -4,22 +4,24 @@ import { useGoogleForms } from '@/features/workflow/hooks';
 import type { GoogleFormConfig } from '@/features/workflow/types';
 import { BaseSelector } from '@/shared/components/BaseForm';
 
-import { FormOption } from './FormOption';
-import { FormSelectorLabel } from './FormSelectorLabel';
+import { GoogleFormOption } from './GoogleFormOption';
+import { GoogleFormSelectorLabel } from './GoogleFormSelectorLabel';
 
-interface FormSelectorProps {
+interface GoogleFormSelectorProps {
   integrationAccountId: string;
   onFormChange?: (form: GoogleFormConfig) => void;
   onValueChange?: (value: string) => void;
   value?: string;
+  side?: 'top' | 'right' | 'bottom' | 'left';
 }
 
-const FormSelector = ({
+const GoogleFormSelector = ({
   integrationAccountId,
   onFormChange,
   onValueChange,
   value,
-}: FormSelectorProps) => {
+  side,
+}: GoogleFormSelectorProps) => {
   const { forms, loading } = useGoogleForms({ integrationAccountId });
 
   const options = forms.map((form) => ({
@@ -32,6 +34,7 @@ const FormSelector = ({
 
   return (
     <BaseSelector
+      side={side}
       disabled={!integrationAccountId || loading}
       onValueChange={(selectedId) => {
         onValueChange?.(selectedId);
@@ -50,17 +53,17 @@ const FormSelector = ({
       placeholder={placeholder}
       renderLabel={(selectedOption) => {
         return (
-          <FormSelectorLabel
+          <GoogleFormSelectorLabel
             loading={loading}
             placeholder={placeholder}
             selectedOption={selectedOption}
           />
         );
       }}
-      renderOption={(option) => <FormOption option={option} />}
+      renderOption={(option) => <GoogleFormOption option={option} />}
       value={value}
     />
   );
 };
 
-export { FormSelector };
+export { GoogleFormSelector };

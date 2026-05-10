@@ -1,11 +1,11 @@
 import type { GoogleForm } from '@/features/workflow/hooks';
 import type { BaseSelectorOption } from '@/shared/components/BaseForm';
 
-interface FormOptionProps {
+interface GoogleFormOptionProps {
   option: BaseSelectorOption<GoogleForm>;
 }
 
-const FormOption = ({ option }: FormOptionProps) => (
+const GoogleFormOption = ({ option }: GoogleFormOptionProps) => (
   <span className="flex w-full min-w-0 flex-col gap-0.5 overflow-hidden py-0.5">
     <span className="truncate font-medium">{option.label}</span>
     {option.data?.id && (
@@ -16,4 +16,4 @@ const FormOption = ({ option }: FormOptionProps) => (
   </span>
 );
 
-export { FormOption };
+export { GoogleFormOption };

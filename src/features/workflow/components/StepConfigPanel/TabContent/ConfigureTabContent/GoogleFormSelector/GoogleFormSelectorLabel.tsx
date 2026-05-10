@@ -3,17 +3,17 @@ import { CircleNotchIcon } from '@phosphor-icons/react';
 import type { GoogleForm } from '@/features/workflow/hooks';
 import type { BaseSelectorOption } from '@/shared/components/BaseForm';
 
-interface FormSelectorLabelProps {
+interface GoogleFormSelectorLabelProps {
   loading: boolean;
   placeholder: string;
   selectedOption: BaseSelectorOption<GoogleForm> | undefined;
 }
 
-const FormSelectorLabel = ({
+const GoogleFormSelectorLabel = ({
   loading,
   placeholder,
   selectedOption,
-}: FormSelectorLabelProps) => {
+}: GoogleFormSelectorLabelProps) => {
   if (loading) {
     return (
       <span className="text-muted-foreground flex items-center gap-2">
@@ -30,4 +30,4 @@ const FormSelectorLabel = ({
   return <span className="text-muted-foreground">{placeholder}</span>;
 };
 
-export { FormSelectorLabel };
+export { GoogleFormSelectorLabel };

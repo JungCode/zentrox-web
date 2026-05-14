@@ -2,6 +2,7 @@ export * from './useCreateWorkflowNode';
 export * from './useGoogleForms';
 export * from './useInsertWorkflowNodeBetween';
 export * from './useIntegrationAccounts';
+export * from './useStepConfigForm';
 export * from './useStepConfigNode';
 export * from './useTestRunNode';
 export * from './useTriggerNodeRecords';

@@ -1,4 +1,3 @@
-import { useUpdateWorkflowNode } from '@/features/workflow/hooks';
 import { ConfigStep, NodeQueryData } from '@/features/workflow/types';
 
 import { ConfigureTabContent } from './ConfigureTabContent/ConfigureTabContent';
@@ -16,15 +15,17 @@ export const TabContent = ({
   node,
   workflowId,
 }: TabContentProps) => {
-  const { updateNode } = useUpdateWorkflowNode({ node, workflowId });
-
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       {activeStep === 'setup' && (
-        <SetupTabContent node={node} updateNode={updateNode} />
+        <div className="h-full overflow-y-auto p-4">
+          <SetupTabContent node={node} />
+        </div>
       )}
       {activeStep === 'configure' && (
-        <ConfigureTabContent node={node} updateNode={updateNode} />
+        <div className="h-full overflow-y-auto p-4">
+          <ConfigureTabContent node={node} />
+        </div>
       )}
       {activeStep === 'test' && (
         <TestTabContent node={node} workflowId={workflowId} />

@@ -3,6 +3,7 @@
 import { FormProvider } from 'react-hook-form';
 
 import {
+  useStepCompletion,
   useStepConfigForm,
   useStepConfigNode,
 } from '@/features/workflow/hooks';
@@ -50,6 +51,8 @@ const StepConfigPanel = ({
     submitToStep,
   } = useStepConfigForm({ node, workflowId });
 
+  const stepCompletion = useStepCompletion({ control: methods.control, node });
+
   return (
     <aside
       className={cn(
@@ -74,6 +77,7 @@ const StepConfigPanel = ({
           <StepConfigTabs
             activeStep={activeStep}
             onSubmitToStep={submitToStep}
+            stepCompletion={stepCompletion}
           />
 
           <TabContent
@@ -86,6 +90,7 @@ const StepConfigPanel = ({
             activeStep={activeStep}
             loading={isSubmitting}
             onSubmit={submit}
+            stepCompletion={stepCompletion}
           />
         </FormProvider>
       )}

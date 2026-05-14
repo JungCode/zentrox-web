@@ -11,6 +11,7 @@ import { getDefaultValues } from '@/shared/utils';
 
 import type { ConfigStep, StepConfigFormValues } from '../types';
 import type { NodeQueryData } from '../types/graph';
+import { useStepCompletion } from './useStepCompletion';
 import { useUpdateWorkflowNode } from './useUpdateWorkflowNode';
 
 interface UseStepConfigFormProps {
@@ -84,7 +85,14 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
       setActiveStep(targetStep);
     });
 
-  return { activeStep, loading, methods, setActiveStep, submit, submitToStep };
+  return {
+    activeStep,
+    loading,
+    methods,
+    setActiveStep,
+    submit,
+    submitToStep,
+  };
 };
 
 export { useStepConfigForm };

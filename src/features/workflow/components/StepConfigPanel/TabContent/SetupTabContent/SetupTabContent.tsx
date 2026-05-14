@@ -1,15 +1,20 @@
 'use client';
 
-import { Controller, useForm } from 'react-hook-form';
+import type { BaseSyntheticEvent } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { GOOGLE_FORM_TRIGGER_EVENT_OPTIONS } from '@/features/workflow/constants';
-import { SETUP_FORM_FALLBACKS } from '@/features/workflow/constants/formFallback';
-import { useWorkflowStore } from '@/features/workflow/hooks';
-import type { NodeQueryData, SetupFormValues } from '@/features/workflow/types';
-import type { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
+import {
+  useUpdateWorkflowNode,
+  useWorkflowStore,
+} from '@/features/workflow/hooks';
+import type {
+  NodeQueryData,
+  StepConfigFormValues,
+} from '@/features/workflow/types';
+import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
 import { BaseSelector, FormItem } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
-import { getDefaultValues } from '@/shared/utils';
 
 import { StepConfigContentLayout } from '../StepConfigContentLayout';
 import { AccountSelector } from './AccountSelector/AccountSelector';
@@ -18,34 +23,22 @@ import { TriggerEventOption } from './TriggerEventOption';
 
 interface SetupTabContentProps {
   node: NodeQueryData | undefined;
-  onMoveToNextStep?: () => void;
   updateNode: (input: UpdateWorkflowNodeInput) => Promise<unknown>;
 }
 
-const SetupTabContent = ({
-  node,
-  onMoveToNextStep,
-  updateNode,
-}: SetupTabContentProps) => {
-  const openAppSelectorDialog = useWorkflowStore(
-    (state) => state.openAppSelectorDialog,
-  );
+const SetupTabContent = ({ node, updateNode }: SetupTabContentProps) => {
+  const { control, handleSubmit } = useFormContext<StepConfigFormValues>();
 
-  const { control, handleSubmit } = useForm<SetupFormValues>({
-    defaultValues: getDefaultValues(node, SETUP_FORM_FALLBACKS),
-    resetOptions: {
-      keepDirtyValues: true, // keep value that user has changed but not submitted yet
-    },
-    values: getDefaultValues(node, SETUP_FORM_FALLBACKS),
-  });
-
-  const onSubmit = handleSubmit(async (values) => {
+  const onSubmit = async (values: StepConfigFormValues) => {
     await updateNode({
       actionKey: values.actionKey,
       integrationAccountId: values.integrationAccountId,
     });
-    onMoveToNextStep?.();
-  });
+  };
+
+  const openAppSelectorDialog = useWorkflowStore(
+    (state) => state.openAppSelectorDialog,
+  );
 
   return (
     <StepConfigContentLayout
@@ -61,7 +54,11 @@ const SetupTabContent = ({
         </Button>
       }
     >
-      <form className="space-y-4" id="setup-form" onSubmit={onSubmit}>
+      <form
+        className="space-y-4"
+        id="setup-form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <FormItem label="App">
           <AppField node={node} onChangeClick={openAppSelectorDialog} />
         </FormItem>

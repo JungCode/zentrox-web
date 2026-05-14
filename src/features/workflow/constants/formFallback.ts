@@ -1,6 +1,11 @@
 import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
 
-import { GoogleFormConfig, LabelFormValues, SetupFormValues } from '../types';
+import {
+  ConfigFormValues,
+  GoogleFormConfig,
+  LabelFormValues,
+  SetupFormValues,
+} from '../types';
 
 export const WORKFLOW_NODE_FORM_FALLBACKS: UpdateWorkflowNodeInput = {
   actionKey: undefined,
@@ -18,6 +23,7 @@ export const SETUP_FORM_FALLBACKS: SetupFormValues = {
   integrationAccountId: '',
 };
 
-export const CONFIGURE_GOOGLE_FORM_FALLBACKS: GoogleFormConfig = {
-  configJson: { formId: '', formName: '' },
-};
+export const CONFIGURE_GOOGLE_FORM_FALLBACKS: ConfigFormValues<GoogleFormConfig> =
+  {
+    configJson: { formId: '', formName: '' },
+  };

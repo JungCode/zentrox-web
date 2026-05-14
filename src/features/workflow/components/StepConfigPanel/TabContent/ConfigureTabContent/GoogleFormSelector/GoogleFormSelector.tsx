@@ -1,7 +1,10 @@
 'use client';
 
 import { useGoogleForms } from '@/features/workflow/hooks';
-import type { GoogleFormConfig } from '@/features/workflow/types';
+import type {
+  ConfigFormValues,
+  GoogleFormConfig,
+} from '@/features/workflow/types';
 import { BaseSelector } from '@/shared/components/BaseForm';
 
 import { GoogleFormOption } from './GoogleFormOption';
@@ -9,7 +12,7 @@ import { GoogleFormSelectorLabel } from './GoogleFormSelectorLabel';
 
 interface GoogleFormSelectorProps {
   integrationAccountId: string;
-  onFormChange?: (form: GoogleFormConfig) => void;
+  onFormChange?: (form: ConfigFormValues<GoogleFormConfig>) => void;
   onValueChange?: (value: string) => void;
   side?: 'top' | 'right' | 'bottom' | 'left';
   value?: string;

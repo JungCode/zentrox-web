@@ -8,43 +8,23 @@ import { TestTabContent } from './TestTabContent/TestTabContent';
 interface TabContentProps {
   activeStep: ConfigStep;
   node: NodeQueryData | undefined;
-  onStepChange?: (step: ConfigStep) => void;
   workflowId: string;
 }
 
 export const TabContent = ({
   activeStep,
   node,
-  onStepChange,
   workflowId,
 }: TabContentProps) => {
-  const { updateNode } = useUpdateWorkflowNode({
-    node,
-    workflowId,
-  });
-
-  const handleMoveToConfigureStep = () => {
-    onStepChange?.('configure');
-  };
-  const handleMoveToTestStep = () => {
-    onStepChange?.('test');
-  };
+  const { updateNode } = useUpdateWorkflowNode({ node, workflowId });
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden">
       {activeStep === 'setup' && (
-        <SetupTabContent
-          node={node}
-          onMoveToNextStep={handleMoveToConfigureStep}
-          updateNode={updateNode}
-        />
+        <SetupTabContent node={node} updateNode={updateNode} />
       )}
       {activeStep === 'configure' && (
-        <ConfigureTabContent
-          node={node}
-          onMoveToNextStep={handleMoveToTestStep}
-          updateNode={updateNode}
-        />
+        <ConfigureTabContent node={node} updateNode={updateNode} />
       )}
       {activeStep === 'test' && (
         <TestTabContent node={node} workflowId={workflowId} />

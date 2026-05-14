@@ -1,10 +1,22 @@
 'use client';
 
 import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 
-import { useStepConfigNode } from '@/features/workflow/hooks';
-import type { ConfigStep } from '@/features/workflow/types/graph';
+import {
+  CONFIGURE_GOOGLE_FORM_FALLBACKS,
+  SETUP_FORM_FALLBACKS,
+} from '@/features/workflow/constants/formFallback';
+import {
+  useStepConfigNode,
+  useUpdateWorkflowNode,
+} from '@/features/workflow/hooks';
+import type {
+  ConfigStep,
+  StepConfigFormValues,
+} from '@/features/workflow/types';
 import { cn } from '@/lib/ui/utils';
+import { getDefaultValues } from '@/shared/utils';
 
 import { StepConfigPanelHeader } from './StepConfigPanelHeader/StepConfigPanelHeader';
 import { StepConfigPanelLoadingSkeleton } from './StepConfigPanelLoadingSkeleton';
@@ -42,6 +54,20 @@ const StepConfigPanel = ({
   });
   const [activeStep, setActiveStep] = useState<ConfigStep>('setup');
 
+  const methods = useForm<StepConfigFormValues>({
+    defaultValues: {
+      ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
+      ...getDefaultValues(node, CONFIGURE_GOOGLE_FORM_FALLBACKS),
+    },
+    resetOptions: {
+      keepDirtyValues: true,
+    },
+    values: {
+      ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
+      ...getDefaultValues(node, CONFIGURE_GOOGLE_FORM_FALLBACKS),
+    },
+  });
+
   return (
     <aside
       className={cn(
@@ -54,7 +80,7 @@ const StepConfigPanel = ({
       {loading ? (
         <StepConfigPanelLoadingSkeleton />
       ) : (
-        <>
+        <FormProvider {...methods}>
           <StepConfigPanelHeader
             node={node}
             nodeIndex={nodeIndex}
@@ -65,16 +91,17 @@ const StepConfigPanel = ({
 
           <StepConfigTabs
             activeStep={activeStep}
+            node={node}
             onStepChange={setActiveStep}
+            workflowId={workflowId}
           />
 
           <TabContent
             activeStep={activeStep}
             node={node}
-            onStepChange={setActiveStep}
             workflowId={workflowId}
           />
-        </>
+        </FormProvider>
       )}
     </aside>
   );

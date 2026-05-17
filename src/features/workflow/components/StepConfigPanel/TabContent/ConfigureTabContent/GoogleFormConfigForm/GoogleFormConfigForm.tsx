@@ -1,12 +1,13 @@
 'use client';
 
-import { Controller, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import type {
   NodeQueryData,
   StepConfigFormValues,
 } from '@/features/workflow/types';
-import { FormItem } from '@/shared/components/BaseForm';
+import { FormGenerator } from '@/shared/components/BaseForm';
+import type { FormField } from '@/shared/types';
 
 import { GoogleFormSelector } from './GoogleFormSelector';
 
@@ -15,29 +16,28 @@ interface GoogleFormConfigFormProps {
 }
 
 const GoogleFormConfigForm = ({ node }: GoogleFormConfigFormProps) => {
-  const { control, setValue } = useFormContext<StepConfigFormValues>();
+  const { setValue } = useFormContext<StepConfigFormValues>();
 
-  return (
-    <div className="space-y-4">
-      <FormItem label="Form">
-        <Controller
-          control={control}
-          name="configJson.formId"
-          render={({ field }) => (
-            <GoogleFormSelector
-              integrationAccountId={node?.integrationAccountId ?? ''}
-              onFormChange={(form) => {
-                setValue('configJson.formName', form.configJson?.formName);
-              }}
-              onValueChange={field.onChange}
-              side="left"
-              value={field.value ?? ''}
-            />
-          )}
+  const fields: FormField<StepConfigFormValues>[] = [
+    {
+      label: 'Form',
+      name: 'configJson.formId',
+      render: (field) => (
+        <GoogleFormSelector
+          integrationAccountId={node?.integrationAccountId ?? ''}
+          onFormChange={(form) => {
+            setValue('configJson.formName', form.configJson?.formName);
+          }}
+          onValueChange={field.onChange}
+          side="left"
+          value={(field.value as string) ?? ''}
         />
-      </FormItem>
-    </div>
-  );
+      ),
+      required: true,
+    },
+  ];
+
+  return <FormGenerator<StepConfigFormValues> fields={fields} />;
 };
 
 export { GoogleFormConfigForm };

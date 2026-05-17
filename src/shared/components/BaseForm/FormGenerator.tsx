@@ -1,7 +1,7 @@
 // src/shared/components/BaseForm/FormGenerator.tsx
 'use client';
 
-import { Controller, type FieldValues,useFormContext } from 'react-hook-form';
+import { Controller, type FieldValues, useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/ui/utils';
 import type { FormGeneratorProps } from '@/shared/types';
@@ -31,7 +31,8 @@ const FormGenerator = <TForm extends FieldValues>({
             return (
               <FormItem
                 className={field.className}
-                label={`${field.label ?? ''}${field.required ? ' *' : ''}`}
+                label={field.label ?? ''}
+                required={field.required}
               >
                 {rendered}
                 {field.description && (

@@ -1,0 +1,10 @@
+query GoogleWorksheets($integrationAccountId: ID!, $spreadsheetId: ID!) {
+  googleWorksheets(
+    integrationAccountId: $integrationAccountId
+    spreadsheetId: $spreadsheetId
+  ) {
+    sheetId
+    title
+    index
+  }
+}

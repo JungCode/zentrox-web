@@ -1,42 +1,23 @@
 'use client';
 
-import { Controller, useFormContext } from 'react-hook-form';
+import type { NodeQueryData } from '@/features/workflow/types';
+import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 
-import type {
-  NodeQueryData,
-  StepConfigFormValues,
-} from '@/features/workflow/types';
-import { FormItem } from '@/shared/components/BaseForm';
-
-import { GoogleFormSelector } from './GoogleFormSelector';
+import { GoogleFormConfigForm } from './GoogleFormConfigForm';
+import { GoogleSheetConfigForm } from './GoogleSheetConfigForm';
 
 interface ConfigureTabContentProps {
-  node: NodeQueryData | undefined;
+  node: NodeQueryData;
 }
 
 const ConfigureTabContent = ({ node }: ConfigureTabContentProps) => {
-  const { control, setValue } = useFormContext<StepConfigFormValues>();
-
-  return (
-    <div className="space-y-4">
-      <FormItem label="Form">
-        <Controller
-          control={control}
-          name="configJson.formId"
-          render={({ field }) => (
-            <GoogleFormSelector
-              integrationAccountId={node?.integrationAccountId ?? ''}
-              onFormChange={(form) => {
-                setValue('configJson.formName', form.configJson?.formName);
-              }}
-              onValueChange={field.onChange}
-              value={field.value ?? ''}
-            />
-          )}
-        />
-      </FormItem>
-    </div>
-  );
+  switch (node?.providerApp) {
+    case WorkflowProviderApp.GoogleSheet:
+      return <GoogleSheetConfigForm node={node} />;
+    case WorkflowProviderApp.GoogleForm:
+    default:
+      return <GoogleFormConfigForm node={node} />;
+  }
 };
 
 export { ConfigureTabContent };

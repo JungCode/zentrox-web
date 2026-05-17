@@ -1,0 +1,11 @@
+query GoogleSpreadsheets($integrationAccountId: ID!, $driveId: ID) {
+  googleSpreadsheets(
+    integrationAccountId: $integrationAccountId
+    driveId: $driveId
+  ) {
+    id
+    name
+    createdTime
+    modifiedTime
+  }
+}

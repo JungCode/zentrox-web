@@ -5,13 +5,14 @@ import { useForm } from 'react-hook-form';
 
 import {
   CONFIGURE_GOOGLE_FORM_FALLBACKS,
+  CONFIGURE_GOOGLE_SHEET_FALLBACKS,
   SETUP_FORM_FALLBACKS,
 } from '@/features/workflow/constants/formFallback';
+import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 import { getDefaultValues } from '@/shared/utils';
 
 import type { ConfigStep, StepConfigFormValues } from '../types';
 import type { NodeQueryData } from '../types/graph';
-import { useStepCompletion } from './useStepCompletion';
 import { useUpdateWorkflowNode } from './useUpdateWorkflowNode';
 
 interface UseStepConfigFormProps {
@@ -23,14 +24,19 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
   const { loading, updateNode } = useUpdateWorkflowNode({ node, workflowId });
   const [activeStep, setActiveStep] = useState<ConfigStep>('setup');
 
+  const configFallbacks =
+    node?.providerApp === WorkflowProviderApp.GoogleSheet
+      ? CONFIGURE_GOOGLE_SHEET_FALLBACKS
+      : CONFIGURE_GOOGLE_FORM_FALLBACKS;
+
   const methods = useForm<StepConfigFormValues>({
     defaultValues: {
       ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
-      ...getDefaultValues(node, CONFIGURE_GOOGLE_FORM_FALLBACKS),
+      ...getDefaultValues(node, configFallbacks),
     },
     values: {
       ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
-      ...getDefaultValues(node, CONFIGURE_GOOGLE_FORM_FALLBACKS),
+      ...getDefaultValues(node, configFallbacks),
     },
   });
 
@@ -42,13 +48,26 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
   };
 
   const handleConfigure = async (values: StepConfigFormValues) => {
-    await updateNode({
-      configJson: {
-        ...(node?.configJson ?? {}),
-        formId: values.configJson?.formId,
-        formName: values.configJson?.formName,
-      },
-    });
+    const baseConfig = node?.configJson ?? {};
+
+    const configJson =
+      node?.providerApp === WorkflowProviderApp.GoogleSheet
+        ? {
+            ...baseConfig,
+            driveId: values.configJson?.driveId,
+            driveName: values.configJson?.driveName,
+            spreadsheetId: values.configJson?.spreadsheetId,
+            spreadsheetName: values.configJson?.spreadsheetName,
+            worksheetId: values.configJson?.worksheetId,
+            worksheetName: values.configJson?.worksheetName,
+          }
+        : {
+            ...baseConfig,
+            formId: values.configJson?.formId,
+            formName: values.configJson?.formName,
+          };
+
+    await updateNode({ configJson });
   };
 
   const submitCurrentStep = async (values: StepConfigFormValues) => {

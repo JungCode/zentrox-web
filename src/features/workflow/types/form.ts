@@ -1,6 +1,6 @@
 import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
 
-import { GoogleFormConfig } from './configPanel';
+import { GoogleFormConfig, GoogleSheetConfig } from './configPanel';
 
 // Step 1. Step Up Form Values at Config Panel
 export type SetupFormValues = Pick<
@@ -20,4 +20,4 @@ export type LabelFormValues = {
 
 // Overall form values of the config panel
 export type StepConfigFormValues = SetupFormValues &
-  ConfigFormValues<GoogleFormConfig>;
+  ConfigFormValues<GoogleFormConfig & GoogleSheetConfig>;

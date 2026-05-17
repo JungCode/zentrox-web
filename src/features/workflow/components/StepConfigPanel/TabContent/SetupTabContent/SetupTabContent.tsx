@@ -2,7 +2,7 @@
 
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { GOOGLE_FORM_TRIGGER_EVENT_OPTIONS } from '@/features/workflow/constants';
+import { NODE_TYPE_EVENT_META_DATA } from '@/features/workflow/constants';
 import { useWorkflowStore } from '@/features/workflow/hooks';
 import type {
   NodeQueryData,
@@ -15,7 +15,7 @@ import { AppField } from './AppField';
 import { TriggerEventOption } from './TriggerEventOption';
 
 interface SetupTabContentProps {
-  node: NodeQueryData | undefined;
+  node: NodeQueryData;
 }
 
 const SetupTabContent = ({ node }: SetupTabContentProps) => {
@@ -24,21 +24,27 @@ const SetupTabContent = ({ node }: SetupTabContentProps) => {
   );
   const { control } = useFormContext<StepConfigFormValues>();
 
+  if (!node.nodeType || !node.providerApp) return null;
+  const { nodeType, providerApp } = node;
+
+  const eventMetaData = NODE_TYPE_EVENT_META_DATA[nodeType];
+  const eventOptions = eventMetaData?.options[providerApp] ?? [];
+
   return (
     <div className="space-y-4">
       <FormItem label="App">
         <AppField node={node} onChangeClick={openAppSelectorDialog} />
       </FormItem>
 
-      <FormItem label="Trigger Event">
+      <FormItem label={eventMetaData?.label ?? 'Event'}>
         <Controller
           control={control}
           name="actionKey"
           render={({ field }) => (
             <BaseSelector
               onValueChange={field.onChange}
-              options={GOOGLE_FORM_TRIGGER_EVENT_OPTIONS}
-              placeholder="Select trigger event…"
+              options={eventOptions}
+              placeholder={eventMetaData?.placeholder}
               renderOption={(opt) => <TriggerEventOption option={opt} />}
               side="left"
               value={field.value ?? ''}

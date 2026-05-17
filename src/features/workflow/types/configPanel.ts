@@ -5,3 +5,8 @@ export interface ConfigStepProperties {
   label: string;
   number: string;
 }
+
+export interface GoogleFormConfig {
+  formId?: string;
+  formName?: string;
+}

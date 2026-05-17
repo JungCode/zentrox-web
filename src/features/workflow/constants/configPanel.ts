@@ -1,5 +1,5 @@
 import { ConfigStep } from '../types';
-import { ConfigStepProperties } from '../types/configSteps';
+import { ConfigStepProperties } from '../types/configPanel';
 
 export const CONFIG_STEPS: ConfigStepProperties[] = [
   { id: 'setup', label: 'Setup', number: '1' },

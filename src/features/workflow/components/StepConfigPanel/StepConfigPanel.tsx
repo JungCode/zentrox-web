@@ -53,6 +53,8 @@ const StepConfigPanel = ({
 
   const stepCompletion = useStepCompletion({ control: methods.control, node });
 
+  const skeletonVisible = loading || !node;
+
   return (
     <aside
       className={cn(
@@ -62,7 +64,7 @@ const StepConfigPanel = ({
         open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
       )}
     >
-      {loading ? (
+      {skeletonVisible ? (
         <StepConfigPanelLoadingSkeleton />
       ) : (
         <FormProvider {...methods}>

@@ -6,7 +6,7 @@ import { TestTabContent } from './TestTabContent/TestTabContent';
 
 interface TabContentProps {
   activeStep: ConfigStep;
-  node: NodeQueryData | undefined;
+  node: NodeQueryData;
   workflowId: string;
 }
 

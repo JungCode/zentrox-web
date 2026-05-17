@@ -16,6 +16,7 @@ export type ProviderAppMetadataType = {
   name: string;
 };
 
+// A mapping of WorkflowProviderApp to its metadata, used for rendering app options in the app selector and displaying assigned apps on nodes.
 export type ProviderAppMetadataRecordType = Record<
   WorkflowProviderApp,
   ProviderAppMetadataType

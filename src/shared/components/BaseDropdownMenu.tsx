@@ -11,6 +11,7 @@ import {
 } from '@/shared/components/ui/dropdown-menu';
 
 type BaseDropdownMenuActionItem = {
+  disabled?: boolean;
   icon?: React.ElementType<{ className?: string }>;
   label: string;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
@@ -48,6 +49,7 @@ const BaseDropdownMenu = ({
             <DropdownMenuSeparator key={idx} />
           ) : (
             <DropdownMenuItem
+              disabled={item.disabled}
               key={idx}
               onClick={item.onClick}
               variant={item.variant}

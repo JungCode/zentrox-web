@@ -32,21 +32,21 @@ export const ACTION_EVENT_OPTIONS: Partial<
   Record<WorkflowProviderApp, GoogleFormTriggerEventOption[]>
 > = {
   [WorkflowProviderApp.GoogleSheet]: [
-    {
-      data: { description: 'Changes the properties of a sheet.' },
-      label: 'Change Sheet Properties',
-      value: WorkflowActionKey.GoogleSheetChangeSheetProperties,
-    },
+    // {
+    //   data: { description: 'Changes the properties of a sheet.' },
+    //   label: 'Change Sheet Properties',
+    //   value: WorkflowActionKey.GoogleSheetChangeSheetProperties,
+    // },
     {
       data: { description: 'Creates a new column in a sheet.' },
       label: 'Create Column',
       value: WorkflowActionKey.GoogleSheetCreateColumn,
     },
-    {
-      data: { description: 'Creates a new row in a sheet.' },
-      label: 'Create Row',
-      value: WorkflowActionKey.GoogleSheetCreateRow,
-    },
+    // {
+    //   data: { description: 'Creates a new row in a sheet.' },
+    //   label: 'Create Row',
+    //   value: WorkflowActionKey.GoogleSheetCreateRow,
+    // },
   ],
 };
 

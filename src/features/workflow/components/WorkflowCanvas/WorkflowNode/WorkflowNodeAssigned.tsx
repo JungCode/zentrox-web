@@ -64,6 +64,7 @@ const WorkflowNodeAssigned = ({
     // },
     // { type: 'separator' },
     {
+      disabled: stepNumber === 1,
       icon: TrashIcon,
       label: 'Delete',
       onClick: handleDeleteNode,

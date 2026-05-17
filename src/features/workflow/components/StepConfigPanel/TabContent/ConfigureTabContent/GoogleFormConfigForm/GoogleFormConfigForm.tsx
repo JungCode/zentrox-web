@@ -8,7 +8,7 @@ import type {
 } from '@/features/workflow/types';
 import { FormItem } from '@/shared/components/BaseForm';
 
-import { GoogleFormSelector } from '../GoogleFormSelector';
+import { GoogleFormSelector } from './GoogleFormSelector';
 
 interface GoogleFormConfigFormProps {
   node: NodeQueryData | undefined;

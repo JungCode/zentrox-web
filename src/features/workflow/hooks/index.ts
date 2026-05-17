@@ -1,6 +1,7 @@
 export * from './useCreateWorkflowNode';
 export * from './useGoogleDrives';
 export * from './useGoogleForms';
+export * from './useGoogleSheetHeaders';
 export * from './useGoogleSpreadsheets';
 export * from './useGoogleWorksheets';
 export * from './useInsertWorkflowNodeBetween';

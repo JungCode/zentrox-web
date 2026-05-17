@@ -1,13 +1,16 @@
 'use client';
 
-import { useFormContext } from 'react-hook-form';
+import { type Path,useFormContext } from 'react-hook-form';
 
 import { resolveDriveId } from '@/features/workflow/helpers';
+import { useGoogleSheetHeaders } from '@/features/workflow/hooks';
 import type {
   NodeQueryData,
   StepConfigFormValues,
 } from '@/features/workflow/types';
 import { FormGenerator } from '@/shared/components/BaseForm';
+import { Input } from '@/shared/components/ui/input';
+import { Spinner } from '@/shared/components/ui/spinner';
 import type { FormField } from '@/shared/types';
 
 import { GoogleDriveSelector } from './GoogleDriveSelector';
@@ -21,11 +24,31 @@ interface GoogleSheetConfigFormProps {
 const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
   const { setValue, watch } = useFormContext<StepConfigFormValues>();
 
-  const integrationAccountId = node.integrationAccountId ?? '';
   const { driveId, isDriveSelected } = resolveDriveId(
     watch('configJson.driveId'),
   );
-  const spreadsheetId = watch('configJson.spreadsheetId');
+  const integrationAccountId = node.integrationAccountId ?? '';
+  const spreadsheetId = watch('configJson.spreadsheetId') ?? '';
+  const worksheetName = watch('configJson.worksheetName') ?? '';
+
+  const { headers, loading: headersLoading } = useGoogleSheetHeaders({
+    integrationAccountId,
+    spreadsheetId,
+    worksheetTitle: worksheetName,
+  });
+
+  // useEffect(() => {
+  //   if (headersLoading || headers.length === 0) return;
+  //   const existing = watch('configJson.columnMappings') ?? [];
+  //   setValue(
+  //     'configJson.columnMappings',
+  //     headers.map((h) => ({
+  //       columnName: h.name,
+  //       value: existing.find((m) => m.columnName === h.name)?.value ?? '',
+  //     })),
+  //   );
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [headers, headersLoading]);
 
   const fields: FormField<StepConfigFormValues>[] = [
     {
@@ -41,6 +64,7 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
             setValue('configJson.spreadsheetName', '');
             setValue('configJson.worksheetId', '');
             setValue('configJson.worksheetName', '');
+            setValue('configJson.columnMappings', []);
           }}
           side="left"
           value={field.value as string | null | undefined}
@@ -59,6 +83,7 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
             setValue('configJson.spreadsheetName', sheet.name);
             setValue('configJson.worksheetId', '');
             setValue('configJson.worksheetName', '');
+            setValue('configJson.columnMappings', []);
           }}
           onValueChange={field.onChange}
           side="left"
@@ -76,6 +101,7 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
           onValueChange={field.onChange}
           onWorksheetChange={(ws) => {
             setValue('configJson.worksheetName', ws.title);
+            setValue('configJson.columnMappings', []);
           }}
           side="left"
           spreadsheetId={spreadsheetId}
@@ -84,9 +110,31 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
       ),
       required: true,
     },
+    ...headers.map((header, index) => ({
+      label: `${header.index}. ${header.name}`,
+      name: `configJson.columnMappings.${index}.value` as Path<StepConfigFormValues>,
+      render: (
+        field: Parameters<FormField<StepConfigFormValues>['render']>[0],
+      ) => (
+        <Input
+          placeholder={`Value for ${header.name}…`}
+          {...field}
+          value={(field.value as string) ?? ''}
+        />
+      ),
+    })),
   ];
 
-  return <FormGenerator<StepConfigFormValues> fields={fields} />;
+  return (
+    <div className="space-y-4">
+      <FormGenerator<StepConfigFormValues> fields={fields} />
+      {headersLoading && (
+        <div className="flex justify-center">
+          <Spinner />
+        </div>
+      )}
+    </div>
+  );
 };
 
 export { GoogleSheetConfigForm };

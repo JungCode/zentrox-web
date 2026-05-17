@@ -1,17 +1,35 @@
 import { ConfigStep } from './graph';
 
+// =============================================================================
+// Config Step
+// =============================================================================
+
 export interface ConfigStepProperties {
   id: ConfigStep;
   label: string;
   number: string;
 }
 
-export interface GoogleFormConfig {
+// =============================================================================
+// Google Form
+// =============================================================================
+
+export interface GoogleFormTriggerConfig {
   formId?: string;
   formName?: string;
 }
 
-export interface GoogleSheetConfig {
+// =============================================================================
+// Google Sheet
+// =============================================================================
+
+export interface GoogleSheetColumnMapping {
+  columnName: string;
+  value: string;
+}
+
+export interface GoogleSheetActionConfig {
+  columnMappings?: GoogleSheetColumnMapping[];
   driveId?: string | null;
   driveName?: string;
   spreadsheetId?: string;

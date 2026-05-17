@@ -8,6 +8,7 @@ import {
   CONFIGURE_GOOGLE_SHEET_FALLBACKS,
   SETUP_FORM_FALLBACKS,
 } from '@/features/workflow/constants/formFallback';
+import { resolveConfigJson } from '@/features/workflow/helpers';
 import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 import { getDefaultValues } from '@/shared/utils';
 
@@ -48,24 +49,12 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
   };
 
   const handleConfigure = async (values: StepConfigFormValues) => {
-    const baseConfig = node?.configJson ?? {};
-
-    const configJson =
-      node?.providerApp === WorkflowProviderApp.GoogleSheet
-        ? {
-            ...baseConfig,
-            driveId: values.configJson?.driveId,
-            driveName: values.configJson?.driveName,
-            spreadsheetId: values.configJson?.spreadsheetId,
-            spreadsheetName: values.configJson?.spreadsheetName,
-            worksheetId: values.configJson?.worksheetId,
-            worksheetName: values.configJson?.worksheetName,
-          }
-        : {
-            ...baseConfig,
-            formId: values.configJson?.formId,
-            formName: values.configJson?.formName,
-          };
+    const configJson = resolveConfigJson(
+      node?.nodeType,
+      node?.providerApp,
+      node?.configJson ?? {},
+      values,
+    );
 
     await updateNode({ configJson });
   };

@@ -20,12 +20,12 @@ const resolveConfigJson = (
     case WorkflowNodeType.Trigger:
       switch (providerApp) {
         case WorkflowProviderApp.GoogleForm:
-          const config =
-            values.configJson as ConfigFormValues<GoogleFormTriggerConfig>;
+          const config = values.configJson as GoogleFormTriggerConfig;
+
           return {
             ...baseConfig,
-            formId: config.configJson?.formId,
-            formName: config.configJson?.formName,
+            formId: config?.formId,
+            formName: config?.formName,
           };
 
         case WorkflowProviderApp.GoogleSheet:
@@ -36,17 +36,16 @@ const resolveConfigJson = (
     case WorkflowNodeType.Action: {
       switch (providerApp) {
         case WorkflowProviderApp.GoogleSheet:
-          const config =
-            values.configJson as ConfigFormValues<GoogleSheetActionConfig>;
+          const config = values.configJson as GoogleSheetActionConfig;
           return {
             ...baseConfig,
-            columnMappings: config.configJson?.columnMappings,
-            driveId: config.configJson?.driveId,
-            driveName: config.configJson?.driveName,
-            spreadsheetId: config.configJson?.spreadsheetId,
-            spreadsheetName: config.configJson?.spreadsheetName,
-            worksheetId: config.configJson?.worksheetId,
-            worksheetName: config.configJson?.worksheetName,
+            columnMappings: config?.columnMappings,
+            driveId: config?.driveId,
+            driveName: config?.driveName,
+            spreadsheetId: config?.spreadsheetId,
+            spreadsheetName: config?.spreadsheetName,
+            worksheetId: config?.worksheetId,
+            worksheetName: config?.worksheetName,
           };
 
         case WorkflowProviderApp.GoogleForm:

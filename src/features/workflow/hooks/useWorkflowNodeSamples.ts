@@ -4,7 +4,6 @@ import { useQuery } from '@apollo/client/react';
 
 import { parseSampleData } from '@/features/workflow/helpers';
 import {
-  WorkflowDocument,
   WorkflowVersionNodeSamplesDocument,
   type WorkflowVersionNodeSamplesQuery,
   type WorkflowVersionNodeSamplesQueryVariables,
@@ -24,6 +23,7 @@ const useWorkflowNodeSamples = ({
     WorkflowVersionNodeSamplesQuery,
     WorkflowVersionNodeSamplesQueryVariables
   >(WorkflowVersionNodeSamplesDocument, {
+    fetchPolicy: 'network-only',
     skip: !workflowVersionId || !nodeId,
     variables: { currentNodeId: nodeId, workflowVersionId },
   });

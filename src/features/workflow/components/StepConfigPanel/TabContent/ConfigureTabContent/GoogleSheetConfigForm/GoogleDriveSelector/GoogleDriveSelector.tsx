@@ -9,7 +9,7 @@ import {
 import { GoogleDriveOption } from './GoogleDriveOption';
 import { GoogleDriveSelectorLabel } from './GoogleDriveSelectorLabel';
 
-const MY_DRIVE_VALUE = { id: '', name: 'My Drive' };
+const MY_DRIVE_VALUE = { id: '__my_drive__', name: 'My Drive' };
 
 const MY_DRIVE_OPTION: BaseSelectorOption<GoogleDrive | undefined> = {
   data: MY_DRIVE_VALUE,
@@ -65,7 +65,7 @@ const GoogleDriveSelector = ({
       )}
       renderOption={(option) => <GoogleDriveOption option={option} />}
       side={side}
-      value={value === null ? MY_DRIVE_VALUE.id : (value ?? undefined)}
+      value={value === null ? MY_DRIVE_VALUE.id : (value ?? '')}
     />
   );
 };

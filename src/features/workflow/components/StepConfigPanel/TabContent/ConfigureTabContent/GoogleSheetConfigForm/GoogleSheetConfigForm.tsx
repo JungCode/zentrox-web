@@ -41,12 +41,14 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
   const initColumnFormValues = (initHeaders: GoogleSheetColumnHeader[]) => {
     const existing = watch('configJson.columnMappings') ?? [];
 
-    resetColumnMappings(
-      initHeaders.map((h) => ({
-        columnName: h.name,
-        value: existing.find((m) => m.columnName === h.name)?.value ?? '',
-      })),
-    );
+    const mappings = initHeaders.map((h) => {
+      const existingValue =
+        existing.find((m) => m?.columnName === h.name)?.value ?? '';
+
+      return { columnName: h.name, value: existingValue };
+    });
+
+    resetColumnMappings(mappings);
   };
 
   const { headers, loading: headersLoading } = useGoogleSheetHeaders({
@@ -55,6 +57,35 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
     spreadsheetId,
     worksheetTitle: worksheetName,
   });
+
+  const headerFields: FormField<StepConfigFormValues>[] = headers.map(
+    (header, index) => ({
+      label: `${header.index}. ${header.name}`,
+      name: `configJson.columnMappings.${index}` as Path<StepConfigFormValues>,
+      render: (
+        field: Parameters<FormField<StepConfigFormValues>['render']>[0],
+      ) => {
+        const mapping = field.value as GoogleSheetColumnMapping | undefined;
+        return (
+          <TokenInput
+            nodeId={node.id}
+            onChange={(val, meta) => {
+              console.log({ meta, val });
+              field.onChange({
+                columnName: header.name,
+                value: val,
+                variableMeta: meta,
+              });
+            }}
+            placeholder={`Enter text or insert data`}
+            value={mapping?.value ?? ''}
+            variableMeta={mapping?.variableMeta}
+            workflowVersionId={node.workflowVersionId}
+          />
+        );
+      },
+    }),
+  );
 
   const fields: FormField<StepConfigFormValues>[] = [
     {
@@ -115,31 +146,7 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
       ),
       required: true,
     },
-    ...headers.map((header, index) => ({
-      label: `${header.index}. ${header.name}`,
-      name: `configJson.columnMappings.${index}` as Path<StepConfigFormValues>,
-      render: (
-        field: Parameters<FormField<StepConfigFormValues>['render']>[0],
-      ) => {
-        const mapping = field.value as GoogleSheetColumnMapping | undefined;
-        return (
-          <TokenInput
-            nodeId={node.id}
-            onChange={(val, meta) =>
-              field.onChange({
-                columnName: header.name,
-                value: val,
-                variableMeta: meta,
-              })
-            }
-            placeholder={`Enter text or insert data`}
-            value={mapping?.value ?? ''}
-            variableMeta={mapping?.variableMeta}
-            workflowVersionId={node.workflowVersionId}
-          />
-        );
-      },
-    })),
+    ...headerFields,
   ];
 
   return (

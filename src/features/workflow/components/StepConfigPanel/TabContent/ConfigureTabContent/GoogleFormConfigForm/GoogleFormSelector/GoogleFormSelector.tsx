@@ -37,7 +37,7 @@ const GoogleFormSelector = ({
 
   return (
     <BaseSelector
-      algin="start"
+      align="start"
       disabled={!integrationAccountId || loading}
       onValueChange={(selectedId) => {
         onValueChange?.(selectedId);

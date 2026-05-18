@@ -1,5 +1,6 @@
 export * from './configJson';
 export * from './node';
+export * from './parseSampleData';
 export * from './providerApp';
 export * from './selection';
 export * from './sort';

@@ -3,16 +3,18 @@ import {
   WorkflowProviderApp,
 } from '@/shared/api/workflow/schemas';
 
-export type EventMetaData = {
+type EventMetaData = {
   label: string;
   options: Partial<Record<WorkflowProviderApp, GoogleFormTriggerEventOption[]>>;
   placeholder: string;
 };
 
-export type GoogleFormTriggerEventOption = {
+type GoogleFormTriggerEventOption = {
   data: {
     description: string;
   };
   label: string;
   value: WorkflowActionKey;
 };
+
+export type { EventMetaData, GoogleFormTriggerEventOption };

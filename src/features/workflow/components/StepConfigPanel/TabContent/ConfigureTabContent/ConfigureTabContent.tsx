@@ -1,5 +1,6 @@
 'use client';
 
+import { useWorkflowNodeSamples } from '@/features/workflow/hooks';
 import type { NodeQueryData } from '@/features/workflow/types';
 import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 

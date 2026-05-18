@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@apollo/client/react';
+import { useEffect } from 'react';
 
 import {
   GoogleSheetHeadersDocument,
@@ -13,12 +14,14 @@ type GoogleSheetColumnHeader =
 
 interface UseGoogleSheetHeadersProps {
   integrationAccountId: string;
+  onComplete?: (headers: GoogleSheetColumnHeader[]) => void;
   spreadsheetId: string;
   worksheetTitle: string;
 }
 
 const useGoogleSheetHeaders = ({
   integrationAccountId,
+  onComplete,
   spreadsheetId,
   worksheetTitle,
 }: UseGoogleSheetHeadersProps) => {
@@ -32,6 +35,12 @@ const useGoogleSheetHeaders = ({
   });
 
   const headers: GoogleSheetColumnHeader[] = data?.googleSheetHeaders ?? [];
+
+  useEffect(() => {
+    if (data?.googleSheetHeaders && !loading) {
+      onComplete?.(data.googleSheetHeaders);
+    }
+  }, [onComplete, data, loading]);
 
   return { headers, loading };
 };

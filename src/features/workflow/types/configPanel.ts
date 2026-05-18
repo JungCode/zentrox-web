@@ -1,10 +1,12 @@
+import type { VariableMeta } from '@/shared/types';
+
 import { ConfigStep } from './graph';
 
 // =============================================================================
 // Config Step
 // =============================================================================
 
-export interface ConfigStepProperties {
+interface ConfigStepProperties {
   id: ConfigStep;
   label: string;
   number: string;
@@ -14,7 +16,7 @@ export interface ConfigStepProperties {
 // Google Form
 // =============================================================================
 
-export interface GoogleFormTriggerConfig {
+interface GoogleFormTriggerConfig {
   formId?: string;
   formName?: string;
 }
@@ -23,12 +25,13 @@ export interface GoogleFormTriggerConfig {
 // Google Sheet
 // =============================================================================
 
-export interface GoogleSheetColumnMapping {
+interface GoogleSheetColumnMapping {
   columnName: string;
   value: string;
+  variableMeta?: VariableMeta;
 }
 
-export interface GoogleSheetActionConfig {
+interface GoogleSheetActionConfig {
   columnMappings?: GoogleSheetColumnMapping[];
   driveId?: string | null;
   driveName?: string;
@@ -37,3 +40,10 @@ export interface GoogleSheetActionConfig {
   worksheetId?: string;
   worksheetName?: string;
 }
+
+export type {
+  ConfigStepProperties,
+  GoogleFormTriggerConfig,
+  GoogleSheetActionConfig,
+  GoogleSheetColumnMapping,
+};

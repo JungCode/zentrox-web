@@ -18,7 +18,7 @@ export interface BaseSelectorOption<T> {
 }
 
 interface BaseSelectorProps<T = unknown> {
-  algin?: 'start' | 'center' | 'end';
+  align?: 'start' | 'center' | 'end';
   className?: string;
   defaultValue?: string;
   disabled?: boolean;
@@ -34,7 +34,7 @@ interface BaseSelectorProps<T = unknown> {
 }
 
 const BaseSelector = <T,>({
-  algin = 'start',
+  align = 'start',
   className,
   defaultValue,
   disabled,
@@ -76,7 +76,7 @@ const BaseSelector = <T,>({
         )}
       </SelectTrigger>
       <SelectContent
-        align={algin}
+        align={align}
         className="w-(--radix-select-trigger-width)"
         position={position}
         side={side}

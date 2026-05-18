@@ -1,6 +1,6 @@
 'use client';
 
-import { type GoogleDrive,useGoogleDrives } from '@/features/workflow/hooks';
+import { type GoogleDrive, useGoogleDrives } from '@/features/workflow/hooks';
 import {
   BaseSelector,
   type BaseSelectorOption,
@@ -9,17 +9,17 @@ import {
 import { GoogleDriveOption } from './GoogleDriveOption';
 import { GoogleDriveSelectorLabel } from './GoogleDriveSelectorLabel';
 
-const MY_DRIVE_VALUE = '__my_drive__';
+const MY_DRIVE_VALUE = { id: '', name: 'My Drive' };
 
 const MY_DRIVE_OPTION: BaseSelectorOption<GoogleDrive | undefined> = {
-  data: undefined,
+  data: MY_DRIVE_VALUE,
   label: 'My Drive',
-  value: MY_DRIVE_VALUE,
+  value: MY_DRIVE_VALUE.id,
 };
 
 interface GoogleDriveSelectorProps {
   integrationAccountId: string;
-  onValueChange?: (value: string | null) => void;
+  onValueChange?: (value: GoogleDrive | null) => void;
   side?: 'top' | 'right' | 'bottom' | 'left';
   value?: string | null;
 }
@@ -41,17 +41,18 @@ const GoogleDriveSelector = ({
 
   const options = [MY_DRIVE_OPTION, ...driveOptions];
 
-  // null (My Drive) maps to the sentinel; everything else passes through
-  const selectorValue = value === null ? MY_DRIVE_VALUE : (value ?? '');
-
   const placeholder = loading ? 'Loading drives…' : 'Select drive…';
 
   return (
     <BaseSelector
-      algin="start"
+      align="start"
       disabled={!integrationAccountId || loading}
       onValueChange={(selectedId) => {
-        onValueChange?.(selectedId === MY_DRIVE_VALUE ? null : selectedId);
+        const isMyDrive = selectedId === MY_DRIVE_VALUE.id;
+        const selectedDrive = drives.find((d) => d.id === selectedId) ?? null;
+        const resolvedDrive = isMyDrive ? null : selectedDrive;
+
+        onValueChange?.(resolvedDrive);
       }}
       options={options}
       placeholder={placeholder}
@@ -64,7 +65,7 @@ const GoogleDriveSelector = ({
       )}
       renderOption={(option) => <GoogleDriveOption option={option} />}
       side={side}
-      value={selectorValue}
+      value={value === null ? MY_DRIVE_VALUE.id : (value ?? undefined)}
     />
   );
 };

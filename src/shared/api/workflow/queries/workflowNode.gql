@@ -12,5 +12,6 @@ query WorkflowNode($workflowId: ID!, $nodeId: ID!) {
     connectionStatus
     lastTestedAt
     testErrorMessage
+    workflowVersionId
   }
 }

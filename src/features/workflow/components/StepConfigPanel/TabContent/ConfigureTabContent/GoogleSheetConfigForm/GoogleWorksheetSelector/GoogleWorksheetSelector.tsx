@@ -41,7 +41,7 @@ const GoogleWorksheetSelector = ({
 
   return (
     <BaseSelector
-      algin="start"
+      align="start"
       disabled={!spreadsheetId || loading}
       onValueChange={(selectedId) => {
         onValueChange?.(selectedId);

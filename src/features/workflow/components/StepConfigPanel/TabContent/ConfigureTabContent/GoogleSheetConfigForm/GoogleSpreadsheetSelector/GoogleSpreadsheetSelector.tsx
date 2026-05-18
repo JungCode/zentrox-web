@@ -41,7 +41,7 @@ const GoogleSpreadsheetSelector = ({
 
   return (
     <BaseSelector
-      algin="center"
+      align="center"
       disabled={driveId === undefined || loading}
       onValueChange={(selectedId) => {
         onValueChange?.(selectedId);

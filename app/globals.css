@@ -302,6 +302,10 @@ h6 {
   outline-offset: 2px;
 }
 
+.token-input-text:focus-visible {
+  outline: none;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

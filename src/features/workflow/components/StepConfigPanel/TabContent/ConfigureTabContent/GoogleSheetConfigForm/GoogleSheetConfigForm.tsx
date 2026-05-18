@@ -1,15 +1,19 @@
 'use client';
 
-import { type Path,useFormContext } from 'react-hook-form';
+import { type Path, useFormContext } from 'react-hook-form';
 
 import { resolveDriveId } from '@/features/workflow/helpers';
-import { useGoogleSheetHeaders } from '@/features/workflow/hooks';
+import {
+  GoogleSheetColumnHeader,
+  useGoogleSheetForm,
+  useGoogleSheetHeaders,
+} from '@/features/workflow/hooks';
 import type {
+  GoogleSheetColumnMapping,
   NodeQueryData,
   StepConfigFormValues,
 } from '@/features/workflow/types';
-import { FormGenerator } from '@/shared/components/BaseForm';
-import { Input } from '@/shared/components/ui/input';
+import { FormGenerator, TokenInput } from '@/shared/components/BaseForm';
 import { Spinner } from '@/shared/components/ui/spinner';
 import type { FormField } from '@/shared/types';
 
@@ -23,32 +27,34 @@ interface GoogleSheetConfigFormProps {
 
 const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
   const { setValue, watch } = useFormContext<StepConfigFormValues>();
+  const { resetColumnMappings, resetSpreadsheet, resetWorksheet } =
+    useGoogleSheetForm();
 
-  const { driveId, isDriveSelected } = resolveDriveId(
-    watch('configJson.driveId'),
-  );
   const integrationAccountId = node.integrationAccountId ?? '';
   const spreadsheetId = watch('configJson.spreadsheetId') ?? '';
   const worksheetName = watch('configJson.worksheetName') ?? '';
 
+  const { driveId, isDriveSelected } = resolveDriveId(
+    watch('configJson.driveId'),
+  );
+
+  const initColumnFormValues = (initHeaders: GoogleSheetColumnHeader[]) => {
+    const existing = watch('configJson.columnMappings') ?? [];
+
+    resetColumnMappings(
+      initHeaders.map((h) => ({
+        columnName: h.name,
+        value: existing.find((m) => m.columnName === h.name)?.value ?? '',
+      })),
+    );
+  };
+
   const { headers, loading: headersLoading } = useGoogleSheetHeaders({
     integrationAccountId,
+    onComplete: initColumnFormValues,
     spreadsheetId,
     worksheetTitle: worksheetName,
   });
-
-  // useEffect(() => {
-  //   if (headersLoading || headers.length === 0) return;
-  //   const existing = watch('configJson.columnMappings') ?? [];
-  //   setValue(
-  //     'configJson.columnMappings',
-  //     headers.map((h) => ({
-  //       columnName: h.name,
-  //       value: existing.find((m) => m.columnName === h.name)?.value ?? '',
-  //     })),
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [headers, headersLoading]);
 
   const fields: FormField<StepConfigFormValues>[] = [
     {
@@ -58,13 +64,14 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
         <GoogleDriveSelector
           integrationAccountId={integrationAccountId}
           onValueChange={(val) => {
-            field.onChange(val);
-            setValue('configJson.driveName', val === null ? 'My Drive' : '');
-            setValue('configJson.spreadsheetId', '');
-            setValue('configJson.spreadsheetName', '');
-            setValue('configJson.worksheetId', '');
-            setValue('configJson.worksheetName', '');
-            setValue('configJson.columnMappings', []);
+            field.onChange(val?.id ?? null);
+
+            if (val === null) {
+              setValue('configJson.driveName', 'My Drive');
+            } else {
+              setValue('configJson.driveName', val.name);
+            }
+            resetSpreadsheet();
           }}
           side="left"
           value={field.value as string | null | undefined}
@@ -81,9 +88,7 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
           integrationAccountId={isDriveSelected ? integrationAccountId : ''}
           onSpreadsheetChange={(sheet) => {
             setValue('configJson.spreadsheetName', sheet.name);
-            setValue('configJson.worksheetId', '');
-            setValue('configJson.worksheetName', '');
-            setValue('configJson.columnMappings', []);
+            resetWorksheet();
           }}
           onValueChange={field.onChange}
           side="left"
@@ -99,9 +104,9 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
         <GoogleWorksheetSelector
           integrationAccountId={integrationAccountId}
           onValueChange={field.onChange}
-          onWorksheetChange={(ws) => {
-            setValue('configJson.worksheetName', ws.title);
-            setValue('configJson.columnMappings', []);
+          onWorksheetChange={(workSheet) => {
+            setValue('configJson.worksheetName', workSheet.title);
+            resetColumnMappings();
           }}
           side="left"
           spreadsheetId={spreadsheetId}
@@ -112,16 +117,28 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
     },
     ...headers.map((header, index) => ({
       label: `${header.index}. ${header.name}`,
-      name: `configJson.columnMappings.${index}.value` as Path<StepConfigFormValues>,
+      name: `configJson.columnMappings.${index}` as Path<StepConfigFormValues>,
       render: (
         field: Parameters<FormField<StepConfigFormValues>['render']>[0],
-      ) => (
-        <Input
-          placeholder={`Value for ${header.name}…`}
-          {...field}
-          value={(field.value as string) ?? ''}
-        />
-      ),
+      ) => {
+        const mapping = field.value as GoogleSheetColumnMapping | undefined;
+        return (
+          <TokenInput
+            nodeId={node.id}
+            onChange={(val, meta) =>
+              field.onChange({
+                columnName: header.name,
+                value: val,
+                variableMeta: meta,
+              })
+            }
+            placeholder={`Enter text or insert data`}
+            value={mapping?.value ?? ''}
+            variableMeta={mapping?.variableMeta}
+            workflowVersionId={node.workflowVersionId}
+          />
+        );
+      },
     })),
   ];
 

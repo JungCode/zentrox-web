@@ -22,6 +22,7 @@ query Workflow($workflowId: ID!) {
         connectionStatus
         lastTestedAt
         testErrorMessage
+        workflowVersionId
       }
       edges {
         id

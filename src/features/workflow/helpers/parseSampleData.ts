@@ -51,7 +51,8 @@ const parseSampleFields = (sample: NodeSample): AvailableField[] => {
       nodeId: sample.nodeId,
       nodeLabel: sample.nodeLabel,
       nullFallback: null,
-      previewValue: answer.textAnswers.answers[0]?.value ?? '', // first answer value for preview
+      previewValue:
+        answer.textAnswers.answers.map((a) => a.value).join(', ') ?? '', // first answer value for preview
       valueKey: 'value', // each item in textAnswers.answers is { value: string } — extract "value"
     }),
   );

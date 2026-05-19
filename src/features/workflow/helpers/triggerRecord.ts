@@ -12,6 +12,7 @@ const buildTriggerRecordFields = (
     { label: 'Response Id', value: record.responseId },
     { label: 'Create Time', value: record.createTime },
     { label: 'Last Submitted Time', value: record.lastSubmittedTime },
+    { label: 'Respondent Email', value: record.respondentEmail ?? 'N/A' },
   ];
 
   const answerFields: RecordField[] = Object.entries(record.answers ?? {}).map(

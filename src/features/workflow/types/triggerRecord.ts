@@ -10,6 +10,7 @@ export interface GoogleFormTriggerRecord {
   answers: Record<string, GoogleFormTriggerRecordAnswer>;
   createTime: string;
   lastSubmittedTime: string;
+  respondentEmail?: string; // only present when the form requires Google sign-in
   responseId: string;
 }
 

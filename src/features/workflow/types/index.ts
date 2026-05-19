@@ -1,3 +1,4 @@
+export * from './availabelField';
 export * from './configPanel';
 export * from './event';
 export * from './form';

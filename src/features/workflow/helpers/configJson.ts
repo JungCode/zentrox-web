@@ -4,9 +4,10 @@ import {
 } from '@/shared/api/workflow/schemas';
 
 import type {
-  ConfigFormValues,
   GoogleFormTriggerConfig,
+  GoogleFormTriggerRecord,
   GoogleSheetActionConfig,
+  NodeSample,
   StepConfigFormValues,
 } from '../types';
 
@@ -29,6 +30,9 @@ const resolveConfigJson = (
           };
 
         case WorkflowProviderApp.GoogleSheet:
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
         default:
           return {};
       }
@@ -49,13 +53,55 @@ const resolveConfigJson = (
           };
 
         case WorkflowProviderApp.GoogleForm:
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
         default:
           return {};
       }
     }
+
+    case WorkflowNodeType.Utility:
     default:
       return baseConfig;
   }
 };
 
-export { resolveConfigJson };
+// ─── Typed sample data accessors ─────────────────────────────────────────────
+// sampleRecord.data is stored as a generic JSON blob in the API response.
+// These helpers cast it to the correct typed shape per provider so callers
+// never need to use `any` or guard every field access manually.
+
+const resolveSampleDataJson = (sample: NodeSample): GoogleFormTriggerRecord => {
+  switch (sample.nodeType) {
+    case WorkflowNodeType.Trigger:
+      switch (sample.providerApp) {
+        case WorkflowProviderApp.GoogleForm:
+          return (sample.sampleRecord?.data ?? {}) as GoogleFormTriggerRecord;
+
+        case WorkflowProviderApp.GoogleSheet:
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
+        default:
+          return {} as GoogleFormTriggerRecord;
+      }
+
+    case WorkflowNodeType.Action:
+      switch (sample.providerApp) {
+        case WorkflowProviderApp.GoogleSheet:
+        case WorkflowProviderApp.GoogleForm:
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
+        default:
+          return {} as GoogleFormTriggerRecord;
+      }
+
+    case WorkflowNodeType.Utility:
+    default:
+      return {} as GoogleFormTriggerRecord;
+  }
+};
+
+export { resolveConfigJson, resolveSampleDataJson };

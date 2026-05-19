@@ -13,11 +13,12 @@ import type {
   NodeQueryData,
   StepConfigFormValues,
 } from '@/features/workflow/types';
-import { FormGenerator, TokenInput } from '@/shared/components/BaseForm';
+import { FormGenerator } from '@/shared/components/BaseForm';
 import { Spinner } from '@/shared/components/ui/spinner';
 import { createTypedSetValue } from '@/shared/helpers';
 import type { FormField } from '@/shared/types';
 
+import { TokenInput } from '../TokenInput';
 import { GoogleDriveSelector } from './GoogleDriveSelector';
 import { GoogleSpreadsheetSelector } from './GoogleSpreadsheetSelector';
 import { GoogleWorksheetSelector } from './GoogleWorksheetSelector';

@@ -1,59 +1,70 @@
 'use client';
 
-import { CheckCircleIcon } from '@phosphor-icons/react';
+import { CheckCircleIcon, WarningCircleIcon } from '@phosphor-icons/react';
+import type { BaseSyntheticEvent } from 'react';
 
-import type { ConfigStep } from '@/features/workflow/types/graph';
+import { CONFIG_STEPS } from '@/features/workflow/constants';
+import type { ConfigStep } from '@/features/workflow/types';
 import { cn } from '@/lib/ui/utils';
-
-const CONFIG_STEPS: { id: ConfigStep; label: string; number: string }[] = [
-  { id: 'setup', label: 'Setup', number: '1' },
-  { id: 'configure', label: 'Configure', number: '2' },
-  { id: 'test', label: 'Test', number: '3' },
-];
+import { Button } from '@/shared/components/ui/button';
 
 interface StepConfigTabsProps {
   activeStep: ConfigStep;
-  onStepChange: (step: ConfigStep) => void;
+  onSubmitToStep: (step: ConfigStep) => (e?: BaseSyntheticEvent) => void;
+  stepCompletion: Record<ConfigStep, boolean>;
 }
 
-const StepConfigTabs = ({ activeStep, onStepChange }: StepConfigTabsProps) => (
-  <div className="border-border/60 flex items-center border-b px-4">
-    {CONFIG_STEPS.map((step, idx) => {
-      const isActive = activeStep === step.id;
-      const isDone = CONFIG_STEPS.findIndex((s) => s.id === activeStep) > idx;
+const StepConfigTabs = ({
+  activeStep,
+  onSubmitToStep,
+  stepCompletion,
+}: StepConfigTabsProps) => {
+  const activeStepIdx = CONFIG_STEPS.findIndex((s) => s.id === activeStep);
 
-      return (
-        <button
-          className={cn(
-            'flex items-center gap-1.5 border-b-2 py-3 text-xs font-semibold transition-colors',
-            idx > 0 && 'ml-4',
-            isActive
-              ? 'border-secondary text-secondary'
-              : 'text-on-surface-variant hover:text-on-surface border-transparent',
-          )}
-          key={step.id}
-          onClick={() => onStepChange(step.id)}
-          type="button"
-        >
-          {isDone ? (
-            <CheckCircleIcon className="text-success" size={13} weight="fill" />
-          ) : (
-            <span
-              className={cn(
-                'flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold',
-                isActive
-                  ? 'bg-secondary text-on-secondary'
-                  : 'bg-surface-container text-on-surface-variant',
-              )}
-            >
-              {step.number}
-            </span>
-          )}
-          {step.label}
-        </button>
-      );
-    })}
-  </div>
-);
+  return (
+    <div className="border-border/60 flex items-center border-b px-4">
+      {CONFIG_STEPS.map((step, idx) => {
+        const isActive = activeStep === step.id;
+        const isComplete = stepCompletion[step.id as ConfigStep];
+        const isDisabled = idx > activeStepIdx && !isComplete;
+
+        return (
+          <Button
+            className={cn(
+              'h-auto rounded-none border-0 border-b-2 px-0 py-3 transition-colors',
+              { 'ml-4': idx > 0 },
+              {
+                'border-secondary text-secondary': isActive,
+                'cursor-not-allowed opacity-40': isDisabled,
+                'hover:text-on-surface': !isDisabled,
+                'text-on-surface-variant border-transparent': !isActive,
+              },
+            )}
+            disabled={isDisabled}
+            key={step.id}
+            onClick={onSubmitToStep(step.id)}
+            type="button"
+            variant="ghost"
+          >
+            {isComplete ? (
+              <CheckCircleIcon
+                className="text-success"
+                size={13}
+                weight="fill"
+              />
+            ) : (
+              <WarningCircleIcon
+                className="text-warning"
+                size={13}
+                weight="fill"
+              />
+            )}
+            {step.label}
+          </Button>
+        );
+      })}
+    </div>
+  );
+};
 
 export { CONFIG_STEPS, StepConfigTabs };

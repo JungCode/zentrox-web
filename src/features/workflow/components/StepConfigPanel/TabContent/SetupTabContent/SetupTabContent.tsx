@@ -1,108 +1,80 @@
 'use client';
 
-import { Controller, useForm } from 'react-hook-form';
-
-import { GOOGLE_FORM_TRIGGER_EVENT_OPTIONS } from '@/features/workflow/constants';
-import { SETUP_FORM_FALLBACKS } from '@/features/workflow/constants/formFallback';
+import { NODE_TYPE_EVENT_META_DATA } from '@/features/workflow/constants';
 import { useWorkflowStore } from '@/features/workflow/hooks';
-import type { NodeQueryData, SetupFormValues } from '@/features/workflow/types';
-import type { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
-import { BaseSelector, FormItem } from '@/shared/components/BaseForm';
-import { Button } from '@/shared/components/ui/button';
-import { getDefaultValues } from '@/shared/utils';
+import type {
+  NodeQueryData,
+  StepConfigFormValues,
+} from '@/features/workflow/types';
+import {
+  BaseSelector,
+  FormGenerator,
+  FormItem,
+} from '@/shared/components/BaseForm';
+import type { FormField } from '@/shared/types';
 
-import { StepConfigContentLayout } from '../StepConfigContentLayout';
 import { AccountSelector } from './AccountSelector/AccountSelector';
 import { AppField } from './AppField';
 import { TriggerEventOption } from './TriggerEventOption';
 
 interface SetupTabContentProps {
-  node: NodeQueryData | undefined;
-  onMoveToNextStep?: () => void;
-  updateNode: (input: UpdateWorkflowNodeInput) => Promise<unknown>;
+  node: NodeQueryData;
 }
 
-const SetupTabContent = ({
-  node,
-  onMoveToNextStep,
-  updateNode,
-}: SetupTabContentProps) => {
+const SetupTabContent = ({ node }: SetupTabContentProps) => {
   const openAppSelectorDialog = useWorkflowStore(
     (state) => state.openAppSelectorDialog,
   );
 
-  const { control, handleSubmit } = useForm<SetupFormValues>({
-    defaultValues: getDefaultValues(node, SETUP_FORM_FALLBACKS),
-    resetOptions: {
-      keepDirtyValues: true, // keep value that user has changed but not submitted yet
-    },
-    values: getDefaultValues(node, SETUP_FORM_FALLBACKS),
-  });
+  if (!node.nodeType || !node.providerApp) return null;
+  const { nodeType, providerApp } = node;
 
-  const onSubmit = handleSubmit(async (values) => {
-    await updateNode({
-      actionKey: values.actionKey,
-      integrationAccountId: values.integrationAccountId,
-    });
-    onMoveToNextStep?.();
-  });
+  const eventMetaData = NODE_TYPE_EVENT_META_DATA[nodeType];
+  const eventOptions = eventMetaData?.options[providerApp] ?? [];
+
+  const fields: FormField<StepConfigFormValues>[] = [
+    {
+      label: eventMetaData?.label ?? 'Event',
+      name: 'actionKey',
+      render: (field) => (
+        <BaseSelector
+          onValueChange={field.onChange}
+          options={eventOptions}
+          placeholder={eventMetaData?.placeholder}
+          renderOption={(opt) => <TriggerEventOption option={opt} />}
+          side="left"
+          value={(field.value as string) ?? ''}
+        />
+      ),
+      required: true,
+    },
+    {
+      label: 'Account',
+      name: 'integrationAccountId',
+      render: (field) => (
+        <AccountSelector
+          onValueChange={field.onChange}
+          side="left"
+          value={(field.value as string) ?? ''}
+        />
+      ),
+      required: true,
+    },
+  ];
 
   return (
-    <StepConfigContentLayout
-      footer={
-        <Button
-          className="w-full"
-          form="setup-form"
-          size="lg"
-          type="submit"
-          variant="secondary"
-        >
-          Continue
-        </Button>
-      }
-    >
-      <form className="space-y-4" id="setup-form" onSubmit={onSubmit}>
-        <FormItem label="App">
-          <AppField node={node} onChangeClick={openAppSelectorDialog} />
-        </FormItem>
+    <div className="space-y-4">
+      <FormItem label="App" required={true}>
+        <AppField node={node} onChangeClick={openAppSelectorDialog} />
+      </FormItem>
 
-        <FormItem label="Trigger Event">
-          <Controller
-            control={control}
-            name="actionKey"
-            render={({ field }) => (
-              <BaseSelector
-                onValueChange={field.onChange}
-                options={GOOGLE_FORM_TRIGGER_EVENT_OPTIONS}
-                placeholder="Select trigger event…"
-                renderOption={(opt) => <TriggerEventOption option={opt} />}
-                side="left"
-                value={field.value ?? ''}
-              />
-            )}
-          />
-        </FormItem>
+      <FormGenerator<StepConfigFormValues> fields={fields} />
 
-        <FormItem label="Account">
-          <Controller
-            control={control}
-            name="integrationAccountId"
-            render={({ field }) => (
-              <AccountSelector
-                onValueChange={field.onChange}
-                side="left"
-                value={field.value ?? ''}
-              />
-            )}
-          />
-        </FormItem>
-
-        <p className="text-on-surface-variant bg-surface-container rounded-md p-3 text-xs leading-relaxed">
-          This app is a secure partner with Zentrox. Your credentials are
-          encrypted and can be removed at any time.
-        </p>
-      </form>
-    </StepConfigContentLayout>
+      <p className="text-on-surface-variant bg-surface-container rounded-md p-3 text-xs leading-relaxed">
+        This app is a secure partner with Zentrox. Your credentials are
+        encrypted and can be removed at any time.
+      </p>
+    </div>
   );
 };
 

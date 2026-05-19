@@ -32,7 +32,6 @@ export type Scalars = {
 
 export type CreateWorkflowNodeInput = {
   label: Scalars['String']['input'];
-  nodeType?: InputMaybe<WorkflowNodeType>;
   positionX?: InputMaybe<Scalars['Float']['input']>;
   positionY?: InputMaybe<Scalars['Float']['input']>;
   providerApp?: InputMaybe<WorkflowProviderApp>;

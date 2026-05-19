@@ -1,0 +1,14 @@
+query GoogleSheetHeaders(
+  $integrationAccountId: ID!
+  $spreadsheetId: ID!
+  $worksheetTitle: String!
+) {
+  googleSheetHeaders(
+    integrationAccountId: $integrationAccountId
+    spreadsheetId: $spreadsheetId
+    worksheetTitle: $worksheetTitle
+  ) {
+    index
+    name
+  }
+}

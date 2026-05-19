@@ -9,12 +9,16 @@ interface FormItemProps {
   children: React.ReactNode;
   className?: string;
   label: string;
+  required?: boolean;
 }
 
-const FormItem = ({ children, className, label }: FormItemProps) => {
+const FormItem = ({ children, className, label, required }: FormItemProps) => {
   return (
     <div className={cn('space-y-1.5', className)}>
-      <Label>{label}</Label>
+      <Label>
+        {label}
+        {required && <span className="text-destructive ml-0.5">*</span>}
+      </Label>
       {children}
     </div>
   );

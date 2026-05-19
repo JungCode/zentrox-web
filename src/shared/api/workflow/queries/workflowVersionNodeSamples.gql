@@ -1,0 +1,20 @@
+query WorkflowVersionNodeSamples($workflowVersionId: ID!, $currentNodeId: ID!) {
+  workflowVersionNodeSamples(
+    workflowVersionId: $workflowVersionId
+    currentNodeId: $currentNodeId
+  ) {
+    nodeId
+    nodeLabel
+    nodeType
+    providerApp
+    actionKey
+    sampleRecord {
+      id
+      createdAt
+      updatedAt
+      workflowNodeId
+      data
+      fetchedAt
+    }
+  }
+}

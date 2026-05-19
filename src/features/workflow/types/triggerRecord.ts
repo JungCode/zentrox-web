@@ -1,4 +1,4 @@
-interface GoogleFormTriggerRecordAnswer {
+export interface GoogleFormTriggerRecordAnswer {
   questionId: string;
   questionTitle: string;
   textAnswers: {
@@ -6,19 +6,15 @@ interface GoogleFormTriggerRecordAnswer {
   };
 }
 
-interface GoogleFormTriggerRecord {
+export interface GoogleFormTriggerRecord {
   answers: Record<string, GoogleFormTriggerRecordAnswer>;
   createTime: string;
   lastSubmittedTime: string;
+  respondentEmail?: string; // only present when the form requires Google sign-in
   responseId: string;
 }
 
-interface LabeledRecord {
+export interface LabeledRecord {
   label: string;
   record: GoogleFormTriggerRecord;
 }
-export type {
-  GoogleFormTriggerRecord,
-  GoogleFormTriggerRecordAnswer,
-  LabeledRecord,
-};

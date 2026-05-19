@@ -1,28 +1,38 @@
-import {
-  UpdateWorkflowNodeInput,
-  WorkflowActionKey,
-} from '@/shared/api/workflow/schemas';
+import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
 
-export type SetupFormValues = Pick<
+import {
+  GoogleFormTriggerConfig,
+  GoogleSheetActionConfig,
+} from './configPanel';
+
+// Step 1. Step Up Form Values at Config Panel
+type SetupFormValues = Pick<
   UpdateWorkflowNodeInput,
   'actionKey' | 'integrationAccountId'
 >;
 
-export interface GoogleFormConfig {
-  configJson?: {
-    formId?: string;
-    formName?: string;
-  };
-}
+// Step 2. Configure Form Values at Config Panel
+type ConfigFormValues<T> = {
+  configJson: T;
+};
 
-export type LabelFormValues = {
+type AllConfigFormValues =
+  // trigger
+  | ConfigFormValues<GoogleFormTriggerConfig>
+  // action
+  | ConfigFormValues<GoogleSheetActionConfig>;
+
+// Label name of the workflow node
+type LabelFormValues = {
   label: string;
 };
 
-export type GoogleFormTriggerEventOption = {
-  data: {
-    description: string;
-  };
-  label: string;
-  value: WorkflowActionKey;
+// Overall form values of the config panel
+type StepConfigFormValues = SetupFormValues & AllConfigFormValues;
+
+export type {
+  ConfigFormValues,
+  LabelFormValues,
+  SetupFormValues,
+  StepConfigFormValues,
 };

@@ -1,11 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { FormProvider } from 'react-hook-form';
 
-import { useStepConfigNode } from '@/features/workflow/hooks';
-import type { ConfigStep } from '@/features/workflow/types/graph';
+import {
+  useStepCompletion,
+  useStepConfigForm,
+  useStepConfigNode,
+} from '@/features/workflow/hooks';
 import { cn } from '@/lib/ui/utils';
 
+import { StepConfigPanelFooter } from './StepConfigPanelFooter';
 import { StepConfigPanelHeader } from './StepConfigPanelHeader/StepConfigPanelHeader';
 import { StepConfigPanelLoadingSkeleton } from './StepConfigPanelLoadingSkeleton';
 import { StepConfigTabs } from './StepConfigTabs';
@@ -18,7 +22,6 @@ interface StepConfigPanelProps {
   onClose: () => void;
   /** Controls panel visibility (CSS transform) */
   open: boolean;
-  /** The currently-selected workflow node being configured */
   workflowId: string;
 }
 
@@ -40,7 +43,17 @@ const StepConfigPanel = ({
     nodeId,
     workflowId,
   });
-  const [activeStep, setActiveStep] = useState<ConfigStep>('setup');
+  const {
+    activeStep,
+    loading: isSubmitting,
+    methods,
+    submit,
+    submitToStep,
+  } = useStepConfigForm({ node, workflowId });
+
+  const stepCompletion = useStepCompletion({ control: methods.control, node });
+
+  const skeletonVisible = loading || !node;
 
   return (
     <aside
@@ -51,10 +64,10 @@ const StepConfigPanel = ({
         open ? 'translate-x-0' : 'pointer-events-none translate-x-full',
       )}
     >
-      {loading ? (
+      {skeletonVisible ? (
         <StepConfigPanelLoadingSkeleton />
       ) : (
-        <>
+        <FormProvider {...methods}>
           <StepConfigPanelHeader
             node={node}
             nodeIndex={nodeIndex}
@@ -65,16 +78,23 @@ const StepConfigPanel = ({
 
           <StepConfigTabs
             activeStep={activeStep}
-            onStepChange={setActiveStep}
+            onSubmitToStep={submitToStep}
+            stepCompletion={stepCompletion}
           />
 
           <TabContent
             activeStep={activeStep}
             node={node}
-            onStepChange={setActiveStep}
             workflowId={workflowId}
           />
-        </>
+
+          <StepConfigPanelFooter
+            activeStep={activeStep}
+            loading={isSubmitting}
+            onSubmit={submit}
+            stepCompletion={stepCompletion}
+          />
+        </FormProvider>
       )}
     </aside>
   );

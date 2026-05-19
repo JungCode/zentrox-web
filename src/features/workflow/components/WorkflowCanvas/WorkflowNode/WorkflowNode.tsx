@@ -19,7 +19,15 @@ import { WorkflowNodeAssigned } from './WorkflowNodeAssigned';
 import { WorkflowNodeUnassigned } from './WorkflowNodeUnassigned';
 
 const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
-  const { id, isLast, label, providerApp, stepNumber, workflowId } = data;
+  const {
+    connectionStatus,
+    id,
+    isLast,
+    label,
+    providerApp,
+    stepNumber,
+    workflowId,
+  } = data;
   const assigned = !!providerApp;
   const providerAppMetadata =
     providerApp && ProviderAppMetadataRecord[providerApp];
@@ -48,6 +56,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
 
       {assigned && providerAppMetadata ? (
         <WorkflowNodeAssigned
+          connectionStatus={connectionStatus}
           isSelected={isSelected}
           label={label}
           nodeId={id}

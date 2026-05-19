@@ -35,6 +35,9 @@
   --success: #1f7a3a;
   --success-container: #e6f5ec;
   --on-success: #ffffff;
+  --warning: #d97706;
+  --warning-container: #fef3c7;
+  --on-warning: #ffffff;
 
   --accent-glow: rgba(41, 81, 203, 0.24);
   --shadow-color: rgba(3, 7, 29, 0.16);
@@ -125,6 +128,9 @@
   --success: #6be3a5;
   --success-container: #0e2a1c;
   --on-success: #08150f;
+  --warning: #fbbf24;
+  --warning-container: #451a03;
+  --on-warning: #1c0a00;
 
   --accent-glow: rgba(125, 162, 255, 0.25);
   --shadow-color: rgba(7, 10, 26, 0.5);
@@ -203,6 +209,9 @@
   --color-success: var(--success);
   --color-success-container: var(--success-container);
   --color-on-success: var(--on-success);
+  --color-warning: var(--warning);
+  --color-warning-container: var(--warning-container);
+  --color-on-warning: var(--on-warning);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-heading: var(--font-headline);
@@ -291,6 +300,10 @@ h6 {
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+.token-input-text:focus-visible {
+  outline: none;
 }
 
 @layer base {

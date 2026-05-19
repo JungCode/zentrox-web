@@ -3,7 +3,6 @@
 import { useQuery } from '@apollo/client/react';
 
 import { ProviderAppMetadataRecord } from '@/features/workflow/constants';
-import type { NodeQueryData } from '@/features/workflow/types';
 import { WorkflowNodeDocument } from '@/shared/api/workflow/workflow.schemas';
 
 interface UseStepConfigNodeProps {
@@ -20,7 +19,7 @@ const useStepConfigNode = ({ nodeId, workflowId }: UseStepConfigNodeProps) => {
     },
   });
 
-  const node = data?.workflowNode as NodeQueryData;
+  const node = data?.workflowNode;
 
   const providerAppMetadata = node?.providerApp
     ? ProviderAppMetadataRecord[node.providerApp]

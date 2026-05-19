@@ -2,6 +2,7 @@
 
 import { useMutation } from '@apollo/client/react';
 import {
+  CheckCircleIcon,
   DotsThreeVerticalIcon,
   LightningIcon,
   TrashIcon,
@@ -22,6 +23,7 @@ import { Button } from '@/shared/components/ui/button';
 import type { ProviderAppMetadataType } from '../../../types/providerAppSelector';
 
 interface WorkflowNodeAssignedProps {
+  connectionStatus: string;
   isSelected: boolean;
   label: string;
   nodeId: string;
@@ -31,6 +33,7 @@ interface WorkflowNodeAssignedProps {
 }
 
 const WorkflowNodeAssigned = ({
+  connectionStatus,
   isSelected,
   label,
   nodeId,
@@ -61,6 +64,7 @@ const WorkflowNodeAssigned = ({
     // },
     // { type: 'separator' },
     {
+      disabled: stepNumber === 1,
       icon: TrashIcon,
       label: 'Delete',
       onClick: handleDeleteNode,
@@ -82,12 +86,19 @@ const WorkflowNodeAssigned = ({
       {/* Row 1: status · app pill · action chip · menu */}
       <div className="flex items-center gap-2 px-3 pt-3 pb-2">
         {/* Status indicator */}
-        <WarningCircleIcon
-          className="text-warning shrink-0"
-          size={18}
-          style={{ color: 'var(--color-warning, #f59e0b)' }}
-          weight="fill"
-        />
+        {connectionStatus && connectionStatus !== 'untested' ? (
+          <CheckCircleIcon
+            className="text-success shrink-0"
+            size={18}
+            weight="fill"
+          />
+        ) : (
+          <WarningCircleIcon
+            className="text-warning shrink-0"
+            size={18}
+            weight="fill"
+          />
+        )}
 
         {/* App pill */}
         <div className="flex items-center gap-1.5 rounded border px-1.5 py-0.5">

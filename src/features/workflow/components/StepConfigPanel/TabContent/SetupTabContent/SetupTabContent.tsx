@@ -4,6 +4,7 @@ import { NODE_TYPE_EVENT_META_DATA } from '@/features/workflow/constants';
 import { useWorkflowStore } from '@/features/workflow/hooks';
 import type {
   NodeQueryData,
+  SetupFormValues,
   StepConfigFormValues,
 } from '@/features/workflow/types';
 import {
@@ -32,7 +33,7 @@ const SetupTabContent = ({ node }: SetupTabContentProps) => {
   const eventMetaData = NODE_TYPE_EVENT_META_DATA[nodeType];
   const eventOptions = eventMetaData?.options[providerApp] ?? [];
 
-  const fields: FormField<StepConfigFormValues>[] = [
+  const fields: FormField<SetupFormValues>[] = [
     {
       label: eventMetaData?.label ?? 'Event',
       name: 'actionKey',
@@ -68,7 +69,7 @@ const SetupTabContent = ({ node }: SetupTabContentProps) => {
         <AppField node={node} onChangeClick={openAppSelectorDialog} />
       </FormItem>
 
-      <FormGenerator<StepConfigFormValues> fields={fields} />
+      <FormGenerator<SetupFormValues> fields={fields} />
 
       <p className="text-on-surface-variant bg-surface-container rounded-md p-3 text-xs leading-relaxed">
         This app is a secure partner with Zentrox. Your credentials are

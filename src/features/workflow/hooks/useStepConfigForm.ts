@@ -58,7 +58,7 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
 
     console.log(configJson);
 
-    // await updateNode({ configJson });
+    await updateNode({ configJson });
   };
 
   const submitCurrentStep = async (values: StepConfigFormValues) => {

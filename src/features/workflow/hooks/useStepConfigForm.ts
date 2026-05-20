@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -24,6 +24,7 @@ interface UseStepConfigFormProps {
 const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
   const { loading, updateNode } = useUpdateWorkflowNode({ node, workflowId });
   const [activeStep, setActiveStep] = useState<ConfigStep>('setup');
+  const prevNodeIdRef = useRef(node?.id);
 
   const configFallbacks =
     node?.providerApp === WorkflowProviderApp.GoogleSheet
@@ -88,6 +89,12 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
       await submitCurrentStep(values);
       setActiveStep(targetStep);
     });
+
+  // Reset to 'setup' step when a different node is selected
+  if (prevNodeIdRef.current !== node?.id) {
+    prevNodeIdRef.current = node?.id;
+    setActiveStep('setup');
+  }
 
   return {
     activeStep,

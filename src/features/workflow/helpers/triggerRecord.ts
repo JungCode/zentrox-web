@@ -18,7 +18,8 @@ const buildTriggerRecordFields = (
   const answerFields: RecordField[] = Object.entries(record.answers ?? {}).map(
     ([, answer]) => ({
       label: `Question ${answer.questionTitle}`,
-      value: answer.textAnswers.answers.map((a) => a.value).join(', '),
+      value:
+        answer?.textAnswers?.answers.map((a) => a.value).join(', ') ?? 'N/A',
     }),
   );
 

@@ -3,6 +3,8 @@ export * from './configPanel';
 export * from './event';
 export * from './form';
 export * from './graph';
+export * from './nodeSampleRecord';
 export * from './providerAppSelector';
+export * from './test';
 export * from './triggerRecord';
 export * from './workflowStore';

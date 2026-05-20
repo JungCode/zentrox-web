@@ -1,5 +1,6 @@
 'use client';
 
+import { useRef } from 'react';
 import { type Path, useFormContext } from 'react-hook-form';
 
 import { resolveDriveId } from '@/features/workflow/helpers';
@@ -9,15 +10,15 @@ import {
   useGoogleSheetHeaders,
 } from '@/features/workflow/hooks';
 import type {
-  GoogleSheetColumnMapping,
   NodeQueryData,
   StepConfigFormValues,
 } from '@/features/workflow/types';
-import { FormGenerator, TokenInput } from '@/shared/components/BaseForm';
+import { FormGenerator } from '@/shared/components/BaseForm';
 import { Spinner } from '@/shared/components/ui/spinner';
 import { createTypedSetValue } from '@/shared/helpers';
 import type { FormField } from '@/shared/types';
 
+import { ColumnMappingInput } from '../ColumnMappingInput/ColumnMappingInput';
 import { GoogleDriveSelector } from './GoogleDriveSelector';
 import { GoogleSpreadsheetSelector } from './GoogleSpreadsheetSelector';
 import { GoogleWorksheetSelector } from './GoogleWorksheetSelector';
@@ -27,6 +28,9 @@ interface GoogleSheetConfigFormProps {
 }
 
 const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
+  // This ref tracks whether the user has made a change that should trigger column mapping resets.
+  const isUserChangedRef = useRef(false);
+
   // useFormContext gives access to the react-hook-form instance created by the
   // parent StepConfigPanel. All fields here write into the shared form state.
   const { setValue, watch } = useFormContext<StepConfigFormValues>();
@@ -53,25 +57,19 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
     watch('configJson.driveId'),
   );
 
-  // Called by useGoogleSheetHeaders once headers are loaded (or reloaded after worksheet change).
-  // We merge the freshly-fetched headers with any existing column mappings so that:
-  //   - columns that already have a value/variableMeta keep their data
-  //   - new columns (e.g. a column was added to the sheet) get empty entries
-  //   - removed columns are dropped (they won't appear in initHeaders)
-  const initColumnFormValues = (initHeaders: GoogleSheetColumnHeader[]) => {
-    const existing = watch('configJson.columnMappings') ?? [];
-
-    const mappings = initHeaders.map((h) => {
-      const existingMapping = existing.find((m) => m?.columnName === h.name);
-      return {
+  const resetColumnMappingsForNewHeaders = (
+    newHeaders: GoogleSheetColumnHeader[],
+  ) => {
+    if (isUserChangedRef.current) {
+      const emptyMappings = newHeaders.map((h) => ({
         columnIndex: h.index,
         columnName: h.name,
-        value: existingMapping?.value ?? '',
-        variableMeta: existingMapping?.variableMeta ?? {},
-      };
-    });
-
-    resetColumnMappings(mappings);
+        value: '',
+        variableMeta: {},
+      }));
+      resetColumnMappings(emptyMappings);
+      isUserChangedRef.current = false; // reset flag
+    }
   };
 
   // Fetches the column headers for the currently-selected worksheet.
@@ -79,14 +77,11 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
   // to sync the form's columnMappings array with the real columns.
   const { headers, loading: headersLoading } = useGoogleSheetHeaders({
     integrationAccountId,
-    onComplete: initColumnFormValues,
+    onComplete: resetColumnMappingsForNewHeaders,
     spreadsheetId,
     worksheetTitle: worksheetName,
   });
 
-  // Build one FormField per worksheet column. Each renders a TokenInput so the
-  // user can type plain text or insert variable tokens from upstream trigger data.
-  //
   // The form field name is `configJson.columnMappings.${index}` — the entire
   // GoogleSheetColumnMapping object is stored as the field value, not just the string.
   // This is why onChange wraps val + meta back into the full mapping shape before
@@ -95,30 +90,9 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
     (header, index) => ({
       label: `${header.index}. ${header.name}`,
       name: `configJson.columnMappings.${index}` as Path<StepConfigFormValues>,
-      render: (
-        field: Parameters<FormField<StepConfigFormValues>['render']>[0],
-      ) => {
-        const mapping = field.value as GoogleSheetColumnMapping | undefined;
-        return (
-          <TokenInput
-            nodeId={node.id}
-            onChange={(val, meta) =>
-              // Reconstruct the full mapping object so react-hook-form stores all
-              // fields (columnIndex, columnName, value, variableMeta) atomically
-              field.onChange({
-                columnIndex: header.index,
-                columnName: header.name,
-                value: val,
-                variableMeta: meta,
-              })
-            }
-            placeholder={`Enter text or insert data`}
-            value={mapping?.value ?? ''}
-            variableMeta={mapping?.variableMeta}
-            workflowVersionId={node.workflowVersionId}
-          />
-        );
-      },
+      render: () => (
+        <ColumnMappingInput header={header} index={index} node={node} />
+      ),
     }),
   );
 
@@ -179,7 +153,7 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
           // Store the worksheet title (needed by the headers query which uses title, not ID)
           // and clear column mappings since the new worksheet may have different columns.
           setTypedValue('configJson.worksheetName', workSheet.title);
-          resetColumnMappings();
+          isUserChangedRef.current = true;
         }}
         side="left"
         spreadsheetId={spreadsheetId}
@@ -189,19 +163,16 @@ const GoogleSheetConfigForm = ({ node }: GoogleSheetConfigFormProps) => {
     required: true,
   };
 
-  // The static Drive/Spreadsheet/Worksheet selectors come first, followed by
-  // the dynamic per-column TokenInput fields that only appear once headers are loaded.
-  const fields: FormField<StepConfigFormValues>[] = [
-    googleDriveField,
-    googleSpreadsheetField,
-    googleWorksheetField,
-    // Dynamic column fields — only present after headers have been loaded
-    ...sheetHeaderFields,
-  ];
-
   return (
     <div className="space-y-4">
-      <FormGenerator<StepConfigFormValues> fields={fields} />
+      <FormGenerator<StepConfigFormValues>
+        fields={[
+          googleDriveField,
+          googleSpreadsheetField,
+          googleWorksheetField,
+          ...sheetHeaderFields,
+        ]}
+      />
       {/* Show a spinner while the worksheet headers are being fetched.
           The spinner appears below the existing fields so the Drive/Spreadsheet/Worksheet
           selectors remain visible and usable during loading. */}

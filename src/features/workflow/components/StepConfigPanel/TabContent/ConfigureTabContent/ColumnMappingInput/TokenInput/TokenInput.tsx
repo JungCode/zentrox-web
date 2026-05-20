@@ -28,8 +28,12 @@ import type {
   TokenInputProps,
 } from '@/shared/types/baseform/token-input.types';
 
-import { FieldPicker } from './FieldPicker';
-import { deserialize, serialize, withTokens } from './slate-helpers';
+import { FieldPicker } from './FieldPicker/FieldPicker';
+import {
+  deserialize,
+  serialize,
+  withTokens,
+} from '@/features/workflow/helpers';
 import { TokenChip } from './TokenChip';
 
 const TokenInput = ({

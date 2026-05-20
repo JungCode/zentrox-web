@@ -31,10 +31,6 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
       : CONFIGURE_GOOGLE_FORM_FALLBACKS;
 
   const methods = useForm<StepConfigFormValues>({
-    defaultValues: {
-      ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
-      ...getDefaultValues(node, configFallbacks),
-    },
     values: {
       ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
       ...getDefaultValues(node, configFallbacks),
@@ -56,9 +52,7 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
       values,
     );
 
-    console.log(configJson);
-
-    // await updateNode({ configJson });
+    await updateNode({ configJson });
   };
 
   const submitCurrentStep = async (values: StepConfigFormValues) => {

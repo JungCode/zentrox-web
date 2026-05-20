@@ -1,6 +1,7 @@
 export interface GoogleFormTriggerRecordAnswer {
   questionId: string;
   questionTitle: string;
+  respondentEmail?: string; // only present when the form requires Google sign-in
   textAnswers: {
     answers: Array<{ value: string }>;
   };

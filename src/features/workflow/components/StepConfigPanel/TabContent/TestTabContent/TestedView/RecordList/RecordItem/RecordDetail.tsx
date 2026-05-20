@@ -14,13 +14,13 @@ const RecordDetail = ({ record }: RecordDetailProps) => {
     <div className="divide-border/60 divide-y">
       {fields.map(({ label, value }) => (
         <div
-          className="flex items-start gap-2 py-2 first:pt-0 last:pb-0"
+          className="flex items-start gap-2 truncate py-2 first:pt-0 last:pb-0"
           key={label}
         >
-          <span className="bg-surface-container text-on-surface-variant shrink-0 rounded px-2 py-0.5 text-xs font-medium">
+          <span className="bg-surface-container text-on-surface-variant shrink-0 truncate rounded px-2 py-0.5 text-xs font-medium">
             {label}
           </span>
-          <p className="text-on-surface text-xs break-all">{value}</p>
+          <p className="text-on-surface truncate text-xs break-all">{value}</p>
         </div>
       ))}
     </div>

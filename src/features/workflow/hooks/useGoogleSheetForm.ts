@@ -1,32 +1,30 @@
-import { useCallback } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { createTypedSetValue } from '@/shared/helpers';
 
 import { GoogleSheetColumnMapping, StepConfigFormValues } from '../types';
-
 export const useGoogleSheetForm = () => {
   const { setValue } = useFormContext<StepConfigFormValues>();
   const setTypedValue = createTypedSetValue<StepConfigFormValues>(setValue);
 
-  const resetColumnMappings = useCallback(
-    (value: GoogleSheetColumnMapping[] = []) => {
-      setTypedValue('configJson.columnMappings', value);
-    },
-    [setTypedValue],
-  );
+  const resetColumnMappings = (value: GoogleSheetColumnMapping[] = []) => {
+    setValue('configJson.columnMappings', value, { shouldDirty: true });
+  };
 
-  const resetWorksheet = useCallback(() => {
+  const resetWorksheet = () => {
     setTypedValue('configJson.worksheetId', '');
     setTypedValue('configJson.worksheetName', '');
-    resetColumnMappings();
-  }, [setTypedValue, resetColumnMappings]);
+  };
 
-  const resetSpreadsheet = useCallback(() => {
+  const resetSpreadsheet = () => {
     setTypedValue('configJson.spreadsheetId', '');
     setTypedValue('configJson.spreadsheetName', '');
     resetWorksheet();
-  }, [setTypedValue, resetWorksheet]);
+  };
 
-  return { resetColumnMappings, resetSpreadsheet, resetWorksheet };
+  return {
+    resetColumnMappings,
+    resetSpreadsheet,
+    resetWorksheet,
+  };
 };

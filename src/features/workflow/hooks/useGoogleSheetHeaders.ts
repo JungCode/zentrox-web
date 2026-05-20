@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@apollo/client/react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import {
   GoogleSheetHeadersDocument,

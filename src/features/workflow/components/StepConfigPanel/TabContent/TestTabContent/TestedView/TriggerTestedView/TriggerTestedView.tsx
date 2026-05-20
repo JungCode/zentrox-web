@@ -3,10 +3,14 @@
 import { useState } from 'react';
 
 import { RECORD_LABELS } from '@/features/workflow/constants/triggerRecord';
-import { useTriggerNodeRecords } from '@/features/workflow/hooks';
+import {
+  useContinueWithTriggerRecord,
+  useTriggerNodeRecords,
+} from '@/features/workflow/hooks';
 import type { NodeQueryData } from '@/features/workflow/types/graph';
 import type { GoogleFormTriggerRecord } from '@/features/workflow/types/triggerRecord';
 import { Button } from '@/shared/components/ui/button';
+import { Spinner } from '@/shared/components/ui/spinner';
 
 import { TestTabContentLayout } from '../../TestTabContentLayout';
 import { RecordList } from './RecordList/RecordList';
@@ -32,10 +36,25 @@ const TriggerTestedView = ({ node, workflowId }: TestedViewProps) => {
     record: record as GoogleFormTriggerRecord,
   }));
 
+  const { continueWithSelected, loading: selecting } =
+    useContinueWithTriggerRecord({
+      labeledRecords,
+      nodeId: node.id,
+      selectedRecordId: effectiveSelectedId,
+      workflowId,
+    });
+
   return (
     <TestTabContentLayout
       footer={
-        <Button className="w-full" size="lg" variant="secondary">
+        <Button
+          className="w-full"
+          disabled={!effectiveSelectedId || selecting}
+          onClick={continueWithSelected}
+          size="lg"
+          variant="secondary"
+        >
+          {selecting && <Spinner data-icon="inline-start" />}
           Continue with selected record
         </Button>
       }

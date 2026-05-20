@@ -1,4 +1,5 @@
 export * from './useActionNodeSample';
+export * from './useContinueWithTriggerRecord';
 export * from './useCreateWorkflowNode';
 export * from './useGoogleDrives';
 export * from './useGoogleForms';
@@ -8,6 +9,7 @@ export * from './useGoogleSpreadsheets';
 export * from './useGoogleWorksheets';
 export * from './useInsertWorkflowNodeBetween';
 export * from './useIntegrationAccounts';
+export * from './useSelectTriggerNodeSampleRecord';
 export * from './useStepCompletion';
 export * from './useStepConfigForm';
 export * from './useStepConfigNode';

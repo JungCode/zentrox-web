@@ -8,6 +8,7 @@ export interface FormField<TForm extends FieldValues> {
   disabled?: boolean;
   hidden?: boolean;
   label?: string;
+  legend?: React.ReactNode;
   name: Path<TForm>;
   render: (
     field: ControllerRenderProps<TForm, Path<TForm>>,

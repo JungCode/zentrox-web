@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { createTypedSetValue } from '@/shared/helpers';
 
-import { GoogleSheetColumnMapping, StepConfigFormValues } from '../types';
+import { GoogleSheetColumnMapping, StepConfigFormValues } from '../../types';
 export const useGoogleSheetForm = () => {
   const { setValue } = useFormContext<StepConfigFormValues>();
   const setTypedValue = createTypedSetValue<StepConfigFormValues>(setValue);

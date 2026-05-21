@@ -32,6 +32,7 @@ const FormGenerator = <TForm extends FieldValues>({
               <FormItem
                 className={field.className}
                 label={field.label ?? ''}
+                legend={field.legend}
                 required={field.required}
               >
                 {rendered}

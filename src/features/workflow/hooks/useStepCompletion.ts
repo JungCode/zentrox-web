@@ -36,46 +36,88 @@ const useStepCompletion = ({
     ],
   });
 
-  let configure = false;
+  // Setup step
+  let isIntegrationAccountComplete = false;
+
+  // Configure step
+  let isConfigureComplete = false;
 
   switch (node?.nodeType) {
-    ///////////////////////////
-    // trigger //
-    ///////////////////////////
+    // =========================================================================
+    //  ████████╗██████╗ ██╗ ██████╗  ██████╗ ███████╗██████╗  ██████╗
+    //  ╚══██╔══╝██╔══██╗██║██╔════╝ ██╔════╝ ██╔════╝██╔══██╗██╔════╝
+    //     ██║   ██████╔╝██║██║  ███╗██║  ███╗█████╗  ██████╔╝╚█████╗
+    //     ██║   ██╔══██╗██║██║   ██║██║   ██║██╔══╝  ██╔══██╗ ╚═══██╗
+    //     ██║   ██║  ██║██║╚██████╔╝╚██████╔╝███████╗██║  ██║██████╔╝
+    // =========================================================================
     case WorkflowNodeType.Trigger:
       switch (node.providerApp) {
         case WorkflowProviderApp.GoogleForm:
-          configure = Boolean(formId);
+          // Setup step
+          isIntegrationAccountComplete = Boolean(integrationAccountId);
+
+          // Configure step
+          isConfigureComplete = Boolean(formId);
           break;
 
+        case WorkflowProviderApp.GoogleSheet:
+        case WorkflowProviderApp.Ai:
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
         default:
-          configure = false;
           break;
       }
       break;
-    ///////////////////////////
-    // action //
-    //////////////////////////
+
+    // =========================================================================
+    //   █████╗  ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
+    //  ██╔══██╗██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
+    //  ███████║██║        ██║   ██║██║   ██║██╔██╗ ██║███████╗
+    //  ██╔══██║██║        ██║   ██║██║   ██║██║╚██╗██║╚════██║
+    //  ██║  ██║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
+    // =========================================================================
     case WorkflowNodeType.Action:
       switch (node.providerApp) {
         case WorkflowProviderApp.GoogleSheet:
-          configure = Boolean(spreadsheetId && worksheetName);
+          // Setup step
+          isIntegrationAccountComplete = Boolean(integrationAccountId);
+
+          // Configure step
+          isConfigureComplete = Boolean(spreadsheetId && worksheetName);
+          break;
+
+        case WorkflowProviderApp.Ai:
+          // Setup step
+          isIntegrationAccountComplete = true; // No integration account needed for AI actions
+
+          // Configure step
+          isConfigureComplete = false;
           break;
 
         case WorkflowProviderApp.GoogleForm:
-          configure = false;
-          break;
-
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
         default:
-          configure = false;
           break;
       }
+      break;
+
+    // =========================================================================
+    //  ██╗   ██╗████████╗██╗██╗     ██╗████████╗██╗███████╗███████╗
+    //  ██║   ██║╚══██╔══╝██║██║     ██║╚══██╔══╝██║██╔════╝██╔════╝
+    //  ██║   ██║   ██║   ██║██║     ██║   ██║   ██║█████╗  ███████╗
+    //  ██║   ██║   ██║   ██║██║     ██║   ██║   ██║██╔══╝  ╚════██║
+    //  ╚██████╔╝   ██║   ██║███████╗██║   ██║   ██║███████╗███████║
+    // =========================================================================
+    case WorkflowNodeType.Utility:
       break;
   }
 
   return {
-    configure,
-    setup: Boolean(actionKey && integrationAccountId),
+    configure: isConfigureComplete,
+    setup: Boolean(actionKey && isIntegrationAccountComplete),
     test:
       Boolean(node?.connectionStatus) && node?.connectionStatus !== 'untested',
   };

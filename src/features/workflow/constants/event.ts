@@ -31,22 +31,32 @@ export const TRIGGER_EVENT_OPTIONS: Partial<
 export const ACTION_EVENT_OPTIONS: Partial<
   Record<WorkflowProviderApp, GoogleFormTriggerEventOption[]>
 > = {
+  [WorkflowProviderApp.Ai]: [
+    {
+      data: {
+        description:
+          'Run a Zentrox AI step with a system prompt, optional knowledge base, and typed inputs/outputs.',
+      },
+      label: 'Generate with Zentrox AI',
+      value: WorkflowActionKey.AiGenerate,
+    },
+  ],
   [WorkflowProviderApp.GoogleSheet]: [
     // {
     //   data: { description: 'Changes the properties of a sheet.' },
     //   label: 'Change Sheet Properties',
     //   value: WorkflowActionKey.GoogleSheetChangeSheetProperties,
     // },
-    {
-      data: { description: 'Creates a new column in a sheet.' },
-      label: 'Create Column',
-      value: WorkflowActionKey.GoogleSheetCreateColumn,
-    },
     // {
-    //   data: { description: 'Creates a new row in a sheet.' },
-    //   label: 'Create Row',
-    //   value: WorkflowActionKey.GoogleSheetCreateRow,
+    //   data: { description: 'Creates a new column in a sheet.' },
+    //   label: 'Create Column',
+    //   value: WorkflowActionKey.GoogleSheetCreateColumn,
     // },
+    {
+      data: { description: 'Creates a new row in a sheet.' },
+      label: 'Create Row',
+      value: WorkflowActionKey.GoogleSheetCreateRow,
+    },
   ],
 };
 

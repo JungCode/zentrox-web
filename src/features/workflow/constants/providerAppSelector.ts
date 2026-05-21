@@ -10,7 +10,7 @@ import {
 import { ComponentType } from 'react';
 
 import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
-import { GoogleFormIcon, GoogleSheetIcon } from '@/shared/assets/icons';
+import { AiIcon, GoogleFormIcon, GoogleSheetIcon } from '@/shared/assets/icons';
 
 import { ProviderAppMetadataRecordType } from '../types';
 import type { AppProviderSelectOption } from '../types/graph';
@@ -121,11 +121,11 @@ export const MOCK_APP_PROVIDERS: AppProviderSelectOption[] = [
 export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
   {
     category: 'AI',
-    description: 'Generate text with AI',
-    icon: GoogleFormIcon,
-
-    id: WorkflowProviderApp.GoogleForm,
-    name: 'AI Assistant',
+    description:
+      'Run a Zentrox AI step with a system prompt, knowledge base, and typed inputs/outputs.',
+    icon: AiIcon,
+    id: WorkflowProviderApp.Ai,
+    name: 'Zentrox AI',
   },
   {
     category: 'Flow controls',
@@ -178,6 +178,14 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
 ];
 
 export const ProviderAppMetadataRecord: ProviderAppMetadataRecordType = {
+  [WorkflowProviderApp.Ai]: {
+    category: 'AI',
+    description:
+      'Run a Zentrox AI step with a system prompt, knowledge base, and typed inputs/outputs.',
+    icon: AiIcon,
+    id: WorkflowProviderApp.Ai,
+    name: 'Zentrox AI',
+  },
   [WorkflowProviderApp.Facebook]: {
     category: 'Communication',
     description: 'Social media platform',

@@ -197,6 +197,76 @@ const GoogleFormIcon = (props: IIconProps) => (
   </svg>
 );
 
+const AiIcon = (props: IIconProps) => (
+  <svg
+    fill="none"
+    height="48px"
+    viewBox="0 0 48 48"
+    width="48px"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <defs>
+      <linearGradient id="ai-icon-bg" x1="8" x2="40" y1="6" y2="42">
+        <stop offset="0%" stopColor="#2951cb" />
+        <stop offset="100%" stopColor="#0f172f" />
+      </linearGradient>
+      <linearGradient id="ai-icon-head" x1="12" x2="36" y1="14" y2="38">
+        <stop offset="0%" stopColor="#ffffff" />
+        <stop offset="100%" stopColor="#c8cdea" />
+      </linearGradient>
+    </defs>
+    <rect fill="url(#ai-icon-bg)" height="42" rx="9" width="42" x="3" y="3" />
+    <line
+      stroke="#7da2ff"
+      strokeLinecap="round"
+      strokeWidth="2"
+      x1="24"
+      x2="24"
+      y1="8"
+      y2="13"
+    />
+    <circle cx="24" cy="7.5" fill="#dde1ff" r="2" />
+    <rect
+      fill="url(#ai-icon-head)"
+      height="20"
+      rx="4.5"
+      width="24"
+      x="12"
+      y="14"
+    />
+    <circle cx="19" cy="23.5" fill="#0f172f" r="2.25" />
+    <circle cx="29" cy="23.5" fill="#0f172f" r="2.25" />
+    <circle cx="19.7" cy="22.8" fill="#7da2ff" r="0.75" />
+    <circle cx="29.7" cy="22.8" fill="#7da2ff" r="0.75" />
+    <rect fill="#0f172f" height="2" rx="1" width="8" x="20" y="29" />
+    <line
+      stroke="#0f172f"
+      strokeLinecap="round"
+      strokeWidth="1.2"
+      x1="22"
+      x2="22"
+      y1="29.4"
+      y2="30.6"
+    />
+    <line
+      stroke="#0f172f"
+      strokeLinecap="round"
+      strokeWidth="1.2"
+      x1="26"
+      x2="26"
+      y1="29.4"
+      y2="30.6"
+    />
+    <rect fill="#7da2ff" height="6" rx="1.5" width="3" x="8" y="22" />
+    <rect fill="#7da2ff" height="6" rx="1.5" width="3" x="37" y="22" />
+    <rect fill="#dde1ff" height="6" rx="2" width="22" x="13" y="36" />
+    <circle cx="18" cy="39" fill="#7da2ff" r="1" />
+    <circle cx="24" cy="39" fill="#7da2ff" r="1" />
+    <circle cx="30" cy="39" fill="#7da2ff" r="1" />
+  </svg>
+);
+
 const GoogleSheetIcon = (props: IIconProps) => (
   <svg
     fill="none"
@@ -219,6 +289,7 @@ const GoogleSheetIcon = (props: IIconProps) => (
 );
 
 export {
+  AiIcon,
   ArchiveIcon,
   DashboardIcon,
   DocumentIcon,

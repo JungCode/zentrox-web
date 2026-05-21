@@ -89,6 +89,7 @@ export type UpdateWorkflowNodeInput = {
 };
 
 export enum WorkflowActionKey {
+  AiGenerate = 'AI_GENERATE',
   GoogleFormCreated = 'GOOGLE_FORM_CREATED',
   GoogleFormCreatedOrUpdated = 'GOOGLE_FORM_CREATED_OR_UPDATED',
   GoogleSheetChangeSheetProperties = 'GOOGLE_SHEET_CHANGE_SHEET_PROPERTIES',
@@ -109,6 +110,7 @@ export enum WorkflowNodeType {
 }
 
 export enum WorkflowProviderApp {
+  Ai = 'AI',
   Facebook = 'FACEBOOK',
   Gmail = 'GMAIL',
   GoogleForm = 'GOOGLE_FORM',

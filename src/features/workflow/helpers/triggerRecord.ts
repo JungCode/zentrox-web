@@ -1,9 +1,37 @@
-import type { GoogleFormTriggerRecord } from '@/features/workflow/types';
+import type {
+  GoogleFormTriggerRecord,
+  GoogleFormTriggerRecordAnswer,
+  TriggerRecordAnswerKind,
+} from '@/features/workflow/types';
 
 interface RecordField {
   label: string;
   value: string;
 }
+
+const getAnswerKind = (
+  answer: GoogleFormTriggerRecordAnswer,
+): TriggerRecordAnswerKind => {
+  if (answer.textAnswers) return 'text';
+  if (answer.fileUploadAnswers) return 'fileUpload';
+  return 'unknown';
+};
+
+const getAnswerValue = (answer: GoogleFormTriggerRecordAnswer): string => {
+  switch (getAnswerKind(answer)) {
+    case 'text':
+      return (
+        answer.textAnswers?.answers.map((a) => a.value).join(', ') ?? 'N/A'
+      );
+    case 'fileUpload':
+      return (
+        answer.fileUploadAnswers?.answers.map((a) => a.fileName).join(', ') ??
+        'N/A'
+      );
+    default:
+      return 'N/A';
+  }
+};
 
 const buildTriggerRecordFields = (
   record: GoogleFormTriggerRecord,
@@ -18,13 +46,12 @@ const buildTriggerRecordFields = (
   const answerFields: RecordField[] = Object.entries(record.answers ?? {}).map(
     ([, answer]) => ({
       label: `Question ${answer.questionTitle}`,
-      value:
-        answer?.textAnswers?.answers.map((a) => a.value).join(', ') ?? 'N/A',
+      value: getAnswerValue(answer),
     }),
   );
 
   return [...systemFields, ...answerFields];
 };
 
-export { buildTriggerRecordFields };
+export { buildTriggerRecordFields, getAnswerKind, getAnswerValue };
 export type { RecordField };

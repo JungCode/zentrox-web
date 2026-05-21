@@ -6,7 +6,11 @@ import {
   GOOGLE_FORM_BASE_FIELDS,
   ProviderAppMetadataRecord,
 } from '@/features/workflow/constants';
-import type { NodeSample } from '@/features/workflow/types';
+import type {
+  GoogleFormTriggerRecordAnswer,
+  NodeSample,
+  TriggerAnswerTokenPath,
+} from '@/features/workflow/types';
 import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 import type { WorkflowVersionNodeSamplesQuery } from '@/shared/api/workflow/workflow.schemas';
 import type {
@@ -15,6 +19,27 @@ import type {
 } from '@/shared/types/baseform/token-input.types';
 
 import { resolveSampleDataJson } from './configJson';
+import { getAnswerKind, getAnswerValue } from './triggerRecord';
+
+const resolveAnswerFieldPath = (
+  questionId: string,
+  answer: GoogleFormTriggerRecordAnswer,
+): TriggerAnswerTokenPath => {
+  switch (getAnswerKind(answer)) {
+    case 'text':
+      return {
+        fieldPath: `answers.${questionId}.textAnswers.answers`,
+        valueKey: 'value',
+      };
+    case 'fileUpload':
+      return {
+        fieldPath: `answers.${questionId}.fileUploadAnswers.answers`,
+        valueKey: 'fileName',
+      };
+    default:
+      return { fieldPath: `answers.${questionId}`, valueKey: null };
+  }
+};
 
 // Parses a Google Form response sample into a flat list of AvailableFields.
 // The sample record has two layers of fields:
@@ -43,18 +68,23 @@ const parseSampleFields = (sample: NodeSample): AvailableField[] => {
   );
 
   const answerFields: AvailableField[] = Object.entries(data.answers ?? {}).map(
-    ([questionId, answer]) => ({
-      fieldKey: questionId,
-      fieldLabel: answer.questionTitle ?? questionId, // use the question title as the display label
-      fieldPath: `answers.${questionId}.textAnswers.answers`, // full dot-path into the response object
-      joinSeparator: null,
-      nodeId: sample.nodeId,
-      nodeLabel: sample.nodeLabel,
-      nullFallback: null,
-      previewValue:
-        answer.textAnswers.answers.map((a) => a.value).join(', ') ?? '', // first answer value for preview
-      valueKey: 'value', // each item in textAnswers.answers is { value: string } — extract "value"
-    }),
+    ([questionId, answer]) => {
+      const { fieldPath, valueKey } = resolveAnswerFieldPath(
+        questionId,
+        answer,
+      );
+      return {
+        fieldKey: questionId,
+        fieldLabel: answer.questionTitle ?? questionId,
+        fieldPath,
+        joinSeparator: null,
+        nodeId: sample.nodeId,
+        nodeLabel: sample.nodeLabel,
+        nullFallback: null,
+        previewValue: getAnswerValue(answer),
+        valueKey,
+      };
+    },
   );
 
   return [...baseFields, ...answerFields];

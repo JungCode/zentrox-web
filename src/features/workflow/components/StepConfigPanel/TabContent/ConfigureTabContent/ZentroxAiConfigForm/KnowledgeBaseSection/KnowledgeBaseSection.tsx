@@ -1,16 +1,15 @@
 'use client';
 
-import { PlusIcon } from '@phosphor-icons/react';
-
+import { useKnowledgeFileUpload } from '@/features/workflow/hooks';
 import type { ZentroxAiKnowledgeFile } from '@/features/workflow/types';
 import { FormItem } from '@/shared/components/BaseForm';
-import { Button } from '@/shared/components/ui/button';
+import { CloudinaryUploader } from '@/shared/components/CloudinaryUploader';
 
 import { KnowledgeFileItem } from './KnowledgeFileItem';
 
 interface KnowledgeBaseSectionProps {
   files: ZentroxAiKnowledgeFile[];
-  onAdd: () => void;
+  onAdd: (file: ZentroxAiKnowledgeFile) => void;
   onRemove: (id: string) => void;
 }
 
@@ -19,6 +18,14 @@ const KnowledgeBaseSection = ({
   onAdd,
   onRemove,
 }: KnowledgeBaseSectionProps) => {
+  const {
+    clientAllowedFormats,
+    folder,
+    handleError,
+    handleUploaded,
+    maxFileSize,
+  } = useKnowledgeFileUpload(onAdd);
+
   return (
     <FormItem
       label="Knowledge base"
@@ -36,10 +43,17 @@ const KnowledgeBaseSection = ({
             ))}
           </div>
         )}
-        <Button className="w-full" onClick={onAdd} size="sm" variant="outline">
-          <PlusIcon data-icon="inline-start" size={14} />
-          Add document
-        </Button>
+        <CloudinaryUploader
+          clientAllowedFormats={clientAllowedFormats}
+          description="PDF, Markdown or text up to 10MB"
+          folder={folder}
+          maxFileSize={maxFileSize}
+          multiple
+          onError={handleError}
+          onUploaded={handleUploaded}
+          resourceType="auto"
+          title="Click to upload or drag & drop a document"
+        />
       </div>
     </FormItem>
   );

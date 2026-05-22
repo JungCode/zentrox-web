@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
-import * as SchemaTypes from '@/shared/api/workflow/schemas';
+import * as SchemaTypes from '@/shared/api/base.schemas';
 export type AssignProviderAppMutationVariables = SchemaTypes.Exact<{
   nodeId: SchemaTypes.Scalars['ID']['input'];
   providerApp: SchemaTypes.WorkflowProviderApp;

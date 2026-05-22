@@ -4,6 +4,7 @@ export * from './useContinueWithTriggerRecord';
 export * from './useCreateWorkflowNode';
 export * from './useInsertWorkflowNodeBetween';
 export * from './useIntegrationAccounts';
+export * from './useKnowledgeFileUpload';
 export * from './useSelectTriggerNodeSampleRecord';
 export * from './useSetupTabFields';
 export * from './useStepCompletion';

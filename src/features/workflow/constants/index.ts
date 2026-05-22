@@ -3,6 +3,7 @@ export * from './configPanel';
 export * from './event';
 export * from './graph';
 export * from './integrationAccount';
+export * from './knowledgeBase';
 export * from './providerAppSelector';
 export * from './test';
 export * from './triggerRecord';

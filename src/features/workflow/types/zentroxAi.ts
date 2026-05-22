@@ -1,4 +1,5 @@
 import type { ZentroxAiOutputType } from '@/features/workflow/constants';
+import type { UploadedFileRef } from '@/shared/types';
 import type { VariableMeta } from '@/shared/types/baseform/token-input.types';
 
 export interface ZentroxAiInputField {
@@ -17,6 +18,7 @@ export interface ZentroxAiOutputField {
 }
 
 export interface ZentroxAiKnowledgeFile {
+  file: UploadedFileRef;
   id: string;
   name: string;
 }

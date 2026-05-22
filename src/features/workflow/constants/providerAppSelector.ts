@@ -9,7 +9,7 @@ import {
 } from '@phosphor-icons/react';
 import { ComponentType } from 'react';
 
-import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
+import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import { AiIcon, GoogleFormIcon, GoogleSheetIcon } from '@/shared/assets/icons';
 
 import { ProviderAppMetadataRecordType } from '../types';

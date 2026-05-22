@@ -11,7 +11,7 @@ import type {
   NodeSample,
   TriggerAnswerTokenPath,
 } from '@/features/workflow/types';
-import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
+import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import type { WorkflowVersionNodeSamplesQuery } from '@/shared/api/workflow/workflow.schemas';
 import type {
   AvailableField,

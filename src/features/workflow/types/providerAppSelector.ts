@@ -1,6 +1,6 @@
 import { ComponentType, ElementType } from 'react';
 
-import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
+import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import { IIconProps } from '@/shared/assets/types';
 
 export type IconByAppProviderKey = Record<

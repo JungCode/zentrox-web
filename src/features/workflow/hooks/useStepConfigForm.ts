@@ -9,7 +9,7 @@ import {
   SETUP_FORM_FALLBACKS,
 } from '@/features/workflow/constants/formFallback';
 import { resolveConfigJson } from '@/features/workflow/helpers';
-import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
+import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import { getDefaultValues } from '@/shared/utils';
 
 import type { ConfigStep, StepConfigFormValues } from '../types';

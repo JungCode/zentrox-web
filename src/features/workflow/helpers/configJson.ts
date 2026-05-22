@@ -1,7 +1,7 @@
 import {
   WorkflowNodeType,
   WorkflowProviderApp,
-} from '@/shared/api/workflow/schemas';
+} from '@/shared/api/base.schemas';
 
 import type {
   GoogleFormTriggerConfig,

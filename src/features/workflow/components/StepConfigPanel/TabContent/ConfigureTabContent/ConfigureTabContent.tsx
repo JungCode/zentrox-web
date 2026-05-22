@@ -4,7 +4,7 @@ import type { NodeQueryData } from '@/features/workflow/types';
 import {
   WorkflowNodeType,
   WorkflowProviderApp,
-} from '@/shared/api/workflow/schemas';
+} from '@/shared/api/base.schemas';
 
 import { GoogleFormConfigForm } from './GoogleFormConfigForm';
 import { GoogleSheetConfigForm } from './GoogleSheetConfigForm';

@@ -1,4 +1,4 @@
-import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
+import { UpdateWorkflowNodeInput } from '@/shared/api/base.schemas';
 
 import {
   GoogleFormTriggerConfig,

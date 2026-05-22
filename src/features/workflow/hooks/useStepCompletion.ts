@@ -5,7 +5,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import {
   WorkflowNodeType,
   WorkflowProviderApp,
-} from '@/shared/api/workflow/schemas';
+} from '@/shared/api/base.schemas';
 
 import type { ConfigStep, StepConfigFormValues } from '../types';
 import type { NodeQueryData } from '../types/graph';

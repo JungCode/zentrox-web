@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import { loginSchema } from '@/features/auth/constants';
 import { useLogin } from '@/features/auth/hooks';
-import type { LoginInput } from '@/shared/api/auth/schemas';
+import type { LoginInput } from '@/shared/api/base.schemas';
 import { ComingSoonModal } from '@/shared/components';
 import { Button } from '@/shared/components/ui/button';
 import { Checkbox } from '@/shared/components/ui/checkbox';

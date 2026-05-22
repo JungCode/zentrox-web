@@ -2,7 +2,7 @@ import {
   WorkflowActionKey,
   WorkflowNodeType,
   WorkflowProviderApp,
-} from '@/shared/api/workflow/schemas';
+} from '@/shared/api/base.schemas';
 
 import { EventMetaData, GoogleFormTriggerEventOption } from '../types';
 

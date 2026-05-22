@@ -1,6 +1,6 @@
 'use client';
 
-import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
+import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import { BaseSelector } from '@/shared/components/BaseForm';
 import type { FormField } from '@/shared/types';
 

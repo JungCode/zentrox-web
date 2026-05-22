@@ -10,6 +10,7 @@ import type {
   ZentroxAiOutputField,
 } from '@/features/workflow/types';
 import { Separator } from '@/shared/components/ui/separator';
+import { generateId } from '@/shared/utils';
 
 import { InputsSection } from './InputsSection';
 import { KnowledgeBaseSection } from './KnowledgeBaseSection';
@@ -23,11 +24,6 @@ const INITIAL_DRAFT: ZentroxAiConfigDraft = {
   systemPrompt: '',
 };
 
-const generateId = () =>
-  typeof crypto !== 'undefined' && 'randomUUID' in crypto
-    ? crypto.randomUUID()
-    : Math.random().toString(36).slice(2);
-
 interface ZentroxAiConfigFormProps {
   node: NodeQueryData;
 }
@@ -38,16 +34,11 @@ const ZentroxAiConfigForm = ({ node }: ZentroxAiConfigFormProps) => {
   const handleSystemPromptChange = (systemPrompt: string) =>
     setDraft((prev) => ({ ...prev, systemPrompt }));
 
-  const handleAddKnowledgeFile = () => {
-    const file: ZentroxAiKnowledgeFile = {
-      id: generateId(),
-      name: `Untitled document ${draft.knowledgeFiles.length + 1}.pdf`,
-    };
+  const handleAddKnowledgeFile = (file: ZentroxAiKnowledgeFile) =>
     setDraft((prev) => ({
       ...prev,
       knowledgeFiles: [...prev.knowledgeFiles, file],
     }));
-  };
 
   const handleRemoveKnowledgeFile = (id: string) =>
     setDraft((prev) => ({

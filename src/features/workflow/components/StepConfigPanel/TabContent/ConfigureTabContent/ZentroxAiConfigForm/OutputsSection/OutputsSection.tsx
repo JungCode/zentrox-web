@@ -27,9 +27,9 @@ const OutputsSection = ({
       label="Output fields"
       legend="Declare structured outputs. Each output has a name, type, and short description that the model uses to format its response."
     >
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {outputs.length > 0 && (
-          <div className="space-y-1">
+          <div className="space-y-2">
             {outputs.map((field) => (
               <OutputFieldRow
                 field={field}

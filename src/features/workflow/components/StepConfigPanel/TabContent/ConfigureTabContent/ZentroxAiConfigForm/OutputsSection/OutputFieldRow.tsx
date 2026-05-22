@@ -1,6 +1,6 @@
 'use client';
 
-import { PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react';
+import { PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
 
 import { ZENTROX_AI_OUTPUT_TYPES } from '@/features/workflow/constants';
 import type { ZentroxAiOutputField } from '@/features/workflow/types';
@@ -20,16 +20,16 @@ const OutputFieldRow = ({ field, onChange, onRemove }: OutputFieldRowProps) => {
     ZENTROX_AI_OUTPUT_TYPES[0].Icon;
 
   return (
-    <div className="bg-surface-container-low hover:bg-surface-container flex items-center gap-1 rounded-xs pr-1 transition-colors">
+    <div className="flex gap-2">
       <OutputFieldPopover
         field={field}
         onDelete={() => onRemove(field.id)}
         onSave={(patch) => onChange(field.id, patch)}
         trigger={
           <Button
-            className="text-foreground hover:text-foreground h-auto min-w-0 flex-1 justify-start gap-2 rounded-xs bg-transparent px-2.5 py-1.5 font-normal hover:bg-transparent"
+            className="text-foreground h-9.5 min-w-0 flex-1 justify-start gap-2 px-3 font-normal"
             type="button"
-            variant="ghost"
+            variant="outline"
           >
             <TypeIcon className="text-on-surface-variant shrink-0" size={16} />
             <span className="min-w-0 flex-1 truncate text-left text-sm">
@@ -45,14 +45,14 @@ const OutputFieldRow = ({ field, onChange, onRemove }: OutputFieldRowProps) => {
         }
       />
       <Button
-        aria-label="Delete output"
-        className="text-destructive hover:text-destructive shrink-0"
+        aria-label="Remove output"
+        className="text-on-surface-variant h-9.5 w-5 shrink-0"
         onClick={() => onRemove(field.id)}
-        size="icon-xs"
+        size="icon"
         type="button"
-        variant="ghost"
+        variant="outline"
       >
-        <TrashIcon size={14} />
+        <XIcon size={4} />
       </Button>
     </div>
   );

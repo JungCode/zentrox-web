@@ -27,7 +27,7 @@ const InputFieldRow = ({
   return (
     <div className="flex gap-2">
       <Input
-        className="w-1/4 min-w-0"
+        className="h-9.5 w-1/4 min-w-0"
         onChange={(e) => onChange(field.id, { name: e.target.value })}
         placeholder="Name"
         value={field.name}

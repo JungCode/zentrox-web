@@ -3,17 +3,12 @@
 import { useState } from 'react';
 
 import { useActionNodeSample, useTestRunNode } from '@/features/workflow/hooks';
-import type {
-  DataTabKey,
-  GoogleSheetActionConfig,
-  GoogleSheetActionSampleData,
-  NodeQueryData,
-} from '@/features/workflow/types';
+import type { DataTabKey, NodeQueryData } from '@/features/workflow/types';
 import { Button } from '@/shared/components/ui/button';
 import { Spinner } from '@/shared/components/ui/spinner';
 
 import { TestTabContentLayout } from '../../TestTabContentLayout';
-import { DataTab } from './DataTab';
+import { ActionDataTab } from './ActionDataTab';
 import { DataTabsHeader } from './DataTabsHeader';
 
 interface ActionTestedViewProps {
@@ -34,12 +29,6 @@ const ActionTestedView = ({ node, workflowId }: ActionTestedViewProps) => {
     workflowId,
   });
 
-  const config = node.configJson as GoogleSheetActionConfig | null;
-  const sampleData = sampleRecord?.data as
-    | GoogleSheetActionSampleData
-    | null
-    | undefined;
-
   return (
     <TestTabContentLayout
       footer={
@@ -59,10 +48,10 @@ const ActionTestedView = ({ node, workflowId }: ActionTestedViewProps) => {
         <DataTabsHeader activeTab={activeTab} onTabChange={setActiveTab} />
 
         <div className="border-outline-variant/40 rounded-xs border p-3">
-          <DataTab
+          <ActionDataTab
             activeTab={activeTab}
-            config={config}
-            sampleData={sampleData}
+            node={node}
+            sampleData={sampleRecord?.data}
             sampleLoading={sampleLoading}
           />
         </div>

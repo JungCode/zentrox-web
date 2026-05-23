@@ -8,7 +8,7 @@ import type {
   GoogleSheetActionSampleData,
 } from '@/features/workflow/types';
 
-import { SampleFieldItem } from './SampleFieldItem';
+import { SampleFieldItem } from '../SampleFieldItem';
 
 interface DataInTabProps {
   config: GoogleSheetActionConfig | null | undefined;

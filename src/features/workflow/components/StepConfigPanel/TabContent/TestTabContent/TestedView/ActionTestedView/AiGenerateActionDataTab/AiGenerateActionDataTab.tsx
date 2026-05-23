@@ -1,29 +1,30 @@
-import {
+import type {
+  AiGenerateActionSampleData,
+  AiGenerateNodeConfig,
   DataTabKey,
-  GoogleSheetActionConfig,
-  GoogleSheetActionSampleData,
 } from '@/features/workflow/types';
 
 import { DataInTab } from './DataInTab';
 import { DataOutTab } from './DataOutTab';
 
-interface DataTabProps {
+interface AiGenerateActionDataTabProps {
   activeTab: DataTabKey;
-  config: GoogleSheetActionConfig | null;
-  sampleData: GoogleSheetActionSampleData | null | undefined;
+  config: AiGenerateNodeConfig | null;
+  sampleData: AiGenerateActionSampleData | null | undefined;
   sampleLoading: boolean;
 }
 
-const DataTab = ({
+const AiGenerateActionDataTab = ({
   activeTab,
   config,
   sampleData,
   sampleLoading,
-}: DataTabProps) => {
-  if (activeTab === 'in')
+}: AiGenerateActionDataTabProps) => {
+  if (activeTab === 'in') {
     return <DataInTab config={config} sample={sampleData} />;
+  }
 
   return <DataOutTab data={sampleData} loading={sampleLoading} />;
 };
 
-export { DataTab };
+export { AiGenerateActionDataTab };

@@ -6,7 +6,7 @@ import { buildGoogleSheetDataOutFields } from '@/features/workflow/helpers';
 import type { GoogleSheetActionSampleData } from '@/features/workflow/types';
 import { Spinner } from '@/shared/components/ui/spinner';
 
-import { SampleFieldItem } from './SampleFieldItem';
+import { SampleFieldItem } from '../SampleFieldItem';
 
 interface DataOutTabProps {
   data: GoogleSheetActionSampleData | null | undefined;

@@ -1,4 +1,6 @@
 import type {
+  AiGenerateActionSampleData,
+  AiGenerateNodeConfig,
   GoogleSheetActionConfig,
   GoogleSheetActionSampleData,
 } from '@/features/workflow/types';
@@ -76,4 +78,53 @@ const buildGoogleSheetDataOutFields = (
     .map(([label, value]) => ({ label, value: toDisplayString(value) }));
 };
 
-export { buildGoogleSheetDataInFields, buildGoogleSheetDataOutFields };
+// AI Generate — Data In: each configured input rendered against the value
+// the BE resolved for it (stored under sample._meta.inputData[input.name]).
+// Inputs without a resolved value land in `emptyFields`. BE-internal helpers
+// (_preprocessedText, _structuredFacts) are excluded by iterating
+// config.inputs rather than scanning inputData directly.
+const buildAiGenerateDataInFields = (
+  config: AiGenerateNodeConfig | null | undefined,
+  sample: AiGenerateActionSampleData | null | undefined,
+): DataInFields => {
+  const inputData = (sample?._meta?.inputData ?? {}) as Record<string, unknown>;
+  const filledFields: ActionSampleField[] = [];
+  const emptyFields: ActionSampleField[] = [];
+
+  for (const input of config?.inputs ?? []) {
+    const resolved = toDisplayString(inputData[input.name]);
+
+    if (resolved.trim().length > 0) {
+      filledFields.push({ label: input.name, value: resolved });
+    } else {
+      emptyFields.push({
+        label: input.name,
+        value: 'empty (no upstream data)',
+      });
+    }
+  }
+
+  return { emptyFields, filledFields };
+};
+
+// AI Generate — Data Out: every top-level key on the sample is a model
+// output (decision, score, reason, plus any user-defined outputs).
+// `_meta` carries run metadata and is filtered out.
+const buildAiGenerateDataOutFields = (
+  data: AiGenerateActionSampleData | null | undefined,
+): ActionSampleField[] => {
+  if (!data) {
+    return [];
+  }
+
+  return Object.entries(data)
+    .filter(([key]) => key !== '_meta')
+    .map(([label, value]) => ({ label, value: toDisplayString(value) }));
+};
+
+export {
+  buildAiGenerateDataInFields,
+  buildAiGenerateDataOutFields,
+  buildGoogleSheetDataInFields,
+  buildGoogleSheetDataOutFields,
+};

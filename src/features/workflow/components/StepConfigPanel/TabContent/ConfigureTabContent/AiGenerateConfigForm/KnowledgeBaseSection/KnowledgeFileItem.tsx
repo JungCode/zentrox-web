@@ -2,13 +2,13 @@
 
 import { FileTextIcon, TrashIcon } from '@phosphor-icons/react';
 
-import type { ZentroxAiKnowledgeFile } from '@/features/workflow/types';
+import type { AiGenerateKnowledgeFile } from '@/features/workflow/types';
 import { Button } from '@/shared/components/ui/button';
 import { formatBytes } from '@/shared/utils';
 
 interface KnowledgeFileItemProps {
   onRemove: (id: string) => void;
-  zentroxFile: ZentroxAiKnowledgeFile;
+  zentroxFile: AiGenerateKnowledgeFile;
 }
 
 const KnowledgeFileItem = ({

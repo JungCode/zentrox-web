@@ -3,10 +3,10 @@
 import { type Path, useFormContext, useWatch } from 'react-hook-form';
 
 import type {
+  AiGenerateInputField,
+  AiGenerateKnowledgeFile,
+  AiGenerateOutputField,
   StepConfigFormValues,
-  ZentroxAiInputField,
-  ZentroxAiKnowledgeFile,
-  ZentroxAiOutputField,
 } from '@/features/workflow/types';
 import { generateId } from '@/shared/utils';
 
@@ -17,38 +17,38 @@ const PATH = {
   systemPrompt: 'configJson.systemPrompt' as Path<StepConfigFormValues>,
 } as const;
 
-const useZentroxAiConfigForm = () => {
+const useAiGenerateConfigForm = () => {
   const { control, setValue } = useFormContext<StepConfigFormValues>();
 
   const systemPrompt = (useWatch({ control, name: PATH.systemPrompt }) ??
     '') as string;
   const knowledgeFiles = (useWatch({ control, name: PATH.knowledgeFiles }) ??
-    []) as ZentroxAiKnowledgeFile[];
+    []) as AiGenerateKnowledgeFile[];
   const inputs = (useWatch({ control, name: PATH.inputs }) ??
-    []) as ZentroxAiInputField[];
+    []) as AiGenerateInputField[];
   const outputs = (useWatch({ control, name: PATH.outputs }) ??
-    []) as ZentroxAiOutputField[];
+    []) as AiGenerateOutputField[];
 
   const handleChangeSystemPrompt = (next: string) =>
     setValue(PATH.systemPrompt, next, { shouldDirty: true });
 
-  const writeKnowledgeFiles = (next: ZentroxAiKnowledgeFile[]) =>
+  const writeKnowledgeFiles = (next: AiGenerateKnowledgeFile[]) =>
     setValue(PATH.knowledgeFiles, next, { shouldDirty: true });
 
-  const writeInputs = (next: ZentroxAiInputField[]) =>
+  const writeInputs = (next: AiGenerateInputField[]) =>
     setValue(PATH.inputs, next, { shouldDirty: true });
 
-  const writeOutputs = (next: ZentroxAiOutputField[]) =>
+  const writeOutputs = (next: AiGenerateOutputField[]) =>
     setValue(PATH.outputs, next, { shouldDirty: true });
 
-  const handleAddKnowledgeFile = (file: ZentroxAiKnowledgeFile) =>
+  const handleAddKnowledgeFile = (file: AiGenerateKnowledgeFile) =>
     writeKnowledgeFiles([...knowledgeFiles, file]);
 
   const handleRemoveKnowledgeFile = (id: string) =>
     writeKnowledgeFiles(knowledgeFiles.filter((f) => f.id !== id));
 
   const handleAddInput = () => {
-    const next: ZentroxAiInputField = {
+    const next: AiGenerateInputField = {
       id: generateId(),
       name: '',
       value: '',
@@ -57,18 +57,18 @@ const useZentroxAiConfigForm = () => {
     writeInputs([...inputs, next]);
   };
 
-  const handleChangeInput = (id: string, patch: Partial<ZentroxAiInputField>) =>
+  const handleChangeInput = (id: string, patch: Partial<AiGenerateInputField>) =>
     writeInputs(inputs.map((f) => (f.id === id ? { ...f, ...patch } : f)));
 
   const handleRemoveInput = (id: string) =>
     writeInputs(inputs.filter((f) => f.id !== id));
 
-  const handleAddOutput = (draft: Omit<ZentroxAiOutputField, 'id'>) =>
+  const handleAddOutput = (draft: Omit<AiGenerateOutputField, 'id'>) =>
     writeOutputs([...outputs, { ...draft, id: generateId() }]);
 
   const handleChangeOutput = (
     id: string,
-    patch: Partial<ZentroxAiOutputField>,
+    patch: Partial<AiGenerateOutputField>,
   ) => writeOutputs(outputs.map((f) => (f.id === id ? { ...f, ...patch } : f)));
 
   const handleRemoveOutput = (id: string) =>
@@ -91,4 +91,4 @@ const useZentroxAiConfigForm = () => {
   };
 };
 
-export { useZentroxAiConfigForm };
+export { useAiGenerateConfigForm };

@@ -1,10 +1,10 @@
 import { UpdateWorkflowNodeInput } from '@/shared/api/base.schemas';
 
+import { AiGenerateNodeConfig } from './aiGenerate';
 import {
   GoogleFormTriggerConfig,
   GoogleSheetActionConfig,
 } from './configPanel';
-import { ZentroxAiActionConfig } from './zentroxAi';
 
 // Step 1. Step Up Form Values at Config Panel
 type SetupFormValues = Pick<
@@ -20,7 +20,7 @@ type ConfigFormValues<T> = {
 type AllConfigFormValues =
   | ConfigFormValues<GoogleFormTriggerConfig>
   | ConfigFormValues<GoogleSheetActionConfig>
-  | ConfigFormValues<ZentroxAiActionConfig>;
+  | ConfigFormValues<AiGenerateNodeConfig>;
 
 // Label name of the workflow node
 type LabelFormValues = {

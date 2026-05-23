@@ -3,10 +3,10 @@
 import { useState } from 'react';
 
 import {
-  ZENTROX_AI_OUTPUT_TYPES,
-  type ZentroxAiOutputType,
+  AI_GENERATE_OUTPUT_TYPES,
+  type AiGenerateOutputType,
 } from '@/features/workflow/constants';
-import type { ZentroxAiOutputField } from '@/features/workflow/types';
+import type { AiGenerateOutputField } from '@/features/workflow/types';
 import { BaseSelector, FormItem } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
 import { Checkbox } from '@/shared/components/ui/checkbox';
@@ -17,7 +17,7 @@ import {
   PopoverTrigger,
 } from '@/shared/components/ui/popover';
 
-type OutputDraft = Omit<ZentroxAiOutputField, 'id'>;
+type OutputDraft = Omit<AiGenerateOutputField, 'id'>;
 
 const EMPTY_DRAFT: OutputDraft = {
   description: '',
@@ -26,17 +26,17 @@ const EMPTY_DRAFT: OutputDraft = {
   type: 'text',
 };
 
-const OUTPUT_TYPE_OPTIONS = ZENTROX_AI_OUTPUT_TYPES.map((opt) => ({
+const OUTPUT_TYPE_OPTIONS = AI_GENERATE_OUTPUT_TYPES.map((opt) => ({
   label: opt.label,
   value: opt.value,
 }));
 
-const getTypeIcon = (value: ZentroxAiOutputType) =>
-  ZENTROX_AI_OUTPUT_TYPES.find((t) => t.value === value)?.Icon ??
-  ZENTROX_AI_OUTPUT_TYPES[0].Icon;
+const getTypeIcon = (value: AiGenerateOutputType) =>
+  AI_GENERATE_OUTPUT_TYPES.find((t) => t.value === value)?.Icon ??
+  AI_GENERATE_OUTPUT_TYPES[0].Icon;
 
 interface OutputFieldPopoverProps {
-  field?: ZentroxAiOutputField;
+  field?: AiGenerateOutputField;
   onDelete?: () => void;
   onSave: (draft: OutputDraft) => void;
   trigger: React.ReactNode;
@@ -89,12 +89,12 @@ const OutputFieldPopover = ({
         >
           <BaseSelector
             onValueChange={(value) =>
-              setDraft((d) => ({ ...d, type: value as ZentroxAiOutputType }))
+              setDraft((d) => ({ ...d, type: value as AiGenerateOutputType }))
             }
             options={OUTPUT_TYPE_OPTIONS}
             renderLabel={(selected) => {
               if (!selected) return null;
-              const Icon = getTypeIcon(selected.value as ZentroxAiOutputType);
+              const Icon = getTypeIcon(selected.value as AiGenerateOutputType);
               return (
                 <span className="flex items-center gap-2">
                   <Icon size={14} />
@@ -103,7 +103,7 @@ const OutputFieldPopover = ({
               );
             }}
             renderOption={(opt) => {
-              const Icon = getTypeIcon(opt.value as ZentroxAiOutputType);
+              const Icon = getTypeIcon(opt.value as AiGenerateOutputType);
               return (
                 <span className="flex items-center gap-2">
                   <Icon size={14} />

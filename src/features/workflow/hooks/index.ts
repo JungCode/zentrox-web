@@ -1,5 +1,6 @@
 export * from './google';
 export * from './useActionNodeSample';
+export * from './useAiGenerateConfigForm';
 export * from './useContinueWithTriggerRecord';
 export * from './useCreateWorkflowNode';
 export * from './useInsertWorkflowNodeBetween';
@@ -15,4 +16,3 @@ export * from './useUpdateWorkflowNode';
 export * from './useWorkflowGraph';
 export * from './useWorkflowNodeSamples';
 export * from './useWorkflowStore';
-export * from './useZentroxAiConfigForm';

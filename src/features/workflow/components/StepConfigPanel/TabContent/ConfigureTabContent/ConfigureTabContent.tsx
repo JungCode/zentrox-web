@@ -6,9 +6,9 @@ import {
   WorkflowProviderApp,
 } from '@/shared/api/base.schemas';
 
+import { AiGenerateConfigForm } from './AiGenerateConfigForm';
 import { GoogleFormConfigForm } from './GoogleFormConfigForm';
 import { GoogleSheetConfigForm } from './GoogleSheetConfigForm';
-import { ZentroxAiConfigForm } from './ZentroxAiConfigForm';
 
 interface ConfigureTabContentProps {
   node: NodeQueryData;
@@ -52,7 +52,7 @@ const ConfigureTabContent = ({ node }: ConfigureTabContentProps) => {
           return <GoogleSheetConfigForm node={node} />;
 
         case WorkflowProviderApp.Ai:
-          return <ZentroxAiConfigForm node={node} />;
+          return <AiGenerateConfigForm node={node} />;
 
         case WorkflowProviderApp.GoogleForm:
         case WorkflowProviderApp.Facebook:

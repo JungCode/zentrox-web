@@ -4,12 +4,12 @@ import {
 } from '@/shared/api/base.schemas';
 
 import type {
+  AiGenerateNodeConfig,
   GoogleFormTriggerConfig,
   GoogleFormTriggerRecord,
   GoogleSheetActionConfig,
   NodeSample,
   StepConfigFormValues,
-  ZentroxAiActionConfig,
 } from '../types';
 
 const resolveConfigJson = (
@@ -54,7 +54,7 @@ const resolveConfigJson = (
           };
 
         case WorkflowProviderApp.Ai: {
-          const aiConfig = values.configJson as ZentroxAiActionConfig;
+          const aiConfig = values.configJson as AiGenerateNodeConfig;
           // Spread baseConfig first so legacy keys persisted by the old
           // handler (model, knowledgeSource, evaluationRules,
           // decisionThresholds, outputFields) aren't dropped — the new form

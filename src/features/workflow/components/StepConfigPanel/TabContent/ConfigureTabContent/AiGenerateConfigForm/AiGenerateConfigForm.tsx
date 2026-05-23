@@ -1,6 +1,6 @@
 'use client';
 
-import { useZentroxAiConfigForm } from '@/features/workflow/hooks';
+import { useAiGenerateConfigForm } from '@/features/workflow/hooks';
 import type { NodeQueryData } from '@/features/workflow/types';
 import { Separator } from '@/shared/components/ui/separator';
 
@@ -9,11 +9,11 @@ import { KnowledgeBaseSection } from './KnowledgeBaseSection';
 import { OutputsSection } from './OutputsSection';
 import { SystemPromptField } from './SystemPromptField';
 
-interface ZentroxAiConfigFormProps {
+interface AiGenerateConfigFormProps {
   node: NodeQueryData;
 }
 
-const ZentroxAiConfigForm = ({ node }: ZentroxAiConfigFormProps) => {
+const AiGenerateConfigForm = ({ node }: AiGenerateConfigFormProps) => {
   const {
     inputs,
     knowledgeFiles,
@@ -28,7 +28,7 @@ const ZentroxAiConfigForm = ({ node }: ZentroxAiConfigFormProps) => {
     onRemoveOutput,
     outputs,
     systemPrompt,
-  } = useZentroxAiConfigForm();
+  } = useAiGenerateConfigForm();
 
   return (
     <div className="space-y-4">
@@ -60,4 +60,4 @@ const ZentroxAiConfigForm = ({ node }: ZentroxAiConfigFormProps) => {
   );
 };
 
-export { ZentroxAiConfigForm };
+export { AiGenerateConfigForm };

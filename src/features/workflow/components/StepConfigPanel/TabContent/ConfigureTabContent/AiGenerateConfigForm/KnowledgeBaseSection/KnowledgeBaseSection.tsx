@@ -1,15 +1,15 @@
 'use client';
 
 import { useKnowledgeFileUpload } from '@/features/workflow/hooks';
-import type { ZentroxAiKnowledgeFile } from '@/features/workflow/types';
+import type { AiGenerateKnowledgeFile } from '@/features/workflow/types';
 import { FormItem } from '@/shared/components/BaseForm';
 import { CloudinaryUploader } from '@/shared/components/CloudinaryUploader';
 
 import { KnowledgeFileItem } from './KnowledgeFileItem';
 
 interface KnowledgeBaseSectionProps {
-  files: ZentroxAiKnowledgeFile[];
-  onAdd: (file: ZentroxAiKnowledgeFile) => void;
+  files: AiGenerateKnowledgeFile[];
+  onAdd: (file: AiGenerateKnowledgeFile) => void;
   onRemove: (id: string) => void;
 }
 

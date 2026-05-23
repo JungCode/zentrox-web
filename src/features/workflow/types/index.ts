@@ -1,3 +1,4 @@
+export * from './aiGenerate';
 export * from './availableField';
 export * from './configPanel';
 export * from './event';
@@ -8,4 +9,3 @@ export * from './providerAppSelector';
 export * from './test';
 export * from './triggerRecord';
 export * from './workflowStore';
-export * from './zentroxAi';

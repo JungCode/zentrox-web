@@ -3,8 +3,8 @@
 import { XIcon } from '@phosphor-icons/react';
 
 import type {
+  AiGenerateInputField,
   NodeQueryData,
-  ZentroxAiInputField,
 } from '@/features/workflow/types';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
@@ -12,9 +12,9 @@ import { Input } from '@/shared/components/ui/input';
 import { TokenInput } from '../../ColumnMappingInput/TokenInput';
 
 interface InputFieldRowProps {
-  field: ZentroxAiInputField;
+  field: AiGenerateInputField;
   node: NodeQueryData;
-  onChange: (id: string, patch: Partial<ZentroxAiInputField>) => void;
+  onChange: (id: string, patch: Partial<AiGenerateInputField>) => void;
   onRemove: (id: string) => void;
 }
 

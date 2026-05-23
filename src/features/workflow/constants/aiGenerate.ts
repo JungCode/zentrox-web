@@ -1,16 +1,16 @@
 import { HashIcon, TextTIcon, ToggleLeftIcon } from '@phosphor-icons/react';
 import type { ComponentType } from 'react';
 
-interface ZentroxAiOutputTypeOption {
+interface AiGenerateOutputTypeOption {
   Icon: ComponentType<{ className?: string; size?: number }>;
   label: string;
   value: 'text' | 'number' | 'boolean';
 }
 
-export const ZENTROX_AI_OUTPUT_TYPES: readonly ZentroxAiOutputTypeOption[] = [
+export const AI_GENERATE_OUTPUT_TYPES: readonly AiGenerateOutputTypeOption[] = [
   { Icon: TextTIcon, label: 'Text', value: 'text' },
   { Icon: HashIcon, label: 'Number', value: 'number' },
   { Icon: ToggleLeftIcon, label: 'Boolean', value: 'boolean' },
 ] as const;
 
-export type ZentroxAiOutputType = ZentroxAiOutputTypeOption['value'];
+export type AiGenerateOutputType = AiGenerateOutputTypeOption['value'];

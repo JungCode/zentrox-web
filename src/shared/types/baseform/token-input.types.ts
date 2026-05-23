@@ -76,7 +76,7 @@ export interface TokenVariableMeta {
 /**
  * Any field that accepts the TokenInput template format. Extend this when
  * declaring a tokenized config field — e.g. GoogleSheetColumnMapping,
- * ZentroxAiInputField — so the shared resolver on the BE can interpret it.
+ * AiGenerateInputField — so the shared resolver on the BE can interpret it.
  */
 export interface TokenizedValue {
   value: string;

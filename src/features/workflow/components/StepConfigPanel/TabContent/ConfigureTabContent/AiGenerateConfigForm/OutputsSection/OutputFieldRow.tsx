@@ -2,22 +2,22 @@
 
 import { PencilSimpleIcon, XIcon } from '@phosphor-icons/react';
 
-import { ZENTROX_AI_OUTPUT_TYPES } from '@/features/workflow/constants';
-import type { ZentroxAiOutputField } from '@/features/workflow/types';
+import { AI_GENERATE_OUTPUT_TYPES } from '@/features/workflow/constants';
+import type { AiGenerateOutputField } from '@/features/workflow/types';
 import { Button } from '@/shared/components/ui/button';
 
 import { OutputFieldPopover } from './OutputFieldPopover';
 
 interface OutputFieldRowProps {
-  field: ZentroxAiOutputField;
-  onChange: (id: string, patch: Partial<ZentroxAiOutputField>) => void;
+  field: AiGenerateOutputField;
+  onChange: (id: string, patch: Partial<AiGenerateOutputField>) => void;
   onRemove: (id: string) => void;
 }
 
 const OutputFieldRow = ({ field, onChange, onRemove }: OutputFieldRowProps) => {
   const TypeIcon =
-    ZENTROX_AI_OUTPUT_TYPES.find((t) => t.value === field.type)?.Icon ??
-    ZENTROX_AI_OUTPUT_TYPES[0].Icon;
+    AI_GENERATE_OUTPUT_TYPES.find((t) => t.value === field.type)?.Icon ??
+    AI_GENERATE_OUTPUT_TYPES[0].Icon;
 
   return (
     <div className="flex gap-2">

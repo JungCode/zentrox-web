@@ -2,7 +2,7 @@
 
 import { PlusIcon } from '@phosphor-icons/react';
 
-import type { ZentroxAiOutputField } from '@/features/workflow/types';
+import type { AiGenerateOutputField } from '@/features/workflow/types';
 import { FormItem } from '@/shared/components/BaseForm';
 import { Button } from '@/shared/components/ui/button';
 
@@ -10,10 +10,10 @@ import { OutputFieldPopover } from './OutputFieldPopover';
 import { OutputFieldRow } from './OutputFieldRow';
 
 interface OutputsSectionProps {
-  onAdd: (draft: Omit<ZentroxAiOutputField, 'id'>) => void;
-  onChange: (id: string, patch: Partial<ZentroxAiOutputField>) => void;
+  onAdd: (draft: Omit<AiGenerateOutputField, 'id'>) => void;
+  onChange: (id: string, patch: Partial<AiGenerateOutputField>) => void;
   onRemove: (id: string) => void;
-  outputs: ZentroxAiOutputField[];
+  outputs: AiGenerateOutputField[];
 }
 
 const OutputsSection = ({

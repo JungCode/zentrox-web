@@ -8,12 +8,12 @@ import {
   KNOWLEDGE_BASE_FOLDER,
   KNOWLEDGE_BASE_MAX_FILE_BYTES,
 } from '@/features/workflow/constants';
-import type { ZentroxAiKnowledgeFile } from '@/features/workflow/types';
+import type { AiGenerateKnowledgeFile } from '@/features/workflow/types';
 import { type CloudinaryUploadResult, toUploadedFileRef } from '@/shared/types';
 import { generateId } from '@/shared/utils';
 
 const useKnowledgeFileUpload = (
-  onAdd: (file: ZentroxAiKnowledgeFile) => void,
+  onAdd: (file: AiGenerateKnowledgeFile) => void,
 ) => {
   const handleUploaded = (result: CloudinaryUploadResult) => {
     onAdd({

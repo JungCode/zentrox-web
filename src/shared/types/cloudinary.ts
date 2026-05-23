@@ -1,7 +1,8 @@
 /** Full response returned by Cloudinary after an upload. */
 export interface CloudinaryUploadResult {
   bytes: number;
-  format: string;
+  /** Absent for raw resource types (e.g. markdown, plain-text). */
+  format?: string;
   originalFilename: string;
   publicId: string;
   resourceType: string;
@@ -18,7 +19,7 @@ export interface CloudinaryUploadResult {
  */
 export interface UploadedFileRef {
   bytes: number;
-  format: string;
+  format?: string;
   publicId: string;
   secureUrl: string;
 }

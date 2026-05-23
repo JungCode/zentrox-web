@@ -1,7 +1,6 @@
 import { useMutation } from '@apollo/client/react';
 import { useShallow } from 'zustand/shallow';
 
-import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import { AssignProviderAppDocument } from '@/shared/api/workflow/workflow.schemas';
 
 import { useWorkflowStore } from '../../hooks';

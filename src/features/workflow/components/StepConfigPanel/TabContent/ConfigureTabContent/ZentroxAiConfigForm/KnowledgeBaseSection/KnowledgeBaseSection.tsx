@@ -36,9 +36,9 @@ const KnowledgeBaseSection = ({
           <div className="space-y-1.5">
             {files.map((file) => (
               <KnowledgeFileItem
-                file={file}
                 key={file.id}
                 onRemove={onRemove}
+                zentroxFile={file}
               />
             ))}
           </div>

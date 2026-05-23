@@ -1,7 +1,7 @@
 import {
   WorkflowActionKey,
   WorkflowProviderApp,
-} from '@/shared/api/workflow/schemas';
+} from '@/shared/api/base.schemas';
 
 type EventMetaData = {
   label: string;

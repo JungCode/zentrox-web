@@ -5,7 +5,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import {
   WorkflowNodeType,
   WorkflowProviderApp,
-} from '@/shared/api/workflow/schemas';
+} from '@/shared/api/base.schemas';
 
 import type { ConfigStep, StepConfigFormValues } from '../types';
 import type { NodeQueryData } from '../types/graph';
@@ -25,6 +25,8 @@ const useStepCompletion = ({
     formId,
     spreadsheetId,
     worksheetName,
+    aiSystemPrompt,
+    aiOutputs,
   ] = useWatch({
     control,
     name: [
@@ -33,49 +35,98 @@ const useStepCompletion = ({
       'configJson.formId',
       'configJson.spreadsheetId',
       'configJson.worksheetName',
+      'configJson.systemPrompt',
+      'configJson.outputs',
     ],
   });
 
-  let configure = false;
+  // Setup step
+  let isIntegrationAccountComplete = false;
+
+  // Configure step
+  let isConfigureComplete = false;
 
   switch (node?.nodeType) {
-    ///////////////////////////
-    // trigger //
-    ///////////////////////////
+    // =========================================================================
+    //  ████████╗██████╗ ██╗ ██████╗  ██████╗ ███████╗██████╗  ██████╗
+    //  ╚══██╔══╝██╔══██╗██║██╔════╝ ██╔════╝ ██╔════╝██╔══██╗██╔════╝
+    //     ██║   ██████╔╝██║██║  ███╗██║  ███╗█████╗  ██████╔╝╚█████╗
+    //     ██║   ██╔══██╗██║██║   ██║██║   ██║██╔══╝  ██╔══██╗ ╚═══██╗
+    //     ██║   ██║  ██║██║╚██████╔╝╚██████╔╝███████╗██║  ██║██████╔╝
+    // =========================================================================
     case WorkflowNodeType.Trigger:
       switch (node.providerApp) {
         case WorkflowProviderApp.GoogleForm:
-          configure = Boolean(formId);
+          // Setup step
+          isIntegrationAccountComplete = Boolean(integrationAccountId);
+
+          // Configure step
+          isConfigureComplete = Boolean(formId);
           break;
 
+        case WorkflowProviderApp.GoogleSheet:
+        case WorkflowProviderApp.Ai:
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
         default:
-          configure = false;
           break;
       }
       break;
-    ///////////////////////////
-    // action //
-    //////////////////////////
+
+    // =========================================================================
+    //   █████╗  ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
+    //  ██╔══██╗██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
+    //  ███████║██║        ██║   ██║██║   ██║██╔██╗ ██║███████╗
+    //  ██╔══██║██║        ██║   ██║██║   ██║██║╚██╗██║╚════██║
+    //  ██║  ██║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
+    // =========================================================================
     case WorkflowNodeType.Action:
       switch (node.providerApp) {
         case WorkflowProviderApp.GoogleSheet:
-          configure = Boolean(spreadsheetId && worksheetName);
+          // Setup step
+          isIntegrationAccountComplete = Boolean(integrationAccountId);
+
+          // Configure step
+          isConfigureComplete = Boolean(spreadsheetId && worksheetName);
+          break;
+
+        case WorkflowProviderApp.Ai:
+          // Setup step
+          isIntegrationAccountComplete = true; // No integration account needed for AI actions
+
+          // Configure step — system prompt is required, and at least one
+          // declared output (so the model has a target shape to fill).
+          const hasSystemPrompt =
+            typeof aiSystemPrompt === 'string' &&
+            aiSystemPrompt.trim().length > 0;
+          const hasOutputs = Array.isArray(aiOutputs) && aiOutputs.length > 0;
+          isConfigureComplete = hasSystemPrompt && hasOutputs;
           break;
 
         case WorkflowProviderApp.GoogleForm:
-          configure = false;
-          break;
-
+        case WorkflowProviderApp.Facebook:
+        case WorkflowProviderApp.Gmail:
+        case WorkflowProviderApp.Slack:
         default:
-          configure = false;
           break;
       }
+      break;
+
+    // =========================================================================
+    //  ██╗   ██╗████████╗██╗██╗     ██╗████████╗██╗███████╗███████╗
+    //  ██║   ██║╚══██╔══╝██║██║     ██║╚══██╔══╝██║██╔════╝██╔════╝
+    //  ██║   ██║   ██║   ██║██║     ██║   ██║   ██║█████╗  ███████╗
+    //  ██║   ██║   ██║   ██║██║     ██║   ██║   ██║██╔══╝  ╚════██║
+    //  ╚██████╔╝   ██║   ██║███████╗██║   ██║   ██║███████╗███████║
+    // =========================================================================
+    case WorkflowNodeType.Utility:
       break;
   }
 
   return {
-    configure,
-    setup: Boolean(actionKey && integrationAccountId),
+    configure: isConfigureComplete,
+    setup: Boolean(actionKey && isIntegrationAccountComplete),
     test:
       Boolean(node?.connectionStatus) && node?.connectionStatus !== 'untested',
   };

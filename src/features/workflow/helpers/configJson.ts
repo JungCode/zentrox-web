@@ -1,9 +1,10 @@
 import {
   WorkflowNodeType,
   WorkflowProviderApp,
-} from '@/shared/api/workflow/schemas';
+} from '@/shared/api/base.schemas';
 
 import type {
+  AiGenerateNodeConfig,
   GoogleFormTriggerConfig,
   GoogleFormTriggerRecord,
   GoogleSheetActionConfig,
@@ -51,6 +52,21 @@ const resolveConfigJson = (
             worksheetId: config?.worksheetId,
             worksheetName: config?.worksheetName,
           };
+
+        case WorkflowProviderApp.Ai: {
+          const aiConfig = values.configJson as AiGenerateNodeConfig;
+          // Spread baseConfig first so legacy keys persisted by the old
+          // handler (model, knowledgeSource, evaluationRules,
+          // decisionThresholds, outputFields) aren't dropped — the new form
+          // fields then overwrite the parts it owns.
+          return {
+            ...baseConfig,
+            inputs: aiConfig?.inputs ?? [],
+            knowledgeFiles: aiConfig?.knowledgeFiles ?? [],
+            outputs: aiConfig?.outputs ?? [],
+            systemPrompt: aiConfig?.systemPrompt ?? '',
+          };
+        }
 
         case WorkflowProviderApp.GoogleForm:
         case WorkflowProviderApp.Facebook:

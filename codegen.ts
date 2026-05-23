@@ -6,9 +6,14 @@ dotenvConfig();
 const schema = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const entity = process.env.CODEGEN_ENTITY;
 
-const baseTypesPath = `~@/shared/api/${entity}/schemas`;
-const generatesPath = `src/shared/api/${entity}/schemas.tsx`; // Adjust the path to your generated types file
-const documents = `src/shared/api/${entity}/**/*.{graphql,gql}`; // Adjust the path to your GraphQL documents
+/**
+ * Single base types file generated from the full schema.
+ * All entity operation files import their scalar / utility types from here
+ * instead of each having their own redundant copy of the entire schema.
+ */
+const BASE_TYPES_PATH = '~@/shared/api/base.schemas';
+
+const documents = `src/shared/api/${entity}/**/*.{graphql,gql}`;
 
 const config: CodegenConfig = {
   config: {
@@ -26,20 +31,9 @@ const config: CodegenConfig = {
   },
   documents,
   generates: {
-    [generatesPath]: {
-      config: {
-        onlyOperationTypes: true,
-        skipTypename: true,
-      },
-      plugins: [
-        {
-          add: {
-            content: '/* eslint-disable @typescript-eslint/no-explicit-any */',
-          },
-        },
-        'typescript',
-      ],
-    },
+    // ── Per-entity typed document nodes ─────────────────────────────────────
+    // Generates a <entity>.schemas.tsx next to each .gql file.
+    // Imports from BASE_TYPES_PATH so only the operation-specific types live here.
     'src/': {
       config: {
         dedupeFragments: true,
@@ -59,13 +53,32 @@ const config: CodegenConfig = {
       ],
       preset: 'near-operation-file',
       presetConfig: {
-        baseTypesPath,
+        baseTypesPath: BASE_TYPES_PATH,
         extension: '.schemas.tsx',
         fileName: `../${entity}`,
         importTypesNamespace: 'SchemaTypes',
       },
     },
+
+    // ── Base types ──────────────────────────────────────────────────────────
+    // Generated once per codegen run from the full API schema.
+    // Contains all scalars, utility types, and every schema type — shared
+    // across all entities so no entity has its own redundant copy.
+    'src/shared/api/base.schemas.tsx': {
+      config: {
+        skipTypename: true,
+      },
+      plugins: [
+        {
+          add: {
+            content: '/* eslint-disable @typescript-eslint/no-explicit-any */',
+          },
+        },
+        'typescript',
+      ],
+    },
   },
   schema,
 };
+
 export default config;

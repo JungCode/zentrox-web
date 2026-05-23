@@ -16,8 +16,10 @@ export const WorkflowStoreProvider = ({
   const workflowStore = createStore<WorkflowStore>((set) => ({
     closeAppSelectorDialog: () => set({ isAppSelectorDialogOpen: false }),
     isAppSelectorDialogOpen: false,
+    nodeChain: [],
     openAppSelectorDialog: () => set({ isAppSelectorDialogOpen: true }),
     selectedNode: null,
+    setNodeChain: (nodeChain) => set({ nodeChain }),
     setSelectedNode: (selectedNode) => set({ selectedNode }),
   }));
 

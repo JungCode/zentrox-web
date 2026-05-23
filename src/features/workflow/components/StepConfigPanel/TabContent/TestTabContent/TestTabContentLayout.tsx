@@ -5,7 +5,7 @@ interface StepConfigContentLayoutProps {
   footer: ReactNode;
 }
 
-const StepConfigContentLayout = ({
+const TestTabContentLayout = ({
   children,
   footer,
 }: StepConfigContentLayoutProps) => {
@@ -17,4 +17,4 @@ const StepConfigContentLayout = ({
   );
 };
 
-export { StepConfigContentLayout };
+export { TestTabContentLayout };

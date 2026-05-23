@@ -1,2 +1,2 @@
-export * from './RecordList';
 export * from './TestedView';
+export * from './TriggerTestedView/RecordList';

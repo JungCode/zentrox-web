@@ -1,3 +1,8 @@
+import type {
+  TokenizedValue,
+  TokenVariableMeta,
+} from '@/shared/types/baseform/token-input.types';
+
 import { ConfigStep } from './graph';
 
 // =============================================================================
@@ -28,27 +33,16 @@ interface GoogleFormTriggerConfig {
 // =============================================================================
 // Configuration for a Google Sheets action node that appends or updates rows.
 
-// Mirrors VariableMetaEntry from token-input.types.ts but scoped to this feature's config.
-// Stored alongside each column mapping so the backend knows how to resolve token values
-// at workflow execution time (which path to follow, how to join arrays, etc.).
-interface GoogleSheetVariableMeta {
-  fieldLabel: string; // human-readable field name (for display in logs/debugging)
-  fieldPath: string; // dot-notation path into the trigger's runtime record
-  joinSeparator: string | null; // join character when the resolved value is an array; null = first item only
-  nodeId: string; // the upstream node this variable comes from
-  nodeLabel: string;
-  nullFallback: string | null; // value to use if the field resolves to null at runtime
-  valueKey: string | null; // for array-of-objects, which key to extract from each item
-}
+// Back-compat alias — the shape is identical to the shared TokenVariableMeta.
+// Prefer importing TokenVariableMeta directly in new code.
+type GoogleSheetVariableMeta = TokenVariableMeta;
 
-// Represents the mapping for one spreadsheet column: what text/variable value to write into it.
-// `value` is the serialized TokenInput string (may contain {{nodeId__fieldKey}} placeholders).
-// `variableMeta` holds the metadata for every placeholder used in `value`, keyed by "nodeId__fieldKey".
-interface GoogleSheetColumnMapping {
+// One spreadsheet column's value template plus the metadata needed to resolve
+// any tokens inside it. Extends TokenizedValue so the BE resolver can treat it
+// the same as any other tokenized field (AI inputs, future provider fields).
+interface GoogleSheetColumnMapping extends TokenizedValue {
   columnIndex: number; // zero-based column position in the worksheet
   columnName: string; // header name shown in the config UI (e.g. "Email", "Name")
-  value: string; // the TokenInput serialized value — plain text or a mix with {{...}} tokens
-  variableMeta: Record<string, GoogleSheetVariableMeta>; // metadata for each variable token in `value`
 }
 
 // Full configuration object persisted for a Google Sheets action node.

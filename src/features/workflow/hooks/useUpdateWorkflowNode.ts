@@ -3,7 +3,7 @@
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
-import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
+import { UpdateWorkflowNodeInput } from '@/shared/api/base.schemas';
 import {
   UpdateWorkflowNodeDocument,
   type UpdateWorkflowNodeMutation,

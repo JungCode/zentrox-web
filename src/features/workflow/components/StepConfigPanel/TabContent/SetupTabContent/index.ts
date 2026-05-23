@@ -1,4 +1,3 @@
-export * from '../ConfigureTabContent';
 export * from './AccountSelector';
 export * from './AppField';
 export * from './SetupTabContent';

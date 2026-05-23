@@ -1,15 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
-  CONFIGURE_GOOGLE_FORM_FALLBACKS,
-  CONFIGURE_GOOGLE_SHEET_FALLBACKS,
+  CONFIG_FORM_FALLBACKS,
   SETUP_FORM_FALLBACKS,
 } from '@/features/workflow/constants/formFallback';
 import { resolveConfigJson } from '@/features/workflow/helpers';
-import { WorkflowProviderApp } from '@/shared/api/workflow/schemas';
 import { getDefaultValues } from '@/shared/utils';
 
 import type { ConfigStep, StepConfigFormValues } from '../types';
@@ -24,17 +22,18 @@ interface UseStepConfigFormProps {
 const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
   const { loading, updateNode } = useUpdateWorkflowNode({ node, workflowId });
   const [activeStep, setActiveStep] = useState<ConfigStep>('setup');
+  const prevNodeIdRef = useRef(node?.id);
 
   const configFallbacks =
-    node?.providerApp === WorkflowProviderApp.GoogleSheet
-      ? CONFIGURE_GOOGLE_SHEET_FALLBACKS
-      : CONFIGURE_GOOGLE_FORM_FALLBACKS;
+    node?.nodeType && node?.providerApp
+      ? CONFIG_FORM_FALLBACKS?.[node.nodeType]?.[node.providerApp]
+      : undefined;
 
   const methods = useForm<StepConfigFormValues>({
     values: {
       ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
       ...getDefaultValues(node, configFallbacks),
-    },
+    } as StepConfigFormValues,
   });
 
   const handleSetup = async (values: StepConfigFormValues) => {
@@ -88,6 +87,12 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
       await submitCurrentStep(values);
       setActiveStep(targetStep);
     });
+
+  // Reset to 'setup' step when a different node is selected
+  if (prevNodeIdRef.current !== node?.id) {
+    prevNodeIdRef.current = node?.id;
+    setActiveStep('setup');
+  }
 
   return {
     activeStep,

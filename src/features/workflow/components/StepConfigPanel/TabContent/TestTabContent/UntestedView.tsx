@@ -12,7 +12,7 @@ import { ZentroxIcon } from '@/shared/assets/icons';
 import { Button } from '@/shared/components/ui/button';
 import { Spinner } from '@/shared/components/ui/spinner';
 
-import { StepConfigContentLayout } from '../StepConfigContentLayout';
+import { TestTabContentLayout } from './TestTabContentLayout';
 
 interface UntestedViewProps {
   node: NodeQueryData | undefined;
@@ -37,7 +37,7 @@ const UntestedView = ({ node, workflowId }: UntestedViewProps) => {
   const Icon = providerAppMetadata?.icon;
 
   return (
-    <StepConfigContentLayout
+    <TestTabContentLayout
       footer={
         <Button
           className="w-full"
@@ -83,7 +83,7 @@ const UntestedView = ({ node, workflowId }: UntestedViewProps) => {
           </div>
         )}
       </div>
-    </StepConfigContentLayout>
+    </TestTabContentLayout>
   );
 };
 

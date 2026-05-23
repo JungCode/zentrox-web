@@ -1,6 +1,7 @@
+ 
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
-import * as SchemaTypes from '@/shared/api/auth/schemas';
+import * as SchemaTypes from '@/shared/api/base.schemas';
 export type LoginMutationVariables = SchemaTypes.Exact<{
   input: SchemaTypes.LoginInput;
 }>;

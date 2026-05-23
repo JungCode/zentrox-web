@@ -8,6 +8,7 @@ export const useWorkflowStore = <T>(
   selector: (state: WorkflowStore) => T,
 ): T => {
   const store = useContext(WorkflowStoreContext);
+
   if (!store) {
     throw new Error(
       'Missing WorkflowStoreProvider. Please ensure your component is wrapped with WorkflowStoreProvider.',

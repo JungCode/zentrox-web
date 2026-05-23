@@ -39,6 +39,8 @@
   --warning-container: #fef3c7;
   --on-warning: #ffffff;
 
+  --placeholder: #94a3b8;
+
   --accent-glow: rgba(41, 81, 203, 0.24);
   --shadow-color: rgba(3, 7, 29, 0.16);
   --selection-bg: rgba(41, 81, 203, 0.22);
@@ -132,6 +134,8 @@
   --warning-container: #451a03;
   --on-warning: #1c0a00;
 
+  --placeholder: #64748b;
+
   --accent-glow: rgba(125, 162, 255, 0.25);
   --shadow-color: rgba(7, 10, 26, 0.5);
   --selection-bg: rgba(125, 162, 255, 0.3);
@@ -212,6 +216,7 @@
   --color-warning: var(--warning);
   --color-warning-container: var(--warning-container);
   --color-on-warning: var(--on-warning);
+  --color-placeholder: var(--placeholder);
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-heading: var(--font-headline);
@@ -304,6 +309,16 @@ h6 {
 
 .token-input-text:focus-visible {
   outline: none;
+}
+
+.token-input-shell:has(:focus-visible) {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+[data-slate-placeholder] {
+  color: var(--placeholder);
+  opacity: 1 !important;
 }
 
 @layer base {

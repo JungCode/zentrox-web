@@ -1,9 +1,11 @@
-import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
+import {
+  UpdateWorkflowNodeInput,
+  WorkflowNodeType,
+  WorkflowProviderApp,
+} from '@/shared/api/base.schemas';
 
 import {
-  ConfigFormValues,
-  GoogleFormTriggerConfig,
-  GoogleSheetActionConfig,
+  AllConfigFormValues,
   LabelFormValues,
   SetupFormValues,
 } from '../types';
@@ -24,19 +26,36 @@ export const SETUP_FORM_FALLBACKS: SetupFormValues = {
   integrationAccountId: '',
 };
 
-export const CONFIGURE_GOOGLE_FORM_FALLBACKS: ConfigFormValues<GoogleFormTriggerConfig> =
-  {
-    configJson: { formId: '', formName: '' },
-  };
-
-export const CONFIGURE_GOOGLE_SHEET_FALLBACKS: ConfigFormValues<GoogleSheetActionConfig> =
-  {
-    configJson: {
-      driveId: '',
-      driveName: '',
-      spreadsheetId: '',
-      spreadsheetName: '',
-      worksheetId: '',
-      worksheetName: '',
+export const CONFIG_FORM_FALLBACKS: Partial<
+  Record<
+    WorkflowNodeType,
+    Partial<Record<WorkflowProviderApp, AllConfigFormValues>>
+  >
+> = {
+  [WorkflowNodeType.Action]: {
+    [WorkflowProviderApp.Ai]: {
+      configJson: {
+        inputs: [],
+        knowledgeFiles: [],
+        outputs: [],
+        systemPrompt: '',
+      },
     },
-  };
+    [WorkflowProviderApp.GoogleSheet]: {
+      configJson: {
+        driveId: '',
+        driveName: '',
+        spreadsheetId: '',
+        spreadsheetName: '',
+        worksheetId: '',
+        worksheetName: '',
+      },
+    },
+  },
+  [WorkflowNodeType.Trigger]: {
+    [WorkflowProviderApp.GoogleForm]: {
+      configJson: { formId: '', formName: '' },
+    },
+  },
+  [WorkflowNodeType.Utility]: {},
+};

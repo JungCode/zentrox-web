@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 
 import { registerSchema } from '@/features/auth/constants';
 import { useRegister } from '@/features/auth/hooks';
-import type { RegisterInput } from '@/shared/api/auth/schemas';
+import type { RegisterInput } from '@/shared/api/base.schemas';
 import { Button } from '@/shared/components/ui/button';
 import { Input } from '@/shared/components/ui/input';
 import { Label } from '@/shared/components/ui/label';

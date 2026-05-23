@@ -14,6 +14,11 @@ import {
   withReact,
 } from 'slate-react';
 
+import {
+  deserialize,
+  serialize,
+  withTokens,
+} from '@/features/workflow/helpers';
 import { useWorkflowNodeSamples } from '@/features/workflow/hooks';
 import { Button } from '@/shared/components/ui/button';
 import {
@@ -29,11 +34,6 @@ import type {
 } from '@/shared/types/baseform/token-input.types';
 
 import { FieldPicker } from './FieldPicker/FieldPicker';
-import {
-  deserialize,
-  serialize,
-  withTokens,
-} from '@/features/workflow/helpers';
 import { TokenChip } from './TokenChip';
 
 const TokenInput = ({
@@ -166,7 +166,7 @@ const TokenInput = ({
     // can be positioned relative to it (side="left" in PopoverContent).
     <Popover onOpenChange={setPickerOpen} open={pickerOpen}>
       <PopoverAnchor asChild>
-        <div className="flex min-h-10 cursor-text items-start gap-1 rounded-xs border px-3 py-2">
+        <div className="token-input-shell flex min-h-9 cursor-text items-start gap-1 rounded-xs border px-3 py-2">
           {/*
             <Slate> is the context provider. <Editable> is the actual DOM surface.
             onValueChange fires on every change; we serialize to string + meta and
@@ -184,7 +184,7 @@ const TokenInput = ({
             }}
           >
             <Editable
-              className="token-input-text mt-1 min-w-0 flex-1 text-sm wrap-break-word outline-none"
+              className="token-input-text min-w-0 flex-1 text-sm wrap-break-word outline-none"
               onBlur={() => {
                 // Save cursor position before focus leaves the editor (e.g. user clicks "+" button).
                 // Needed so insertToken can restore it and place the new chip at the right spot.
@@ -202,11 +202,11 @@ const TokenInput = ({
           {/* The "+" button opens the field picker popover */}
           <PopoverTrigger asChild>
             <Button
-              className="shrink-0 focus-visible:ring-0"
+              className="size-5 shrink-0 focus-visible:ring-0"
               onClick={(e) => e.stopPropagation()} // prevent click from bubbling to the input container
-              size="icon-sm"
+              size="icon-xs"
               type="button"
-              variant="ghost"
+              variant="outline"
             >
               <PlusIcon />
             </Button>

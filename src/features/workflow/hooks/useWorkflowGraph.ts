@@ -49,11 +49,12 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
     },
   });
 
-  const { openAppSelectorDialog, selectedNode, setSelectedNode } =
+  const { openAppSelectorDialog, selectedNode, setNodeChain, setSelectedNode } =
     useWorkflowStore(
       useShallow((state) => ({
         openAppSelectorDialog: state.openAppSelectorDialog,
         selectedNode: state.selectedNode,
+        setNodeChain: state.setNodeChain,
         setSelectedNode: state.setSelectedNode,
       })),
     );
@@ -124,7 +125,7 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
     }));
 
     setNodes(initialNodes);
-
+    setNodeChain(sortedNodes);
     setEdges(initialEdges);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, data]);

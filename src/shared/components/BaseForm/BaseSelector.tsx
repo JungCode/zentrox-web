@@ -59,14 +59,14 @@ const BaseSelector = <T,>({
     >
       <SelectTrigger
         className={cn(
-          'h-auto! w-full rounded-xs border px-3 py-2.5 text-sm font-normal whitespace-normal shadow-none focus-visible:ring-1',
+          'h-auto! w-full rounded-xs border px-3 py-2 text-sm font-normal whitespace-normal shadow-none focus-visible:ring-1',
           className,
         )}
       >
         {renderLabel ? (
           <span className="flex min-w-0 flex-1 items-center">
             {renderLabel(selectedOption) ?? (
-              <span className="text-muted-foreground">{placeholder}</span>
+              <span className="text-placeholder">{placeholder}</span>
             )}
           </span>
         ) : selectedOption ? (

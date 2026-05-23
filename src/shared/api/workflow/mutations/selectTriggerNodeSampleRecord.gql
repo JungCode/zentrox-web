@@ -1,0 +1,18 @@
+mutation SelectTriggerNodeSampleRecord(
+  $workflowId: ID!
+  $nodeId: ID!
+  $data: JSONObject!
+) {
+  selectTriggerNodeSampleRecord(
+    workflowId: $workflowId
+    nodeId: $nodeId
+    data: $data
+  ) {
+    id
+    createdAt
+    updatedAt
+    workflowNodeId
+    data
+    fetchedAt
+  }
+}

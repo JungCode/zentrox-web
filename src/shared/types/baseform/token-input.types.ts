@@ -60,7 +60,10 @@ export interface AvailableFieldGroup {
 // Both the string and the map are passed to onChange and saved to the form.
 
 // Keyed by "nodeId__tokenKey" — matches backend token format {{nodeId__tokenKey}}
-export interface VariableMetaEntry {
+// Canonical name: TokenVariableMeta. Mirrors the BE TokenVariableMeta exactly,
+// so any field stored as a TokenizedValue is interpreted the same way on both
+// sides (Sheet column mappings, AI inputs, future tokenized fields).
+export interface TokenVariableMeta {
   fieldLabel: string;
   fieldPath: string;
   joinSeparator: string | null;
@@ -69,8 +72,21 @@ export interface VariableMetaEntry {
   nullFallback: string | null;
   valueKey: string | null;
 }
-// The full metadata map: every variable used in the current input value has an entry here.
-export type VariableMeta = Record<string, VariableMetaEntry>;
+
+/**
+ * Any field that accepts the TokenInput template format. Extend this when
+ * declaring a tokenized config field — e.g. GoogleSheetColumnMapping,
+ * AiGenerateInputField — so the shared resolver on the BE can interpret it.
+ */
+export interface TokenizedValue {
+  value: string;
+  variableMeta: Record<string, TokenVariableMeta>;
+}
+
+// Back-compat aliases. Prefer the canonical TokenVariableMeta / TokenizedValue
+// names in new code; these stay so existing imports keep working.
+export type VariableMetaEntry = TokenVariableMeta;
+export type VariableMeta = Record<string, TokenVariableMeta>;
 
 // ─── Component Props ──────────────────────────────────────────────────────────
 

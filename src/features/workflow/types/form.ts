@@ -1,5 +1,6 @@
-import { UpdateWorkflowNodeInput } from '@/shared/api/workflow/schemas';
+import { UpdateWorkflowNodeInput } from '@/shared/api/base.schemas';
 
+import { AiGenerateNodeConfig } from './aiGenerate';
 import {
   GoogleFormTriggerConfig,
   GoogleSheetActionConfig,
@@ -17,10 +18,9 @@ type ConfigFormValues<T> = {
 };
 
 type AllConfigFormValues =
-  // trigger
   | ConfigFormValues<GoogleFormTriggerConfig>
-  // action
-  | ConfigFormValues<GoogleSheetActionConfig>;
+  | ConfigFormValues<GoogleSheetActionConfig>
+  | ConfigFormValues<AiGenerateNodeConfig>;
 
 // Label name of the workflow node
 type LabelFormValues = {
@@ -31,6 +31,7 @@ type LabelFormValues = {
 type StepConfigFormValues = SetupFormValues & AllConfigFormValues;
 
 export type {
+  AllConfigFormValues,
   ConfigFormValues,
   LabelFormValues,
   SetupFormValues,

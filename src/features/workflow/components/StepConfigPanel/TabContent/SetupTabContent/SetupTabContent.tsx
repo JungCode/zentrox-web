@@ -1,6 +1,7 @@
 'use client';
 
-import { useSetupTabFields, useWorkflowStore } from '@/features/workflow/hooks';
+import { getSetupTabFields } from '@/features/workflow/helpers';
+import { useWorkflowStore } from '@/features/workflow/hooks';
 import type { NodeQueryData, SetupFormValues } from '@/features/workflow/types';
 import { FormGenerator, FormItem } from '@/shared/components/BaseForm';
 
@@ -14,7 +15,7 @@ const SetupTabContent = ({ node }: SetupTabContentProps) => {
   const openAppSelectorDialog = useWorkflowStore(
     (state) => state.openAppSelectorDialog,
   );
-  const { fields } = useSetupTabFields({ node });
+  const { fields } = getSetupTabFields({ node });
 
   if (!node.nodeType || !node.providerApp) return null;
 

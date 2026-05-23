@@ -1,5 +1,3 @@
-'use client';
-
 import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import { BaseSelector } from '@/shared/components/BaseForm';
 import type { FormField } from '@/shared/types';
@@ -11,11 +9,11 @@ import {
 import { NODE_TYPE_EVENT_META_DATA } from '../constants';
 import type { NodeQueryData, SetupFormValues } from '../types';
 
-interface UseSetupTabFieldsProps {
+interface GetSetupTabFieldsProps {
   node: NodeQueryData;
 }
 
-const useSetupTabFields = ({ node }: UseSetupTabFieldsProps) => {
+const getSetupTabFields = ({ node }: GetSetupTabFieldsProps) => {
   const { nodeType, providerApp } = node;
   const eventMetaData = nodeType
     ? NODE_TYPE_EVENT_META_DATA[nodeType]
@@ -69,4 +67,4 @@ const useSetupTabFields = ({ node }: UseSetupTabFieldsProps) => {
   };
 };
 
-export { useSetupTabFields };
+export { getSetupTabFields };

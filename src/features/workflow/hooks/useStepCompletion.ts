@@ -25,6 +25,8 @@ const useStepCompletion = ({
     formId,
     spreadsheetId,
     worksheetName,
+    aiSystemPrompt,
+    aiOutputs,
   ] = useWatch({
     control,
     name: [
@@ -33,6 +35,8 @@ const useStepCompletion = ({
       'configJson.formId',
       'configJson.spreadsheetId',
       'configJson.worksheetName',
+      'configJson.systemPrompt',
+      'configJson.outputs',
     ],
   });
 
@@ -91,8 +95,13 @@ const useStepCompletion = ({
           // Setup step
           isIntegrationAccountComplete = true; // No integration account needed for AI actions
 
-          // Configure step
-          isConfigureComplete = false;
+          // Configure step — system prompt is required, and at least one
+          // declared output (so the model has a target shape to fill).
+          const hasSystemPrompt =
+            typeof aiSystemPrompt === 'string' &&
+            aiSystemPrompt.trim().length > 0;
+          const hasOutputs = Array.isArray(aiOutputs) && aiOutputs.length > 0;
+          isConfigureComplete = hasSystemPrompt && hasOutputs;
           break;
 
         case WorkflowProviderApp.GoogleForm:

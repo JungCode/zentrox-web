@@ -4,6 +4,7 @@ import {
   GoogleFormTriggerConfig,
   GoogleSheetActionConfig,
 } from './configPanel';
+import { ZentroxAiActionConfig } from './zentroxAi';
 
 // Step 1. Step Up Form Values at Config Panel
 type SetupFormValues = Pick<
@@ -17,10 +18,9 @@ type ConfigFormValues<T> = {
 };
 
 type AllConfigFormValues =
-  // trigger
   | ConfigFormValues<GoogleFormTriggerConfig>
-  // action
-  | ConfigFormValues<GoogleSheetActionConfig>;
+  | ConfigFormValues<GoogleSheetActionConfig>
+  | ConfigFormValues<ZentroxAiActionConfig>;
 
 // Label name of the workflow node
 type LabelFormValues = {
@@ -31,6 +31,7 @@ type LabelFormValues = {
 type StepConfigFormValues = SetupFormValues & AllConfigFormValues;
 
 export type {
+  AllConfigFormValues,
   ConfigFormValues,
   LabelFormValues,
   SetupFormValues,

@@ -158,27 +158,41 @@ export const WorkflowPage = () => {
 
 ## Feature folder boundaries
 
-Hooks, helpers, constants, and types must live in feature-level folders. **Do not create these folders inside component folders.**
+Hooks, helpers, constants, and types are colocated by scope:
+
+- If a hook/helper/constant/type is used by **only one component** → place it inside that component's folder.
+- If it is used by **2+ components within the same feature** → move it to the feature-level folder (`hooks/`, `helpers/`, `constants/`, `types/`).
+- If it is used **across multiple features** → move it to `src/shared/`.
 
 ```txt
 src/features/<feature>/
   components/
-  constants/
-  hooks/
-  helpers/
-  types/
+    StepConfigPanel/
+      hooks/        ← hooks only StepConfigPanel uses
+      helpers/      ← helpers only StepConfigPanel uses
+      constants/    ← constants only StepConfigPanel uses
+      StepConfigPanel.tsx
+      index.ts
+  hooks/            ← hooks shared by 2+ components in this feature
+  helpers/          ← helpers shared by 2+ components
+  constants/        ← constants shared by 2+ components
+  types/            ← types shared by 2+ components (always feature-level)
 ```
 
 Rules:
 
-- Component folders should contain component `.tsx` files, nested component folders, and `index.ts`. Do not add `hooks/`, `helpers/`, `constants/`, or `types/` directories inside component folders.
-- Move feature-level hooks to `src/features/<feature>/hooks/`.
-- Move feature-level helpers to `src/features/<feature>/helpers/`.
-- Move feature-level constants to `src/features/<feature>/constants/`.
-- Move feature-level types to `src/features/<feature>/types/`.
-- Move shared/global hooks, helpers, constants, or types to the matching folder under `src/shared/`.
-- The only type or interface allowed inside a component file is the local props type for that component (e.g. `interface WorkflowHeaderProps`). All other types must live in the feature-level or shared `types/` folder.
-- If a hook, helper, constant, or type starts as component-local but becomes reused, complex, or independently meaningful, move it to the correct feature-level folder immediately.
+- The only type or interface allowed directly inside a component `.tsx` file is the local props type (e.g. `interface WorkflowHeaderProps`). All other types must live in `types/` at the appropriate scope.
+- If a hook, helper, or constant starts as component-local but becomes reused by another component, move it to the feature-level folder immediately.
+- Do not hoist a file to feature-level preemptively — wait until it is actually reused.
+
+## Boy Scout Rule
+
+**Leave the code cleaner than you found it.**
+
+- When adding a new hook, helper, constant, or type → place it at the correct scope from the start (component-local if only one component uses it).
+- When touching an existing file → if its hook/helper/constant is misplaced (e.g. a component-specific hook sitting in the feature-level `hooks/`), move it to the correct location in the same PR.
+- Do not batch refactors into a separate cleanup PR that never happens. Small, incremental moves compound over time.
+- Exception: if the move would require touching 5+ files unrelated to the current task, log it as a TODO and address it in the next related PR.
 
 ## Before writing code checklist
 
@@ -199,8 +213,8 @@ Rules:
 ## GraphQL and API
 
 - Apollo client lives in src/lib/apollo/index.ts, and the shared wrapper is src/shared/components/ApolloWrapper.tsx.
-- GraphQL documents live under src/shared/api/<entity>/** as .gql or .graphql.
-- Generated types live in src/shared/api/<entity>/schemas.tsx and *.schemas.tsx. Do not edit generated files.
+- GraphQL documents live under src/shared/api/<entity>/\*\* as .gql or .graphql.
+- Generated types live in src/shared/api/<entity>/schemas.tsx and \*.schemas.tsx. Do not edit generated files.
 - Run pnpm codegen to select entity and regenerate types. CODEGEN_ENTITY and NEXT_PUBLIC_API_ENDPOINT drive codegen.
 
 ## Linting and formatting
@@ -212,7 +226,7 @@ Rules:
 
 - Follow this file for general repository conventions.
 - When a Claude skill under `.claude/skills/*/SKILL.md` is more specific to the task, follow that skill instead.
-- Do not edit generated files (schemas.tsx, *.schemas.tsx) directly. Update source .gql files or codegen config and re-run codegen.
+- Do not edit generated files (schemas.tsx, \*.schemas.tsx) directly. Update source .gql files or codegen config and re-run codegen.
 
 ## Validation
 

@@ -4,12 +4,10 @@ import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import {
-  CONFIGURE_GOOGLE_FORM_FALLBACKS,
-  CONFIGURE_GOOGLE_SHEET_FALLBACKS,
+  CONFIG_FORM_FALLBACKS,
   SETUP_FORM_FALLBACKS,
 } from '@/features/workflow/constants/formFallback';
 import { resolveConfigJson } from '@/features/workflow/helpers';
-import { WorkflowProviderApp } from '@/shared/api/base.schemas';
 import { getDefaultValues } from '@/shared/utils';
 
 import type { ConfigStep, StepConfigFormValues } from '../types';
@@ -27,15 +25,15 @@ const useStepConfigForm = ({ node, workflowId }: UseStepConfigFormProps) => {
   const prevNodeIdRef = useRef(node?.id);
 
   const configFallbacks =
-    node?.providerApp === WorkflowProviderApp.GoogleSheet
-      ? CONFIGURE_GOOGLE_SHEET_FALLBACKS
-      : CONFIGURE_GOOGLE_FORM_FALLBACKS;
+    node?.nodeType && node?.providerApp
+      ? CONFIG_FORM_FALLBACKS?.[node.nodeType]?.[node.providerApp]
+      : undefined;
 
   const methods = useForm<StepConfigFormValues>({
     values: {
       ...getDefaultValues(node, SETUP_FORM_FALLBACKS),
       ...getDefaultValues(node, configFallbacks),
-    },
+    } as StepConfigFormValues,
   });
 
   const handleSetup = async (values: StepConfigFormValues) => {

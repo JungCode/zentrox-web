@@ -9,8 +9,9 @@ import type {
   GoogleFormTriggerRecord,
   GoogleSheetActionConfig,
   NodeSample,
+  PathsNodeConfig,
   StepConfigFormValues,
-} from '../types';
+} from '../../types';
 
 const resolveConfigJson = (
   nodeType: WorkflowNodeType | null | undefined,
@@ -77,7 +78,26 @@ const resolveConfigJson = (
       }
     }
 
-    case WorkflowNodeType.Utility:
+    case WorkflowNodeType.Utility: {
+      switch (providerApp) {
+        case WorkflowProviderApp.Paths: {
+          // Branches are managed via the dedicated addPathsBranch mutation
+          // (each add creates a placeholder child + edge). The configure tab
+          // only edits in-place: branch labels, rule logic, and rules. So we
+          // spread baseConfig to keep server-managed bits (matchMode, branch
+          // ids) intact and overwrite with whatever the form changed.
+          const pathsConfig = values.configJson as PathsNodeConfig;
+          return {
+            ...baseConfig,
+            branches: pathsConfig?.branches ?? [],
+            matchMode: 'first_match',
+          };
+        }
+
+        default:
+          return baseConfig;
+      }
+    }
     default:
       return baseConfig;
   }

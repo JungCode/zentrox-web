@@ -1,6 +1,6 @@
 'use client';
 
-import { PlusIcon } from '@phosphor-icons/react';
+import { GitBranchIcon, PlusIcon } from '@phosphor-icons/react';
 import { Handle, type NodeProps, Position } from '@xyflow/react';
 
 import {
@@ -8,11 +8,16 @@ import {
   ProviderAppMetadataRecord,
 } from '@/features/workflow/constants';
 import {
+  useAddPathsBranch,
   useCreateWorkflowNode,
   useWorkflowStore,
 } from '@/features/workflow/hooks';
 import type { CanvasNode } from '@/features/workflow/types/graph';
 import { cn } from '@/lib/ui/utils';
+import {
+  WorkflowNodeType,
+  WorkflowProviderApp,
+} from '@/shared/api/base.schemas';
 import { Button } from '@/shared/components/ui/button';
 
 import { WorkflowNodeAssigned } from './WorkflowNodeAssigned';
@@ -24,6 +29,7 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
     id,
     isLast,
     label,
+    nodeType,
     providerApp,
     stepNumber,
     workflowId,
@@ -32,6 +38,9 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
   const providerAppMetadata =
     providerApp && ProviderAppMetadataRecord[providerApp];
   const isSelected = useWorkflowStore((state) => state.selectedNode?.id === id);
+  const isPathsNode =
+    nodeType === WorkflowNodeType.Utility &&
+    providerApp === WorkflowProviderApp.Paths;
 
   const { createNode } = useCreateWorkflowNode({
     sourceNodeId: id,
@@ -39,9 +48,19 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
     workflowId,
   });
 
+  const { addBranch, loading: addingBranch } = useAddPathsBranch({
+    pathsNodeId: id,
+    workflowId,
+  });
+
   const handleAddStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     createNode();
+  };
+
+  const handleAddBranch = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    addBranch();
   };
 
   return (
@@ -80,7 +99,40 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
         type="source"
       />
 
-      {isLast && (
+      {/*
+        Paths nodes need a dedicated "+ Add branch" affordance (multi-children
+        entry point) regardless of whether they're a leaf. Renders right under
+        the card so it's discoverable next to the configured branches.
+      */}
+      {isPathsNode && (
+        <div
+          className="absolute left-1/2 -translate-x-1/2"
+          style={{ top: `calc(100% + 12px)` }}
+        >
+          <Button
+            className={cn(
+              'nodrag nopan h-7 gap-1.5 rounded-full border px-3 text-xs',
+              'border-outline-variant bg-surface-container-lowest text-on-surface',
+              'hover:border-secondary hover:bg-secondary/10',
+            )}
+            disabled={addingBranch}
+            onClick={handleAddBranch}
+            size="sm"
+            title="Add branch"
+            variant="ghost"
+          >
+            <GitBranchIcon size={12} weight="bold" />
+            Add branch
+          </Button>
+        </div>
+      )}
+
+      {/*
+        Leaf "+ append step" — shown on every branch tail. Suppressed on a
+        paths node itself because branches grow horizontally from the node
+        card, not vertically below it.
+      */}
+      {isLast && !isPathsNode && (
         <>
           {/* Connector line from card bottom to plus button */}
           <div

@@ -17,6 +17,12 @@ export type Scalars = {
   String: { input: string; output: string; }
 };
 
+export type AddPathsBranchPayload = {
+  branchId: Scalars['ID']['output'];
+  branchPlaceholderNode: WorkflowNode;
+  pathsNode: WorkflowNode;
+};
+
 export type AiProcessingLogEntry = {
   data?: Maybe<Scalars['JSONObject']['output']>;
   step: Scalars['String']['output'];
@@ -28,10 +34,11 @@ export type CloudinarySignatureResponse = {
 
 export type CreateWorkflowNodeInput = {
   label: Scalars['String']['input'];
+  nodeType?: InputMaybe<WorkflowNodeType>;
   positionX?: InputMaybe<Scalars['Float']['input']>;
   positionY?: InputMaybe<Scalars['Float']['input']>;
   providerApp?: InputMaybe<WorkflowProviderApp>;
-  sourceHandle?: InputMaybe<WorkflowEdgeSourceHandle>;
+  sourceHandle?: InputMaybe<Scalars['String']['input']>;
   sourceNodeId?: InputMaybe<Scalars['ID']['input']>;
 };
 
@@ -47,7 +54,7 @@ export type DeleteWorkflowNodePayload = {
 
 export type EdgeInput = {
   sourceClientId: Scalars['ID']['input'];
-  sourceHandle: WorkflowEdgeSourceHandle;
+  sourceHandle: Scalars['String']['input'];
   targetClientId: Scalars['ID']['input'];
   targetHandle?: InputMaybe<Scalars['String']['input']>;
 };
@@ -128,6 +135,7 @@ export type LogoutResponse = {
 };
 
 export type Mutation = {
+  addPathsBranch: AddPathsBranchPayload;
   assignProviderApp: WorkflowNode;
   createWorkflow: Workflow;
   createWorkflowNode: CreateWorkflowNodePayload;
@@ -145,10 +153,18 @@ export type Mutation = {
   setupGoogleFormWatch: WorkflowNode;
   signCloudinaryUpload: CloudinarySignatureResponse;
   testRunAiGenerateNode: TestRunAiGenerateNodePayload;
+  testRunPathsNode: TestRunPathsNodePayload;
   testRunWorkflow: TestRunWorkflowPayload;
   testRunWorkflowNode: TestRunWorkflowNodePayload;
   updateWorkflow: Workflow;
   updateWorkflowNode: WorkflowNode;
+};
+
+
+export type MutationAddPathsBranchArgs = {
+  label?: InputMaybe<Scalars['String']['input']>;
+  pathsNodeId: Scalars['ID']['input'];
+  workflowId: Scalars['ID']['input'];
 };
 
 
@@ -247,6 +263,12 @@ export type MutationTestRunAiGenerateNodeArgs = {
 };
 
 
+export type MutationTestRunPathsNodeArgs = {
+  nodeId: Scalars['ID']['input'];
+  workflowId: Scalars['ID']['input'];
+};
+
+
 export type MutationTestRunWorkflowArgs = {
   limit?: Scalars['Int']['input'];
   workflowId: Scalars['ID']['input'];
@@ -282,6 +304,20 @@ export type NodeInput = {
   positionX?: InputMaybe<Scalars['Float']['input']>;
   positionY?: InputMaybe<Scalars['Float']['input']>;
   providerApp: WorkflowProviderApp;
+};
+
+export type PathsBranchEvaluation = {
+  branchId: Scalars['ID']['output'];
+  branchLabel: Scalars['String']['output'];
+  matched: Scalars['Boolean']['output'];
+  rules: Array<PathsRuleEvaluation>;
+};
+
+export type PathsRuleEvaluation = {
+  passed: Scalars['Boolean']['output'];
+  resolvedLeft?: Maybe<Scalars['String']['output']>;
+  resolvedRight?: Maybe<Scalars['String']['output']>;
+  ruleId: Scalars['ID']['output'];
 };
 
 export type Query = {
@@ -392,6 +428,14 @@ export type TestRunAiGenerateNodePayload = {
   selectedRecord?: Maybe<WorkflowNodeSampleRecord>;
 };
 
+export type TestRunPathsNodePayload = {
+  branches: Array<PathsBranchEvaluation>;
+  inputSample?: Maybe<Scalars['JSONObject']['output']>;
+  matchedBranchId?: Maybe<Scalars['ID']['output']>;
+  node: WorkflowNode;
+  selectedRecord?: Maybe<WorkflowNodeSampleRecord>;
+};
+
 export type TestRunWorkflowNodePayload = {
   node: WorkflowNode;
   sampleResponses: Array<Scalars['JSONObject']['output']>;
@@ -452,7 +496,8 @@ export enum WorkflowActionKey {
   GoogleFormCreatedOrUpdated = 'GOOGLE_FORM_CREATED_OR_UPDATED',
   GoogleSheetChangeSheetProperties = 'GOOGLE_SHEET_CHANGE_SHEET_PROPERTIES',
   GoogleSheetCreateColumn = 'GOOGLE_SHEET_CREATE_COLUMN',
-  GoogleSheetCreateRow = 'GOOGLE_SHEET_CREATE_ROW'
+  GoogleSheetCreateRow = 'GOOGLE_SHEET_CREATE_ROW',
+  PathsBranch = 'PATHS_BRANCH'
 }
 
 export type WorkflowEdge = {
@@ -465,12 +510,6 @@ export type WorkflowEdge = {
   updatedAt: Scalars['DateTime']['output'];
   workflowVersionId: Scalars['String']['output'];
 };
-
-export enum WorkflowEdgeSourceHandle {
-  Default = 'DEFAULT',
-  False = 'FALSE',
-  True = 'TRUE'
-}
 
 export type WorkflowNode = {
   actionKey?: Maybe<WorkflowActionKey>;
@@ -520,6 +559,7 @@ export enum WorkflowProviderApp {
   Gmail = 'GMAIL',
   GoogleForm = 'GOOGLE_FORM',
   GoogleSheet = 'GOOGLE_SHEET',
+  Paths = 'PATHS',
   Slack = 'SLACK'
 }
 

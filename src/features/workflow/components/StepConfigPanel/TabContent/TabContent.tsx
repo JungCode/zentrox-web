@@ -24,7 +24,7 @@ export const TabContent = ({
       )}
       {activeStep === 'configure' && (
         <div className="h-full overflow-y-auto p-4">
-          <ConfigureTabContent node={node} />
+          <ConfigureTabContent node={node} workflowId={workflowId} />
         </div>
       )}
       {activeStep === 'test' && (

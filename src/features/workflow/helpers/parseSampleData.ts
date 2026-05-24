@@ -18,7 +18,7 @@ import type {
   AvailableFieldGroup,
 } from '@/shared/types/baseform/token-input.types';
 
-import { resolveSampleDataJson } from './configJson';
+import { resolveSampleDataJson } from './nodeConfig/configJson';
 import { getAnswerKind, getAnswerValue } from './triggerRecord';
 
 const resolveAnswerFieldPath = (

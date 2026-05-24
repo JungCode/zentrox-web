@@ -5,7 +5,6 @@ import { toast } from 'sonner';
 import { useShallow } from 'zustand/shallow';
 
 import { useWorkflowStore } from '@/features/workflow/hooks/useWorkflowStore';
-import { WorkflowEdgeSourceHandle } from '@/shared/api/base.schemas';
 import {
   CreateWorkflowNodeDocument,
   type CreateWorkflowNodeMutation,
@@ -53,7 +52,10 @@ const useCreateWorkflowNode = ({
         variables: {
           input: {
             label: `New step ${stepNumber + 1}`,
-            sourceHandle: WorkflowEdgeSourceHandle.Default,
+            // Well-known handle for non-branching edges. Paths node creates
+            // branch edges itself via the addPathsBranch mutation, so the
+            // generic "+ append step" path always wires through `default`.
+            sourceHandle: 'default',
             sourceNodeId,
           },
           workflowId,

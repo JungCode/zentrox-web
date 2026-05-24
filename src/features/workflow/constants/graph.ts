@@ -5,6 +5,12 @@ import type { BaseDropdownMenuItem } from '@/shared/components/BaseDropdownMenu'
 /** Vertical pixel distance between consecutive node centers */
 export const NODE_VERTICAL_GAP = 180;
 
+/**
+ * Horizontal gap between sibling branch columns (px). Combined with
+ * NODE_WIDTH this is the slot size the tree layout reserves per leaf.
+ */
+export const NODE_HORIZONTAL_GAP = 80;
+
 /** Fixed width for all workflow nodes (px) */
 export const NODE_WIDTH = 360;
 

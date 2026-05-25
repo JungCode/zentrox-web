@@ -8,6 +8,7 @@ query WorkflowVersionNodeSamples($workflowVersionId: ID!, $currentNodeId: ID!) {
     nodeType
     providerApp
     actionKey
+    connectionStatus
     sampleRecord {
       id
       createdAt

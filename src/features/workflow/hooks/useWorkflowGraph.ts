@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { WorkflowDocument } from '@/shared/api/workflow/workflow.schemas';
-import { useToggle } from '@/shared/hooks/useToggle';
 
 import { computeWorkflowLayout } from '../helpers/layout';
 import { getTargetNodeIds } from '../helpers/node';
@@ -50,26 +49,29 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
     },
   });
 
-  const { openAppSelectorDialog, selectedNode, setNodeChain, setSelectedNode } =
-    useWorkflowStore(
-      useShallow((state) => ({
-        openAppSelectorDialog: state.openAppSelectorDialog,
-        selectedNode: state.selectedNode,
-        setNodeChain: state.setNodeChain,
-        setSelectedNode: state.setSelectedNode,
-      })),
-    );
+  const {
+    closeConfigPanel,
+    isConfigPanelOpen,
+    openAppSelectorDialog,
+    openConfigPanel,
+    selectedNode,
+    setNodeChain,
+    setSelectedNode,
+  } = useWorkflowStore(
+    useShallow((state) => ({
+      closeConfigPanel: state.closeConfigPanel,
+      isConfigPanelOpen: state.isConfigPanelOpen,
+      openAppSelectorDialog: state.openAppSelectorDialog,
+      openConfigPanel: state.openConfigPanel,
+      selectedNode: state.selectedNode,
+      setNodeChain: state.setNodeChain,
+      setSelectedNode: state.setSelectedNode,
+    })),
+  );
 
   // ── React Flow state ───────────────────────────────────────────────────
   const [nodes, setNodes, onNodesChange] = useNodesState<CanvasNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CanvasEdge>([]);
-
-  // ── UI overlay state ───────────────────────────────────────────────────
-  const {
-    close: closeConfigPanel,
-    isOpen: isConfigPanelOpen,
-    open: openConfigPanel,
-  } = useToggle();
 
   // ── Node click handler – exposed to WorkflowCanvas ────────────────────
   const handleNodeClick = (canvasNode: CanvasNode) => {

@@ -531,6 +531,7 @@ export type WorkflowNode = {
 
 export type WorkflowNodeSampleData = {
   actionKey?: Maybe<WorkflowActionKey>;
+  connectionStatus: Scalars['String']['output'];
   nodeId: Scalars['ID']['output'];
   nodeLabel: Scalars['String']['output'];
   nodeType?: Maybe<WorkflowNodeType>;

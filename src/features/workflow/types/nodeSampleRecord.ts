@@ -44,10 +44,32 @@ export interface AiGenerateActionSampleData extends Record<string, unknown> {
   _meta: AiGenerateActionSampleMeta;
 }
 
+// Sample data emitted by a Paths utility node after a successful evaluation.
+// Mirrors PathsEvaluationSampleData on the BE — downstream nodes can token-
+// reference matchedBranchLabel/matchedBranchId to annotate which branch was
+// picked under first-match-wins.
+export interface PathsEvaluationSampleData extends Record<string, unknown> {
+  _meta: { evaluatedAt: string };
+  branches: {
+    branchId: string;
+    branchLabel: string;
+    matched: boolean;
+    rules: {
+      passed: boolean;
+      resolvedLeft: string | null;
+      resolvedRight: string | null;
+      ruleId: string;
+    }[];
+  }[];
+  matchedBranchId: string | null;
+  matchedBranchLabel: string | null;
+}
+
 // Discriminated union of every shape stored in the JSONB `data` column of
 // `WorkflowNodeSampleRecord`. Add a new variant when a new node-test strategy
 // emits its own sample shape.
 export type NodeSampleRecordData =
   | AiGenerateActionSampleData
   | GoogleFormTriggerSampleData
-  | GoogleSheetActionSampleData;
+  | GoogleSheetActionSampleData
+  | PathsEvaluationSampleData;

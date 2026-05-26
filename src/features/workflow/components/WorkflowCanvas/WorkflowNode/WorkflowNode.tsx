@@ -38,6 +38,9 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
   const providerAppMetadata =
     providerApp && ProviderAppMetadataRecord[providerApp];
   const isSelected = useWorkflowStore((state) => state.selectedNode?.id === id);
+  const runtimeStatus = useWorkflowStore(
+    (state) => state.nodeRuntimeStatuses[id],
+  );
   const isPathsNode =
     nodeType === WorkflowNodeType.Utility &&
     providerApp === WorkflowProviderApp.Paths;
@@ -73,23 +76,33 @@ const WorkflowNode = ({ data }: NodeProps<CanvasNode>) => {
         type="target"
       />
 
-      {assigned && providerAppMetadata ? (
-        <WorkflowNodeAssigned
-          connectionStatus={connectionStatus}
-          isSelected={isSelected}
-          label={label}
-          nodeId={id}
-          providerAppMetadata={providerAppMetadata}
-          stepNumber={stepNumber}
-          workflowId={workflowId}
-        />
-      ) : (
-        <WorkflowNodeUnassigned
-          isSelected={isSelected}
-          label={label}
-          stepNumber={stepNumber}
-        />
-      )}
+      <div
+        className={cn(
+          runtimeStatus && 'workflow-node-runtime',
+          runtimeStatus === 'running' && 'workflow-node-runtime-running',
+          runtimeStatus === 'success' && 'workflow-node-runtime-success',
+          runtimeStatus === 'failed' && 'workflow-node-runtime-failed',
+          runtimeStatus === 'skipped' && 'workflow-node-runtime-skipped',
+        )}
+      >
+        {assigned && providerAppMetadata ? (
+          <WorkflowNodeAssigned
+            connectionStatus={connectionStatus}
+            isSelected={isSelected}
+            label={label}
+            nodeId={id}
+            providerAppMetadata={providerAppMetadata}
+            stepNumber={stepNumber}
+            workflowId={workflowId}
+          />
+        ) : (
+          <WorkflowNodeUnassigned
+            isSelected={isSelected}
+            label={label}
+            stepNumber={stepNumber}
+          />
+        )}
+      </div>
 
       {/* Invisible source handle at the bottom edge */}
       <Handle

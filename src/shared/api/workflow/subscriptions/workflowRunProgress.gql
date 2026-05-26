@@ -1,0 +1,13 @@
+subscription WorkflowRunProgress($workflowId: ID!) {
+  workflowRunProgress(workflowId: $workflowId) {
+    type
+    workflowId
+    runId
+    runIndex
+    runTotal
+    nodeId
+    output
+    errorMessage
+    timestamp
+  }
+}

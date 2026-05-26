@@ -27,6 +27,7 @@ const useStepCompletion = ({
     worksheetName,
     aiSystemPrompt,
     aiOutputs,
+    pathsBranches,
   ] = useWatch({
     control,
     name: [
@@ -37,6 +38,7 @@ const useStepCompletion = ({
       'configJson.worksheetName',
       'configJson.systemPrompt',
       'configJson.outputs',
+      'configJson.branches',
     ],
   });
 
@@ -121,12 +123,33 @@ const useStepCompletion = ({
     //  ╚██████╔╝   ██║   ██║███████╗██║   ██║   ██║███████╗███████║
     // =========================================================================
     case WorkflowNodeType.Utility:
+      switch (node.providerApp) {
+        case WorkflowProviderApp.Paths:
+          // Paths has no setup step beyond picking the app — actionKey is
+          // auto-assigned (`paths_branch`) and there's no integration
+          // account. Configure step is complete once the user has at least
+          // one branch defined.
+          isIntegrationAccountComplete = true;
+          isConfigureComplete =
+            Array.isArray(pathsBranches) && pathsBranches.length > 0;
+          break;
+
+        default:
+          break;
+      }
       break;
   }
 
+  // Utility nodes don't expose an actionKey field; trust the BE-assigned
+  // value so the "setup complete" gate doesn't false-fail for them.
+  const isSetupComplete =
+    node?.nodeType === WorkflowNodeType.Utility
+      ? isIntegrationAccountComplete
+      : Boolean(actionKey && isIntegrationAccountComplete);
+
   return {
     configure: isConfigureComplete,
-    setup: Boolean(actionKey && isIntegrationAccountComplete),
+    setup: isSetupComplete,
     test:
       Boolean(node?.connectionStatus) && node?.connectionStatus !== 'untested',
   };

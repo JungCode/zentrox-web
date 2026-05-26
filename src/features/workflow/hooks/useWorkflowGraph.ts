@@ -6,10 +6,10 @@ import { useEffect } from 'react';
 import { useShallow } from 'zustand/shallow';
 
 import { WorkflowDocument } from '@/shared/api/workflow/workflow.schemas';
-import { useToggle } from '@/shared/hooks/useToggle';
 
-import { NODE_VERTICAL_GAP } from '../constants';
+import { computeWorkflowLayout } from '../helpers/layout';
 import { getTargetNodeIds } from '../helpers/node';
+import { resolveEdgeBranchLabel } from '../helpers/nodeConfig/pathsBranch';
 import { sortWorkflowNodesByEdges } from '../helpers/sort';
 import type { CanvasEdge, CanvasNode } from '../types/graph';
 import { useWorkflowStore } from './useWorkflowStore';
@@ -49,26 +49,29 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
     },
   });
 
-  const { openAppSelectorDialog, selectedNode, setNodeChain, setSelectedNode } =
-    useWorkflowStore(
-      useShallow((state) => ({
-        openAppSelectorDialog: state.openAppSelectorDialog,
-        selectedNode: state.selectedNode,
-        setNodeChain: state.setNodeChain,
-        setSelectedNode: state.setSelectedNode,
-      })),
-    );
+  const {
+    closeConfigPanel,
+    isConfigPanelOpen,
+    openAppSelectorDialog,
+    openConfigPanel,
+    selectedNode,
+    setNodeChain,
+    setSelectedNode,
+  } = useWorkflowStore(
+    useShallow((state) => ({
+      closeConfigPanel: state.closeConfigPanel,
+      isConfigPanelOpen: state.isConfigPanelOpen,
+      openAppSelectorDialog: state.openAppSelectorDialog,
+      openConfigPanel: state.openConfigPanel,
+      selectedNode: state.selectedNode,
+      setNodeChain: state.setNodeChain,
+      setSelectedNode: state.setSelectedNode,
+    })),
+  );
 
   // ── React Flow state ───────────────────────────────────────────────────
   const [nodes, setNodes, onNodesChange] = useNodesState<CanvasNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<CanvasEdge>([]);
-
-  // ── UI overlay state ───────────────────────────────────────────────────
-  const {
-    close: closeConfigPanel,
-    isOpen: isConfigPanelOpen,
-    open: openConfigPanel,
-  } = useToggle();
 
   // ── Node click handler – exposed to WorkflowCanvas ────────────────────
   const handleNodeClick = (canvasNode: CanvasNode) => {
@@ -92,30 +95,44 @@ export const useWorkflowGraph = ({ workflowId }: UseWorkflowGraphProps) => {
     const nodesQueryData = currentDraftVersion?.nodes || [];
     const edgesQueryData = currentDraftVersion?.edges || [];
 
+    // Linear topological order — kept for the sidebar/breadcrumb so the
+    // "1. → 2. → 3." flow still makes sense even for tree-shaped graphs.
+    // The on-canvas layout is computed separately so siblings can fan out.
     const sortedNodes = sortWorkflowNodesByEdges(
       nodesQueryData,
       edgesQueryData,
     );
 
-    const initialNodes: CanvasNode[] = sortedNodes.map((node, index) => ({
-      data: {
-        ...node,
-        assigned: !!node.providerApp,
-        isLast: index === sortedNodes.length - 1,
-        stepNumber: index + 1,
-        targetNodeIds: getTargetNodeIds(node.id, edgesQueryData),
-        workflowId,
-      },
-      draggable: false,
-      id: node.id,
-      position: { x: 0, y: index * NODE_VERTICAL_GAP },
-      type: 'workflowNode',
-    }));
+    const { leafNodeIds, positioned } = computeWorkflowLayout(
+      nodesQueryData,
+      edgesQueryData,
+    );
+
+    const initialNodes: CanvasNode[] = positioned.map(
+      ({ node, position, stepNumber }) => ({
+        data: {
+          ...node,
+          assigned: !!node.providerApp,
+          // Leaf nodes get the "+ append" button. With tree layouts there are
+          // now multiple leaves (one per branch tail), so this is a Set check
+          // rather than "last index in the linear list".
+          isLast: leafNodeIds.has(node.id),
+          stepNumber,
+          targetNodeIds: getTargetNodeIds(node.id, edgesQueryData),
+          workflowId,
+        },
+        draggable: false,
+        id: node.id,
+        position,
+        type: 'workflowNode',
+      }),
+    );
 
     const initialEdges: CanvasEdge[] = edgesQueryData.map((edge) => ({
       animated: false,
       data: {
         ...edge,
+        branchLabel: resolveEdgeBranchLabel(edge, nodesQueryData),
         workflowId,
       },
       id: edge.id,

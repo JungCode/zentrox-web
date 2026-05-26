@@ -44,10 +44,21 @@ export interface AvailableField {
 // Groups fields by the workflow node they come from so the picker can show a
 // header with the node name and icon for each source step.
 export interface AvailableFieldGroup {
+  /**
+   * `untested` (no sample data yet), `success`, `failed`, `testing`. Mirrors
+   * `WorkflowNodeConnectionStatus` on the API. The picker shows a warning
+   * icon + "Test this step first" hint when not `success`.
+   */
+  connectionStatus: string;
   fields: AvailableField[];
   icon?: ElementType<{ className?: string; size?: number }>; // provider icon (e.g. Google Form logo)
   nodeId: string;
   nodeLabel: string;
+  /**
+   * Step number shown in the picker header ("1. Trigger", "2. AI Generate").
+   * Surfacing it here keeps the picker render trivial — caller does the math.
+   */
+  stepNumber: number;
 }
 
 // ─── Serialization ────────────────────────────────────────────────────────────

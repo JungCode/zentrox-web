@@ -1,10 +1,11 @@
 import { UpdateWorkflowNodeInput } from '@/shared/api/base.schemas';
 
-import { AiGenerateNodeConfig } from './aiGenerate';
 import {
+  AiGenerateNodeConfig,
   GoogleFormTriggerConfig,
   GoogleSheetActionConfig,
-} from './configPanel';
+  PathsNodeConfig,
+} from './nodeConfig';
 
 // Step 1. Step Up Form Values at Config Panel
 type SetupFormValues = Pick<
@@ -20,7 +21,8 @@ type ConfigFormValues<T> = {
 type AllConfigFormValues =
   | ConfigFormValues<GoogleFormTriggerConfig>
   | ConfigFormValues<GoogleSheetActionConfig>
-  | ConfigFormValues<AiGenerateNodeConfig>;
+  | ConfigFormValues<AiGenerateNodeConfig>
+  | ConfigFormValues<PathsNodeConfig>;
 
 // Label name of the workflow node
 type LabelFormValues = {

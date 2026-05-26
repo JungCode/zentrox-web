@@ -267,6 +267,109 @@ const AiIcon = (props: IIconProps) => (
   </svg>
 );
 
+/**
+ * PathsIcon — Paths utility node.
+ *
+ * Visually paired with AiIcon: same 48×48 viewBox, same 9px-radius rounded
+ * rect background, same gradient direction, and the exact same palette
+ * (#2951cb → #0f172f background, #7da2ff highlights, #dde1ff nodes,
+ * #0f172f dark accents) so the two utility icons read as a family.
+ *
+ * The motif is a single source dot branching into three target dots — the
+ * literal subject of the node ("branch the workflow into N paths").
+ */
+const PathsIcon = (props: IIconProps) => (
+  <svg
+    fill="none"
+    height="48px"
+    viewBox="0 0 48 48"
+    width="48px"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <defs>
+      <linearGradient id="paths-icon-bg" x1="8" x2="40" y1="6" y2="42">
+        <stop offset="0%" stopColor="#2951cb" />
+        <stop offset="100%" stopColor="#0f172f" />
+      </linearGradient>
+      <linearGradient id="paths-icon-line" x1="0" x2="0" y1="14" y2="36">
+        <stop offset="0%" stopColor="#ffffff" />
+        <stop offset="100%" stopColor="#c8cdea" />
+      </linearGradient>
+    </defs>
+
+    {/* Rounded background — matches AiIcon's rx/inset for consistency. */}
+    <rect
+      fill="url(#paths-icon-bg)"
+      height="42"
+      rx="9"
+      width="42"
+      x="3"
+      y="3"
+    />
+
+    {/* Source node at the top. */}
+    <circle
+      cx="24"
+      cy="14"
+      fill="#dde1ff"
+      r="3.5"
+      stroke="#7da2ff"
+      strokeWidth="1.5"
+    />
+
+    {/* Three branching paths — center is a straight line, sides curve out
+        symmetrically so the trident motif reads even at small sizes. */}
+    <path
+      d="M24 18 L24 34"
+      stroke="url(#paths-icon-line)"
+      strokeLinecap="round"
+      strokeWidth="2"
+    />
+    <path
+      d="M24 18 C 24 26, 13 26, 13 34"
+      fill="none"
+      stroke="url(#paths-icon-line)"
+      strokeLinecap="round"
+      strokeWidth="2"
+    />
+    <path
+      d="M24 18 C 24 26, 35 26, 35 34"
+      fill="none"
+      stroke="url(#paths-icon-line)"
+      strokeLinecap="round"
+      strokeWidth="2"
+    />
+
+    {/* Three target nodes — one per branch. Filled in the same light-blue
+        accent AiIcon uses for its eye highlights / side bars. */}
+    <circle
+      cx="13"
+      cy="35"
+      fill="#7da2ff"
+      r="3"
+      stroke="#ffffff"
+      strokeWidth="1.2"
+    />
+    <circle
+      cx="24"
+      cy="35"
+      fill="#7da2ff"
+      r="3"
+      stroke="#ffffff"
+      strokeWidth="1.2"
+    />
+    <circle
+      cx="35"
+      cy="35"
+      fill="#7da2ff"
+      r="3"
+      stroke="#ffffff"
+      strokeWidth="1.2"
+    />
+  </svg>
+);
+
 const GoogleSheetIcon = (props: IIconProps) => (
   <svg
     fill="none"
@@ -297,6 +400,7 @@ export {
   GoogleSheetIcon,
   HelpIcon,
   LayerIcon,
+  PathsIcon,
   PlusIcon,
   SettingsIcon,
   SiteMapIcon,

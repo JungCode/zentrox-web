@@ -63,6 +63,11 @@ export interface CanvasNodeData extends NodeQueryData, Record<string, unknown> {
  * Must extend `Record<string, unknown>` to satisfy the XYFlow generic constraint.
  */
 export interface CanvasEdgeData extends EdgeQueryData, Record<string, unknown> {
+  /**
+   * Display label for paths-branch edges (e.g. "Path A"). Null on normal
+   * edges so the renderer skips the chip and shows a plain line.
+   */
+  branchLabel: string | null;
   workflowId: string;
 }
 

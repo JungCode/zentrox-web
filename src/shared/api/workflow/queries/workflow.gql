@@ -18,6 +18,8 @@ query Workflow($workflowId: ID!) {
         providerApp
         actionKey
         label
+        positionX
+        positionY
         configJson
         connectionStatus
         lastTestedAt

@@ -1,4 +1,4 @@
-import { createContext, useRef, useState } from 'react';
+import { createContext } from 'react';
 import { createStore, StoreApi } from 'zustand';
 
 import { WorkflowStore } from '@/features/workflow/types';
@@ -13,11 +13,19 @@ export const WorkflowStoreContext =
 export const WorkflowStoreProvider = ({
   children,
 }: WorkflowStoreProviderProps) => {
-  const workflowStore = createStore<WorkflowStore>((set) => ({
+  const workflowStore = createStore<WorkflowStore>((set, get) => ({
     closeAppSelectorDialog: () => set({ isAppSelectorDialogOpen: false }),
+    closeConfigPanel: () => set({ isConfigPanelOpen: false }),
     isAppSelectorDialogOpen: false,
+    isConfigPanelOpen: false,
+    navigateToNode: (nodeId) => {
+      const target = get().nodeChain.find((n) => n.id === nodeId);
+      if (!target) return;
+      set({ isConfigPanelOpen: true, selectedNode: target });
+    },
     nodeChain: [],
     openAppSelectorDialog: () => set({ isAppSelectorDialogOpen: true }),
+    openConfigPanel: () => set({ isConfigPanelOpen: true }),
     selectedNode: null,
     setNodeChain: (nodeChain) => set({ nodeChain }),
     setSelectedNode: (selectedNode) => set({ selectedNode }),

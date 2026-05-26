@@ -7,6 +7,7 @@ import {
 } from '@/shared/api/base.schemas';
 
 import { ActionTestedView } from './ActionTestedView';
+import { PathsTestedView } from './PathsTestedView';
 import { TriggerTestedView } from './TriggerTestedView/TriggerTestedView';
 
 interface TestedViewProps {
@@ -21,6 +22,14 @@ const TestedView = ({ node, workflowId }: TestedViewProps) => {
 
     case WorkflowNodeType.Action:
       return <ActionTestedView node={node} workflowId={workflowId} />;
+
+    case WorkflowNodeType.Utility:
+      switch (node.providerApp) {
+        case WorkflowProviderApp.Paths:
+          return <PathsTestedView node={node} workflowId={workflowId} />;
+        default:
+          return null;
+      }
 
     default:
       return null;

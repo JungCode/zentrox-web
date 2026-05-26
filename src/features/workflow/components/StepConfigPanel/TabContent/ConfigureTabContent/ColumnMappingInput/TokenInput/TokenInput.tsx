@@ -19,7 +19,10 @@ import {
   serialize,
   withTokens,
 } from '@/features/workflow/helpers';
-import { useWorkflowNodeSamples } from '@/features/workflow/hooks';
+import {
+  useWorkflowNodeSamples,
+  useWorkflowStore,
+} from '@/features/workflow/hooks';
 import { Button } from '@/shared/components/ui/button';
 import {
   Popover,
@@ -50,6 +53,11 @@ const TokenInput = ({
     nodeId,
     workflowVersionId,
   });
+
+  // `navigateToNode` jumps the user to a specific upstream node's config
+  // panel — used by the picker when they click an untested group's warning
+  // row to set that step up before mapping its data.
+  const navigateToNode = useWorkflowStore((state) => state.navigateToNode);
 
   // Create the Slate editor once and never recreate it (useMemo with empty deps).
   // We compose three plugins:
@@ -215,7 +223,17 @@ const TokenInput = ({
       </PopoverAnchor>
       {/* Field picker panel — shows grouped fields from upstream workflow nodes */}
       <PopoverContent align="start" className="w-96 p-0" side="left">
-        <FieldPicker groups={availableFields} onSelect={insertToken} />
+        <FieldPicker
+          groups={availableFields}
+          onNavigateToNode={(targetNodeId) => {
+            // Close this popover before navigating so the config panel can
+            // open cleanly on the target node without the picker lingering
+            // over the old node's TokenInput.
+            setPickerOpen(false);
+            navigateToNode(targetNodeId);
+          }}
+          onSelect={insertToken}
+        />
       </PopoverContent>
     </Popover>
   );

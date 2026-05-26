@@ -14,6 +14,7 @@ const useActionNodeSample = ({
   workflowId,
 }: UseActionNodeSampleProps) => {
   const { data, loading } = useQuery(TriggerNodeSampleRecordDocument, {
+    fetchPolicy: 'no-cache',
     variables: { nodeId, workflowId },
   });
 

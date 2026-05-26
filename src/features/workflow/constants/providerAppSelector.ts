@@ -10,7 +10,12 @@ import {
 import { ComponentType } from 'react';
 
 import { WorkflowProviderApp } from '@/shared/api/base.schemas';
-import { AiIcon, GoogleFormIcon, GoogleSheetIcon } from '@/shared/assets/icons';
+import {
+  AiIcon,
+  GoogleFormIcon,
+  GoogleSheetIcon,
+  PathsIcon,
+} from '@/shared/assets/icons';
 
 import { ProviderAppMetadataRecordType } from '../types';
 import type { AppProviderSelectOption } from '../types/graph';
@@ -145,10 +150,9 @@ export const BUILT_IN_TOOLS: AppProviderSelectOption[] = [
   },
   {
     category: 'Flow controls',
-    description: 'Branch your workflow',
-    icon: GoogleFormIcon,
-
-    id: WorkflowProviderApp.GoogleForm,
+    description: 'Branch your workflow based on conditions',
+    icon: PathsIcon,
+    id: WorkflowProviderApp.Paths,
     name: 'Paths',
   },
   {
@@ -213,6 +217,13 @@ export const ProviderAppMetadataRecord: ProviderAppMetadataRecordType = {
     icon: GoogleSheetIcon,
     id: WorkflowProviderApp.GoogleSheet,
     name: 'Google Sheets',
+  },
+  [WorkflowProviderApp.Paths]: {
+    category: 'Flow controls',
+    description: 'Branch your workflow based on conditions',
+    icon: PathsIcon,
+    id: WorkflowProviderApp.Paths,
+    name: 'Paths',
   },
   [WorkflowProviderApp.Slack]: {
     category: 'Communication',

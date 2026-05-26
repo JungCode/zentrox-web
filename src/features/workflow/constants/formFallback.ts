@@ -57,5 +57,12 @@ export const CONFIG_FORM_FALLBACKS: Partial<
       configJson: { formId: '', formName: '' },
     },
   },
-  [WorkflowNodeType.Utility]: {},
+  [WorkflowNodeType.Utility]: {
+    [WorkflowProviderApp.Paths]: {
+      configJson: {
+        branches: [],
+        matchMode: 'first_match',
+      },
+    },
+  },
 };

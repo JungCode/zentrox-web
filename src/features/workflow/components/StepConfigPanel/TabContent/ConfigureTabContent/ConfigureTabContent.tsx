@@ -9,12 +9,17 @@ import {
 import { AiGenerateConfigForm } from './AiGenerateConfigForm';
 import { GoogleFormConfigForm } from './GoogleFormConfigForm';
 import { GoogleSheetConfigForm } from './GoogleSheetConfigForm';
+import { PathsConfigForm } from './PathsConfigForm';
 
 interface ConfigureTabContentProps {
   node: NodeQueryData;
+  workflowId: string;
 }
 
-const ConfigureTabContent = ({ node }: ConfigureTabContentProps) => {
+const ConfigureTabContent = ({
+  node,
+  workflowId,
+}: ConfigureTabContentProps) => {
   switch (node.nodeType) {
     // =========================================================================
     //  ████████╗██████╗ ██╗ ██████╗  ██████╗ ███████╗██████╗  ██████╗
@@ -71,7 +76,12 @@ const ConfigureTabContent = ({ node }: ConfigureTabContentProps) => {
     //  For utilities, show config form based on tool types
     // =========================================================================
     case WorkflowNodeType.Utility:
-      return null;
+      switch (node?.providerApp) {
+        case WorkflowProviderApp.Paths:
+          return <PathsConfigForm node={node} workflowId={workflowId} />;
+        default:
+          return null;
+      }
   }
 };
 

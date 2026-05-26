@@ -10,7 +10,9 @@ import {
   WorkflowHeader,
 } from '@/features/workflow/components';
 import { AppSelectorContainer } from '@/features/workflow/components/AppSelectorContainer';
+import { useTestRunWorkflow } from '@/features/workflow/hooks/useTestRunWorkflow';
 import { useWorkflowGraph } from '@/features/workflow/hooks/useWorkflowGraph';
+import { useWorkflowRunProgress } from '@/features/workflow/hooks/useWorkflowRunProgress';
 
 const WorkflowPage = () => {
   const params = useParams();
@@ -29,6 +31,14 @@ const WorkflowPage = () => {
     selectedNode,
   } = useWorkflowGraph({ workflowId });
 
+  // Subscribes to workflowRunProgress and routes events into the store so
+  // WorkflowNode can highlight running/success/failed states in real time.
+  useWorkflowRunProgress({ workflowId });
+
+  const { loading: isTesting, testRunWorkflow } = useTestRunWorkflow({
+    workflowId,
+  });
+
   const handlePublish = () => {
     setIsPublishing(true);
     // Simulate async publish — replace with real API call
@@ -42,8 +52,9 @@ const WorkflowPage = () => {
         {/* Sub-header bar */}
         <WorkflowHeader
           isPublishing={isPublishing}
+          isTesting={isTesting}
           onPublish={handlePublish}
-          onTestRun={() => {}}
+          onTestRun={() => testRunWorkflow(3)}
           workflowName="My Zap"
         />
 

@@ -9,6 +9,8 @@ interface WorkflowHeaderProps {
   className?: string;
   /** Whether the publish action is loading */
   isPublishing?: boolean;
+  /** Whether a test-run mutation is in-flight (initial dispatch only). */
+  isTesting?: boolean;
   onPublish: () => void;
   onTestRun: () => void;
   /** Workflow name shown in the centre of the bar */
@@ -26,6 +28,7 @@ interface WorkflowHeaderProps {
 const WorkflowHeader = ({
   className,
   isPublishing = false,
+  isTesting = false,
   onPublish,
   onTestRun,
   workflowName = 'Untitled Workflow',
@@ -48,9 +51,14 @@ const WorkflowHeader = ({
 
       {/* ── Right: CTA buttons ──────────────────────────────────── */}
       <div className="flex items-center gap-2">
-        <Button onClick={onTestRun} size="sm" variant="outline">
+        <Button
+          disabled={isTesting}
+          onClick={onTestRun}
+          size="sm"
+          variant="outline"
+        >
           <FlaskIcon size={14} />
-          Test Run
+          {isTesting ? 'Running…' : 'Test Run'}
         </Button>
         <Button
           disabled={isPublishing}

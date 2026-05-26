@@ -321,6 +321,80 @@ h6 {
   opacity: 1 !important;
 }
 
+/* Animated gradient border for workflow nodes currently executing.
+   Rendered as a wrapper with a conic-gradient background and an inner mask
+   that punches a hole the size of the node card, leaving only the rotating
+   ring visible. */
+@property --workflow-node-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes workflow-node-spin {
+  to {
+    --workflow-node-angle: 360deg;
+  }
+}
+
+.workflow-node-runtime {
+  position: relative;
+  border-radius: 0.6rem;
+}
+
+.workflow-node-runtime::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(
+    from var(--workflow-node-angle),
+    transparent 0%,
+    var(--workflow-node-ring, var(--secondary)) 25%,
+    var(--workflow-node-ring-bright, var(--secondary)) 50%,
+    var(--workflow-node-ring, var(--secondary)) 75%,
+    transparent 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.workflow-node-runtime-running::before {
+  animation: workflow-node-spin 1.6s linear infinite;
+}
+
+.workflow-node-runtime-running {
+  --workflow-node-ring: var(--secondary);
+  --workflow-node-ring-bright: color-mix(in srgb, var(--secondary) 60%, white);
+}
+
+.workflow-node-runtime-success::before {
+  animation: none;
+  background: linear-gradient(0deg, var(--success), var(--success));
+  opacity: 0.85;
+}
+
+.workflow-node-runtime-failed::before {
+  animation: none;
+  background: linear-gradient(0deg, var(--danger), var(--danger));
+  opacity: 0.85;
+}
+
+.workflow-node-runtime-skipped::before {
+  animation: none;
+  background: linear-gradient(0deg, var(--outline-variant), var(--outline-variant));
+  opacity: 0.6;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

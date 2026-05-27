@@ -11,6 +11,7 @@ import {
 import { useState } from 'react';
 
 import { PATHS_OPERATOR_OPTIONS } from '@/features/workflow/constants';
+import { formatTokenizedValue } from '@/features/workflow/helpers';
 import type { PathsBranch } from '@/features/workflow/types';
 import { cn } from '@/lib/ui/utils';
 import { Button } from '@/shared/components/ui/button';
@@ -137,7 +138,8 @@ const BranchEvaluationRow = ({
                   <div className="flex-1 space-y-0.5">
                     <code className="text-on-surface block wrap-break-word">
                       <span className="bg-surface-container rounded px-1 py-0.5 font-mono">
-                        {ruleEval?.resolvedLeft || rule.leftField.value || '∅'}
+                        {ruleEval?.resolvedLeft ||
+                          formatTokenizedValue(rule.leftField)}
                       </span>{' '}
                       <span className="text-on-surface-variant">
                         {operatorLabel}

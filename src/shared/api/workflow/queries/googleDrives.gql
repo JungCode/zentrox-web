@@ -1,0 +1,6 @@
+query GoogleDrives($integrationAccountId: ID!) {
+  googleDrives(integrationAccountId: $integrationAccountId) {
+    id
+    name
+  }
+}

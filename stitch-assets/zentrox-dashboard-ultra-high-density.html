@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zentrox Control Plane - High Density Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-container": "#172036",
+              "surface-tint": "#585d77",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d9dadb",
+              "on-error": "#ffffff",
+              "primary-container": "#1a1f36",
+              "on-surface": "#191c1d",
+              "inverse-primary": "#c1c5e3",
+              "primary-fixed": "#dde1ff",
+              "on-secondary-container": "#fffbff",
+              "secondary-fixed": "#dce1ff",
+              "on-secondary-fixed-variant": "#0039b4",
+              "background": "#f8f9fa",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary-fixed": "#121b31",
+              "tertiary-fixed": "#d9e2ff",
+              "on-secondary": "#ffffff",
+              "inverse-on-surface": "#f0f1f2",
+              "surface-container-highest": "#e1e3e4",
+              "secondary": "#2951cb",
+              "inverse-surface": "#2e3132",
+              "surface-bright": "#f8f9fa",
+              "surface": "#f8f9fa",
+              "outline-variant": "#c7c5ce",
+              "on-primary-fixed-variant": "#41455f",
+              "secondary-container": "#476be5",
+              "primary-fixed-dim": "#c1c5e3",
+              "on-tertiary-container": "#7f88a2",
+              "on-secondary-fixed": "#001551",
+              "surface-container": "#edeeef",
+              "on-primary": "#ffffff",
+              "on-primary-container": "#8286a2",
+              "surface-variant": "#e1e3e4",
+              "surface-container-high": "#e7e8e9",
+              "primary": "#1A1F36",
+              "on-surface-variant": "#46464d",
+              "tertiary-fixed-dim": "#bdc6e3",
+              "on-tertiary-fixed-variant": "#3d465e",
+              "surface-container-low": "#f3f4f5",
+              "secondary-fixed-dim": "#b7c4ff",
+              "tertiary": "#01081e",
+              "on-primary-fixed": "#151a31",
+              "on-error-container": "#93000a",
+              "on-tertiary": "#ffffff",
+              "outline": "#77767e",
+              "on-background": "#191c1d",
+              "error": "#ba1a1a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .material-symbols-outlined { font-size: 20px; }
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #1A1F36; }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-100 flex flex-col border-r border-transparent z-50">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-primary-container flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-white" data-icon="account_tree">account_tree</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tighter text-[#1A1F36]">Zentrox</h1>
+<p class="font-['Space_Grotesk'] text-[10px] uppercase tracking-widest text-on-primary-container">AI Logic Engine</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 bg-white text-[#2951CB] font-bold border-l-4 border-[#2951CB] transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-tight">Home</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="account_tree">account_tree</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-tight">Workflows</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-tight">Assets</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-tight">Templates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="store">store</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-tight">Marketplace</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-tight">Logs</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 hover:bg-slate-200 transition-colors duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-['Space_Grotesk'] text-sm tracking-tight">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200">
+<button class="w-full bg-primary text-white py-2 px-4 rounded text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2 mb-4 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                New Workflow
+            </button>
+<div class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-1.5 text-slate-500 hover:text-primary text-xs transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Documentation</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-1.5 text-slate-500 hover:text-primary text-xs transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 left-64 h-14 bg-white border-b border-slate-200 flex justify-between items-center px-6 z-40">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none focus:ring-1 focus:ring-secondary text-[10px] font-medium tracking-wider py-2 pl-10 rounded" placeholder="SEARCH ASSETS, LOGS, OR NODES..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-slate-500">
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="notifications">notifications</span></button>
+<button class="hover:text-primary transition-colors"><span class="material-symbols-outlined" data-icon="help_outline">help_outline</span></button>
+</div>
+<div class="h-8 w-px bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3">
+<div class="text-right">
+<p class="text-[10px] font-bold text-primary leading-tight">ADMIN_ROOT</p>
+<p class="text-[9px] text-secondary font-medium uppercase tracking-tighter leading-tight">Pro Instance</p>
+</div>
+<img alt="User Profile" class="w-8 h-8 rounded border border-slate-200" data-alt="User avatar for admin profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbUZorDYmtbczYm5jeHGha4xU56PK7Hw_uRxSxXvPtEo8kG2sCEBqY_gPbiu5SbHBd6H17w9kIUw-2MRbysRZuWlBOYZhwgxIW6Ga7JznxEgDyDpj3Vb5GnpNRrwsOG-l3jT-u_MraS_YSVU6H7iP-952yXM_FhFYxVQ3FFBy_px8D9L9TLqLw1OcmKwAIOhYScSygwkJ6aSOiuyz7ItqXcE9fxhZrcxn1Nbi7pTw8qNLVVPjraeD7LqxB466VS0BvdVlRTgO1MDSY"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-14 p-6 min-h-[calc(100vh-3.5rem)] space-y-6 bg-surface">
+<!-- Welcome Banner -->
+<section class="bg-primary-container p-8 rounded relative overflow-hidden flex items-end min-h-[160px]">
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, #fff 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="relative z-10 w-full flex justify-between items-end">
+<div>
+<h2 class="font-headline text-3xl font-bold text-white tracking-tight">System Node Status: Optimal</h2>
+<p class="text-on-primary-container text-sm font-body max-w-2xl mt-1">Cluster 04 is currently processing 1,422 tasks/sec. AI inference latency at 12ms. All 8 redundancy nodes are operational. Last global sync was 4 seconds ago.</p>
+</div>
+<div class="flex gap-4">
+<div class="px-4 py-2 bg-white/5 border border-white/10 rounded backdrop-blur-sm">
+<p class="text-[10px] text-on-primary-container uppercase font-bold tracking-widest">Active Core</p>
+<p class="text-white font-headline text-lg">X-782_OMEGA</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Metrics Grid -->
+<section class="grid grid-cols-4 gap-4">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Active Flows</span>
+<span class="text-xs font-bold text-green-600 bg-green-50 px-1.5 py-0.5 rounded">+12%</span>
+</div>
+<p class="text-3xl font-headline font-bold text-primary mt-1">842</p>
+</div>
+<div class="mt-4 h-12 flex items-end gap-1">
+<div class="w-full bg-secondary/10 h-4 rounded-t-sm"></div>
+<div class="w-full bg-secondary/20 h-6 rounded-t-sm"></div>
+<div class="w-full bg-secondary/30 h-5 rounded-t-sm"></div>
+<div class="w-full bg-secondary/40 h-8 rounded-t-sm"></div>
+<div class="w-full bg-secondary/60 h-10 rounded-t-sm"></div>
+<div class="w-full bg-secondary h-12 rounded-t-sm"></div>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Success Rate</span>
+<span class="text-xs font-bold text-slate-400">Stable</span>
+</div>
+<p class="text-3xl font-headline font-bold text-primary mt-1">99.98%</p>
+</div>
+<div class="mt-4 h-12 flex items-end gap-1">
+<div class="w-full bg-secondary h-10 rounded-t-sm"></div>
+<div class="w-full bg-secondary h-11 rounded-t-sm"></div>
+<div class="w-full bg-secondary h-10 rounded-t-sm"></div>
+<div class="w-full bg-secondary h-12 rounded-t-sm"></div>
+<div class="w-full bg-secondary h-11 rounded-t-sm"></div>
+<div class="w-full bg-secondary h-12 rounded-t-sm"></div>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Execution Credits</span>
+<span class="text-xs font-bold text-secondary">REFILL IN 2D</span>
+</div>
+<p class="text-3xl font-headline font-bold text-primary mt-1">4.2M</p>
+</div>
+<div class="mt-4 h-12 flex items-end gap-1">
+<div class="w-full bg-secondary/20 h-12 rounded-t-sm"></div>
+<div class="w-full bg-secondary/20 h-10 rounded-t-sm"></div>
+<div class="w-full bg-secondary/20 h-8 rounded-t-sm"></div>
+<div class="w-full bg-secondary/20 h-6 rounded-t-sm"></div>
+<div class="w-full bg-secondary/20 h-4 rounded-t-sm"></div>
+<div class="w-full bg-secondary/20 h-2 rounded-t-sm"></div>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start">
+<span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Error Rate</span>
+<span class="text-xs font-bold text-red-600 bg-red-50 px-1.5 py-0.5 rounded">-0.02%</span>
+</div>
+<p class="text-3xl font-headline font-bold text-primary mt-1">0.02%</p>
+</div>
+<div class="mt-4 h-12 flex items-end gap-1">
+<div class="w-full bg-red-400 h-2 rounded-t-sm"></div>
+<div class="w-full bg-red-400 h-3 rounded-t-sm"></div>
+<div class="w-full bg-red-400 h-2 rounded-t-sm"></div>
+<div class="w-full bg-red-400 h-1 rounded-t-sm"></div>
+<div class="w-full bg-red-400 h-2 rounded-t-sm"></div>
+<div class="w-full bg-red-400 h-1 rounded-t-sm"></div>
+</div>
+</div>
+</section>
+<!-- Large 3-Column Section -->
+<section class="grid grid-cols-12 gap-6 h-[600px]">
+<!-- Column 1: Recent Active Flows (Span 5) -->
+<div class="col-span-5 bg-surface-container-lowest border border-transparent rounded shadow-sm flex flex-col overflow-hidden">
+<div class="p-4 bg-surface-container-low flex justify-between items-center">
+<h3 class="font-headline font-bold text-primary uppercase text-xs tracking-widest">Recent Active Flows</h3>
+<button class="text-[10px] font-bold text-secondary uppercase tracking-widest">View All</button>
+</div>
+<div class="overflow-y-auto flex-1">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-low/50 sticky top-0">
+<tr>
+<th class="px-4 py-2 text-[10px] font-bold text-slate-500 uppercase">Workflow Name</th>
+<th class="px-4 py-2 text-[10px] font-bold text-slate-500 uppercase">Status</th>
+<th class="px-4 py-2 text-[10px] font-bold text-slate-500 uppercase">Health</th>
+<th class="px-4 py-2 text-right"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3">
+<p class="text-xs font-bold text-primary">STRIPE_WEBHOOK_HANDLER</p>
+<p class="text-[9px] text-slate-400">Run 2m ago</p>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800">ACTIVE</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 98%"></div>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer" data-icon="more_vert">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3">
+<p class="text-xs font-bold text-primary">CUSTOMER_LTV_PREDICTION</p>
+<p class="text-[9px] text-slate-400">Run 5m ago</p>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800">ACTIVE</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 100%"></div>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer" data-icon="more_vert">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3">
+<p class="text-xs font-bold text-primary">AWS_S3_SYNC_DAEMON</p>
+<p class="text-[9px] text-slate-400">Run 12m ago</p>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-100 text-yellow-800">IDLE</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 75%"></div>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer" data-icon="more_vert">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3">
+<p class="text-xs font-bold text-primary">USER_ONBOARDING_EMAIL</p>
+<p class="text-[9px] text-slate-400">Run 1h ago</p>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800">ACTIVE</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 99%"></div>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer" data-icon="more_vert">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3">
+<p class="text-xs font-bold text-primary">DATA_CLEANUP_BATCH_04</p>
+<p class="text-[9px] text-slate-400">Run 2h ago</p>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-800">STOPPED</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-slate-300 h-full" style="width: 0%"></div>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer" data-icon="more_vert">more_vert</span>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-4 py-3">
+<p class="text-xs font-bold text-primary">SLACK_ALERT_ROUTER</p>
+<p class="text-[9px] text-slate-400">Run 3h ago</p>
+</td>
+<td class="px-4 py-3">
+<span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-800">ACTIVE</span>
+</td>
+<td class="px-4 py-3">
+<div class="w-24 h-1 bg-slate-100 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 92%"></div>
+</div>
+</td>
+<td class="px-4 py-3 text-right">
+<span class="material-symbols-outlined text-slate-400 cursor-pointer" data-icon="more_vert">more_vert</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Column 2: Real-time Execution Metrics (Span 3) -->
+<div class="col-span-3 bg-surface-container-lowest border border-transparent rounded shadow-sm flex flex-col overflow-hidden p-6">
+<h3 class="font-headline font-bold text-primary uppercase text-xs tracking-widest mb-8">Daily Execution Volume</h3>
+<div class="flex-1 flex items-end justify-between gap-3">
+<div class="flex flex-col items-center flex-1">
+<div class="w-full bg-slate-100 h-24 relative rounded-t-sm"><div class="absolute bottom-0 w-full bg-secondary h-[40%] rounded-t-sm"></div></div>
+<span class="text-[8px] font-bold text-slate-400 mt-2">MON</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-full bg-slate-100 h-32 relative rounded-t-sm"><div class="absolute bottom-0 w-full bg-secondary h-[65%] rounded-t-sm"></div></div>
+<span class="text-[8px] font-bold text-slate-400 mt-2">TUE</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-full bg-slate-100 h-28 relative rounded-t-sm"><div class="absolute bottom-0 w-full bg-secondary h-[55%] rounded-t-sm"></div></div>
+<span class="text-[8px] font-bold text-slate-400 mt-2">WED</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-full bg-slate-100 h-36 relative rounded-t-sm"><div class="absolute bottom-0 w-full bg-secondary h-[85%] rounded-t-sm"></div></div>
+<span class="text-[8px] font-bold text-slate-400 mt-2">THU</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-full bg-slate-100 h-40 relative rounded-t-sm"><div class="absolute bottom-0 w-full bg-secondary h-[95%] rounded-t-sm"></div></div>
+<span class="text-[8px] font-bold text-slate-400 mt-2">FRI</span>
+</div>
+<div class="flex flex-col items-center flex-1">
+<div class="w-full bg-slate-100 h-16 relative rounded-t-sm"><div class="absolute bottom-0 w-full bg-secondary h-[20%] rounded-t-sm"></div></div>
+<span class="text-[8px] font-bold text-slate-400 mt-2">SAT</span>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-slate-100">
+<p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Average Load</p>
+<p class="text-2xl font-headline font-bold text-primary">82.4 GB/hr</p>
+</div>
+</div>
+<!-- Column 3: System Activity Feed (Span 4) -->
+<div class="col-span-4 bg-surface-container-lowest border border-transparent rounded shadow-sm flex flex-col overflow-hidden">
+<div class="p-4 bg-primary text-white flex justify-between items-center">
+<h3 class="font-headline font-bold uppercase text-xs tracking-widest">System Activity Feed</h3>
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+</div>
+<div class="overflow-y-auto flex-1 p-4 space-y-4 font-mono text-[11px]">
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:22:01</span>
+<p class="text-slate-600">Node <span class="text-primary font-bold">'Webhook'</span> triggered successfully [ID: xk29]</p>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:21:58</span>
+<p class="text-slate-600">AI Node processed <span class="text-primary font-bold">2.4MB</span> data package</p>
+</div>
+<div class="flex gap-3">
+<span class="text-green-600 font-bold whitespace-nowrap">14:21:45</span>
+<p class="text-slate-600">Health check passed for cluster <span class="text-primary font-bold">ALPHA-7</span></p>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:21:30</span>
+<p class="text-slate-600">Encrypted tunnel established: <span class="text-primary font-bold">AWS-US-EAST-1</span></p>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:20:12</span>
+<p class="text-slate-600">New asset <span class="text-primary font-bold">'CRM_Schema_V2'</span> indexed</p>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:19:44</span>
+<p class="text-slate-600">Workflow <span class="text-primary font-bold">'LTV_Predict'</span> scale up (+2 nodes)</p>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:18:02</span>
+<p class="text-slate-600">Cache invalidated for tenant <span class="text-primary font-bold">Z_PRO_01</span></p>
+</div>
+<div class="flex gap-3">
+<span class="text-red-500 font-bold whitespace-nowrap">14:15:22</span>
+<p class="text-slate-600">Retrying connection to <span class="text-red-600 font-bold">Stripe API</span> (Attempt 2/3)</p>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:12:00</span>
+<p class="text-slate-600">Scheduled maintenance task <span class="text-primary font-bold">DB_CLEAN</span> started</p>
+</div>
+<div class="flex gap-3">
+<span class="text-secondary font-bold whitespace-nowrap">14:10:55</span>
+<p class="text-slate-600">System <span class="text-primary font-bold">heartbeat</span> signal acknowledged</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Recommended Blueprints -->
+<section class="space-y-4">
+<h3 class="font-headline font-bold text-primary uppercase text-xs tracking-widest px-1">Recommended Blueprints</h3>
+<div class="grid grid-cols-4 gap-4">
+<!-- Blueprint 1 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-10 h-10 bg-slate-100 rounded flex items-center justify-center mb-4 group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white" data-icon="mail">mail</span>
+</div>
+<h4 class="font-bold text-sm text-primary">Smart Email Classifier</h4>
+<p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Sort incoming support emails using LLM sentiment analysis and auto-tag in Zendesk.</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">8 STEPS</span>
+<button class="text-[10px] font-bold text-secondary uppercase tracking-widest">Install</button>
+</div>
+</div>
+<!-- Blueprint 2 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-10 h-10 bg-slate-100 rounded flex items-center justify-center mb-4 group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white" data-icon="database">database</span>
+</div>
+<h4 class="font-bold text-sm text-primary">Real-time ETL Sync</h4>
+<p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Stream Postgres updates directly to Snowflake with zero-transform latency.</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">4 STEPS</span>
+<button class="text-[10px] font-bold text-secondary uppercase tracking-widest">Install</button>
+</div>
+</div>
+<!-- Blueprint 3 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-10 h-10 bg-slate-100 rounded flex items-center justify-center mb-4 group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white" data-icon="shield">shield</span>
+</div>
+<h4 class="font-bold text-sm text-primary">Fraud Detection Core</h4>
+<p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Analyze transaction patterns against historical benchmarks to flag anomalies.</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">12 STEPS</span>
+<button class="text-[10px] font-bold text-secondary uppercase tracking-widest">Install</button>
+</div>
+</div>
+<!-- Blueprint 4 -->
+<div class="bg-surface-container-lowest p-5 rounded border border-transparent shadow-sm hover:shadow-md transition-shadow group">
+<div class="w-10 h-10 bg-slate-100 rounded flex items-center justify-center mb-4 group-hover:bg-secondary transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-white" data-icon="monitoring">monitoring</span>
+</div>
+<h4 class="font-bold text-sm text-primary">Competitor Price Tracker</h4>
+<p class="text-[11px] text-slate-400 mt-2 leading-relaxed">Auto-scrape target sites and adjust Shopify prices based on predefined logic.</p>
+<div class="mt-4 flex items-center justify-between">
+<span class="text-[9px] font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">6 STEPS</span>
+<button class="text-[10px] font-bold text-secondary uppercase tracking-widest">Install</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

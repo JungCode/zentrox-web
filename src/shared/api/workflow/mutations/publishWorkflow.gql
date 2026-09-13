@@ -1,0 +1,9 @@
+mutation PublishWorkflow($workflowId: ID!) {
+  publishWorkflow(workflowId: $workflowId) {
+    id
+    workflowId
+    versionNumber
+    status
+    createdByUserId
+  }
+}

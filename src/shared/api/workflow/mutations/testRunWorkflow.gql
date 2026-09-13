@@ -1,0 +1,14 @@
+mutation TestRunWorkflow($workflowId: ID!, $limit: Int) {
+  testRunWorkflow(workflowId: $workflowId, limit: $limit) {
+    runs {
+      id
+      workflowId
+      workflowVersionId
+      status
+      isTestRun
+      startedAt
+      finishedAt
+      errorMessage
+    }
+  }
+}

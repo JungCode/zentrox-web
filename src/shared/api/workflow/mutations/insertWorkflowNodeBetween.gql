@@ -1,0 +1,37 @@
+mutation InsertWorkflowNodeBetween(
+  $workflowId: ID!
+  $sourceNodeId: ID!
+  $targetNodeId: ID!
+  $input: CreateWorkflowNodeInput!
+) {
+  insertWorkflowNodeBetween(
+    workflowId: $workflowId
+    sourceNodeId: $sourceNodeId
+    targetNodeId: $targetNodeId
+    input: $input
+  ) {
+    newNode {
+      id
+      createdAt
+      updatedAt
+      workflowVersionId
+      integrationAccountId
+      nodeType
+      providerApp
+      actionKey
+      label
+      positionX
+      positionY
+      configJson
+      connectionStatus
+      lastTestedAt
+      testErrorMessage
+    }
+    updatedSourceEdge {
+      id
+    }
+    downstreamEdge {
+      id
+    }
+  }
+}

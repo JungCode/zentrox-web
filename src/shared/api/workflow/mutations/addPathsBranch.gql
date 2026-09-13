@@ -1,0 +1,31 @@
+mutation AddPathsBranch($workflowId: ID!, $pathsNodeId: ID!, $label: String) {
+  addPathsBranch(
+    workflowId: $workflowId
+    pathsNodeId: $pathsNodeId
+    label: $label
+  ) {
+    branchId
+    pathsNode {
+      id
+      configJson
+      updatedAt
+    }
+    branchPlaceholderNode {
+      id
+      createdAt
+      updatedAt
+      workflowVersionId
+      integrationAccountId
+      nodeType
+      providerApp
+      actionKey
+      label
+      positionX
+      positionY
+      configJson
+      connectionStatus
+      lastTestedAt
+      testErrorMessage
+    }
+  }
+}

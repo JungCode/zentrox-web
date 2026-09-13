@@ -1,0 +1,10 @@
+query TriggerNodeSampleRecord($workflowId: ID!, $nodeId: ID!) {
+  triggerNodeSampleRecord(workflowId: $workflowId, nodeId: $nodeId) {
+    id
+    createdAt
+    updatedAt
+    workflowNodeId
+    data
+    fetchedAt
+  }
+}

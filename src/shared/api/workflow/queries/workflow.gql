@@ -1,0 +1,38 @@
+query Workflow($workflowId: ID!) {
+  workflow(id: $workflowId) {
+    id
+    name
+    description
+    createdByUserId
+    folderId
+    currentDraftVersionId
+    currentDraftVersion {
+      id
+      workflowId
+      status
+      createdByUserId
+      nodes {
+        id
+        integrationAccountId
+        nodeType
+        providerApp
+        actionKey
+        label
+        positionX
+        positionY
+        configJson
+        connectionStatus
+        lastTestedAt
+        testErrorMessage
+        workflowVersionId
+      }
+      edges {
+        id
+        sourceNodeId
+        targetNodeId
+        sourceHandle
+        targetHandle
+      }
+    }
+  }
+}

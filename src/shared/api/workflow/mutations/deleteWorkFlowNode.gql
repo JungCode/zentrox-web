@@ -1,0 +1,6 @@
+mutation DeleteWorkflowNode($workflowId: ID!, $nodeId: ID!) {
+  deleteWorkflowNode(workflowId: $workflowId, nodeId: $nodeId) {
+    deletedNodeId
+    deletedEdgeIds
+  }
+}

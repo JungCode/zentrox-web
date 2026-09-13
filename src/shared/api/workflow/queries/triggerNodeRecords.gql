@@ -1,0 +1,5 @@
+query TriggerNodeRecords($workflowId: ID!, $nodeId: ID!, $limit: Int!) {
+  triggerNodeRecords(workflowId: $workflowId, nodeId: $nodeId, limit: $limit) {
+    records
+  }
+}

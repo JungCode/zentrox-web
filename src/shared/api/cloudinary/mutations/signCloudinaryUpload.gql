@@ -1,0 +1,5 @@
+mutation SignCloudinaryUpload($input: SignCloudinaryUploadInput!) {
+  signCloudinaryUpload(input: $input) {
+    signature
+  }
+}

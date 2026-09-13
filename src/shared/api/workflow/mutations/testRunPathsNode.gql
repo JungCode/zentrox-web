@@ -1,0 +1,27 @@
+mutation TestRunPathsNode($workflowId: ID!, $nodeId: ID!) {
+  testRunPathsNode(workflowId: $workflowId, nodeId: $nodeId) {
+    matchedBranchId
+    branches {
+      branchId
+      branchLabel
+      matched
+      rules {
+        ruleId
+        passed
+        resolvedLeft
+        resolvedRight
+      }
+    }
+    node {
+      id
+      connectionStatus
+      lastTestedAt
+      testErrorMessage
+    }
+    selectedRecord {
+      id
+      data
+      fetchedAt
+    }
+  }
+}

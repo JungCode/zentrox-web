@@ -1,0 +1,12 @@
+query IntegrationAccounts {
+  integrationAccounts {
+    id
+    ownerUserId
+    provider
+    accountIdentifier
+    displayName
+    avatarUrl
+    status
+    safeTokenData
+  }
+}

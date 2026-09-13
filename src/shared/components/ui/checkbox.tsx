@@ -2,7 +2,7 @@ import { CheckIcon } from '@phosphor-icons/react';
 import { Checkbox as CheckboxPrimitive } from 'radix-ui';
 import * as React from 'react';
 
-import { cn } from '@/shared/utils/tailwind';
+import { cn } from '@/lib/ui/utils';
 
 function Checkbox({
   className,

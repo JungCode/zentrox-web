@@ -1,0 +1,57 @@
+name: Feature request
+description: Propose a bounded outcome for Zentrox Web
+title: "[Feature]: "
+labels:
+  - feature
+  - area:web
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe what the user should be able to accomplish.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Explain the current limitation and who it affects.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List objective, testable completion conditions.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+  - type: textarea
+    id: in_scope
+    attributes:
+      label: In scope
+    validations:
+      required: true
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Design or interaction reference
+      description: Add screenshots, mockups, links, or existing UI references.
+    validations:
+      required: false
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and risks
+      description: Mention API, auth, data, product, or release dependencies.
+    validations:
+      required: false

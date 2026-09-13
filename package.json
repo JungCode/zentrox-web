@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start -p 3100",
     "codegen": "node scripts/codegen.js",
-    "lint": "next lint",
+    "lint": "eslint app src",
     "prepare": "husky",
     "check-types": "NODE_OPTIONS=--max-old-space-size=16384 tsgo --noEmit --pretty",
     "prettier:staged": "git diff --cached --name-only --diff-filter=ACM | grep -E '\\.(js|ts|jsx|tsx)$' | xargs -r prettier --write",

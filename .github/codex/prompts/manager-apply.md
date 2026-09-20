@@ -5,15 +5,16 @@ Act only as the backlog manager defined in
 
 Repository: `JungCode/zentrox-web`
 
-This is APPLY mode. The user has approved the classifications below from the
-completed dry run:
+This is APPLY mode. The user must replace the block below with the exact
+classifications approved from a completed dry run:
 
-| Issue | Risk | Type | Route | Area |
-| --- | --- | --- | --- | --- |
-| #19 | `risk:low` | `docs` | `agent:ready` | `area:web` |
-| #20 | `risk:low` | `chore` | `agent:ready` | `area:web` |
-| #21 | `risk:medium` | `bug` | `needs:human` | `area:web` |
-| #22 | `risk:high` | `bug` | `needs:human` | `area:web` |
+```text
+APPROVED_CLASSIFICATIONS
+```
+
+The approved input must identify each issue and exactly one risk, type, route,
+and area label. If the placeholder remains, the input is incomplete, or the
+user has not explicitly approved it, stop without changing GitHub.
 
 Before writing, re-read each issue and confirm that its title, body, labels,
 comments, and linked pull requests have not materially changed since the dry
@@ -31,12 +32,15 @@ For each unchanged issue:
    posting a duplicate.
 4. Read the issue back and verify its final labels and assessment comment.
 
-Allowed changes are limited to labels and the manager assessment comments on
-issues #19 through #22. Do not edit issue titles or bodies, close or reopen
-issues, assign users or milestones, modify project-board state, edit files,
-create branches or pull requests, approve work, merge, or deploy.
+Allowed changes are limited to labels and manager assessment comments on the
+issues explicitly listed in `APPROVED_CLASSIFICATIONS`. Do not modify any other
+issue. Do not edit issue titles or bodies, close or reopen issues, assign users
+or milestones, modify project-board state, edit files, create branches or pull
+requests, approve work, merge, or deploy.
 
 Stop immediately if permissions are insufficient, an approved label is
 missing, GitHub state cannot be verified, or a requested action would exceed
 this scope. End with a per-issue summary of the actual changes and the final
-worker-eligible queue. Only #19 and #20 may be reported as worker-eligible.
+worker-eligible queue. Only open issues with `risk:low`, `agent:ready`, and
+`area:web`, no blocking label, and no active implementation pull request may be
+reported as worker-eligible.

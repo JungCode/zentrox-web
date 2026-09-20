@@ -1,6 +1,6 @@
 ## Issue
 
-Closes #ISSUE_NUMBER
+Relates to #ISSUE_NUMBER
 
 ## Summary
 

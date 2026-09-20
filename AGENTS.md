@@ -1,7 +1,9 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+
 <!-- END:nextjs-agent-rules -->
 
 ## Zentrox conventions
@@ -26,3 +28,6 @@ This repository uses a manual manager/worker/reviewer workflow. The policies in
 Do not combine roles in one run. No agent may approve its own work, merge a pull
 request, deploy, change secrets, or broaden its permissions. A human owns every
 merge and all decisions marked `needs:human`.
+
+The complete operating sequence, lifecycle, and recovery procedure are in
+`docs/loop-engineering/README.md`.

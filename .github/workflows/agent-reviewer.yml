@@ -1,0 +1,145 @@
+name: Agent loop - reviewer
+
+on:
+  pull_request:
+    branches: [dev]
+    types: [opened, synchronize, reopened, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: Worker pull request number
+        required: true
+        type: number
+
+concurrency:
+  group: agent-reviewer-${{ github.event.pull_request.number || inputs.pr_number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  review:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (startsWith(github.event.pull_request.head.ref, 'agent/issue-') &&
+       github.event.pull_request.draft == false)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number || inputs.pr_number }}/merge
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Collect review context
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const prNumber = Number(process.env.PR_NUMBER);
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: prNumber,
+            });
+            if (!pr.head.ref.startsWith('agent/issue-') || pr.base.ref !== 'dev' || pr.draft) {
+              core.setFailed('Pull request is not an eligible worker PR');
+              return;
+            }
+            const match = (pr.body || '').match(/Relates to #(\d+)/i);
+            if (!match) {
+              core.setFailed('Worker PR does not contain a Relates to issue reference');
+              return;
+            }
+            const issueNumber = Number(match[1]);
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issueNumber,
+            });
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issueNumber, per_page: 100,
+            });
+            fs.mkdirSync('.agent-loop', { recursive: true });
+            fs.writeFileSync('.agent-loop/reviewer-input.json', JSON.stringify({
+              repository: context.repo,
+              issue: {
+                number: issue.number, title: issue.title, body: issue.body || '',
+                labels: issue.labels.map((label) =>
+                  typeof label === 'string' ? label : label.name
+                ),
+                comments: comments.map(({ user, body, created_at }) => ({
+                  author: user.login, body: body || '', created_at,
+                })),
+              },
+              pull_request: {
+                number: pr.number, title: pr.title, body: pr.body || '',
+                base: pr.base.ref, head: pr.head.ref, head_sha: pr.head.sha,
+              },
+              diff_command: `git diff ${pr.base.sha}...${pr.head.sha}`,
+            }, null, 2));
+
+      - id: codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: .github/codex/prompts/reviewer-automated.md
+          output-file: .agent-loop/reviewer-report.md
+          codex-args: '["--ephemeral"]'
+          sandbox: read-only
+          safety-strategy: drop-sudo
+          allow-bots: true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reviewer-report-${{ env.PR_NUMBER }}
+          path: .agent-loop/reviewer-report.md
+          retention-days: 1
+
+  post:
+    needs: review
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: reviewer-report-${{ env.PR_NUMBER }}
+          path: .agent-loop
+
+      - name: Post independent review
+        uses: actions/github-script@v7
+        env:
+          REVIEW_FILE: .agent-loop/reviewer-report.md
+        with:
+          script: |
+            const fs = require('fs');
+            const marker = '<!-- agent-loop-reviewer -->';
+            const body = `${marker}\n${fs.readFileSync(process.env.REVIEW_FILE, 'utf8')}`;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: Number(process.env.PR_NUMBER), per_page: 100,
+            });
+            const existing = comments.find((comment) =>
+              comment.user.type === 'Bot' && comment.body && comment.body.includes(marker)
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: Number(process.env.PR_NUMBER), body,
+              });
+            }

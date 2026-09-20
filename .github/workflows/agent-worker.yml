@@ -1,0 +1,206 @@
+name: Agent loop - worker
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Eligible issue number
+        required: true
+        type: number
+
+concurrency:
+  group: agent-worker-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  generate:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.label.name == 'agent:ready' &&
+       contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.issue.author_association))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      pull-requests: read
+    env:
+      ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+    outputs:
+      branch: ${{ steps.gate.outputs.branch }}
+      title: ${{ steps.gate.outputs.title }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: dev
+          fetch-depth: 0
+          persist-credentials: false
+
+      - id: gate
+        name: Verify eligibility and collect context
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const issueNumber = Number(process.env.ISSUE_NUMBER);
+            const { data: issue } = await github.rest.issues.get({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issueNumber,
+            });
+            const labels = issue.labels.map((label) =>
+              typeof label === 'string' ? label : label.name
+            );
+            const eligible = issue.state === 'open' &&
+              labels.includes('risk:low') && labels.includes('agent:ready') &&
+              labels.includes('area:web') && !labels.includes('risk:medium') &&
+              !labels.includes('risk:high') && !labels.includes('needs:human');
+            if (!eligible) {
+              core.setFailed(`Issue #${issueNumber} failed the label/state gate`);
+              return;
+            }
+            const prs = await github.paginate(github.rest.pulls.list, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', base: 'dev', per_page: 100,
+            });
+            const duplicate = prs.find((pr) =>
+              pr.head.ref.startsWith(`agent/issue-${issueNumber}-`) ||
+              (pr.body || '').includes(`Relates to #${issueNumber}`)
+            );
+            if (duplicate) {
+              core.setFailed(`Issue #${issueNumber} already has PR #${duplicate.number}`);
+              return;
+            }
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: issueNumber, per_page: 100,
+            });
+            fs.mkdirSync('.agent-loop', { recursive: true });
+            fs.writeFileSync('.agent-loop/worker-input.json', JSON.stringify({
+              repository: context.repo,
+              issue: {
+                number: issue.number, title: issue.title, body: issue.body || '',
+                labels, author_association: issue.author_association,
+                comments: comments.map(({ user, body, created_at }) => ({
+                  author: user.login, body: body || '', created_at,
+                })),
+              },
+            }, null, 2));
+            const slug = issue.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+              .replace(/^-|-$/g, '').slice(0, 40) || 'work';
+            core.setOutput('branch', `agent/issue-${issueNumber}-${slug}`);
+            core.setOutput('title', issue.title);
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install locked dependencies
+        run: pnpm install --frozen-lockfile
+
+      - id: codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: .github/codex/prompts/worker-automated.md
+          output-file: .agent-loop/worker-report.md
+          codex-args: '["--ephemeral"]'
+          sandbox: workspace-write
+          safety-strategy: drop-sudo
+          allow-bots: true
+
+      - name: Build and inspect patch
+        shell: bash
+        run: |
+          if grep -q '^WORKER_BLOCKED:' .agent-loop/worker-report.md; then
+            cat .agent-loop/worker-report.md
+            exit 1
+          fi
+          git add -N -- . ':(exclude).agent-loop'
+          if git diff --quiet; then
+            echo 'Codex produced no repository changes.'
+            exit 1
+          fi
+          if git diff --name-only | grep -Eq '^(\.github/workflows/|\.github/codex/|docs/loop-engineering/|AGENTS\.md$)'; then
+            echo 'Worker attempted to change agent-loop control files.'
+            exit 1
+          fi
+          git diff --binary --full-index > .agent-loop/worker.patch
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: worker-result-${{ env.ISSUE_NUMBER }}
+          path: |
+            .agent-loop/worker.patch
+            .agent-loop/worker-report.md
+          retention-days: 1
+
+  publish:
+    needs: generate
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: write
+      issues: write
+      pull-requests: write
+    env:
+      ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+      BRANCH: ${{ needs.generate.outputs.branch }}
+      ISSUE_TITLE: ${{ needs.generate.outputs.title }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: dev
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: worker-result-${{ env.ISSUE_NUMBER }}
+          path: .agent-loop
+
+      - name: Apply, commit, and push patch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          git apply --check .agent-loop/worker.patch
+          git apply .agent-loop/worker.patch
+          git switch -c "$BRANCH"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m "fix(agent): address issue #${ISSUE_NUMBER}"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${BRANCH}"
+
+      - name: Open pull request and continue loop
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          {
+            echo '## Summary'
+            echo
+            echo "Automated worker implementation for issue #${ISSUE_NUMBER}."
+            echo
+            echo "Relates to #${ISSUE_NUMBER}"
+            echo
+            echo '## Worker report'
+            echo
+            cat .agent-loop/worker-report.md
+            echo
+            echo '## Human gate'
+            echo
+            echo 'This pull request must be reviewed and merged by a human.'
+          } > .agent-loop/pr-body.md
+          url=$(gh pr create --base dev --head "$BRANCH" --title "$ISSUE_TITLE" --body-file .agent-loop/pr-body.md)
+          number=$(gh pr view "$BRANCH" --json number --jq .number)
+          gh issue comment "$ISSUE_NUMBER" --body "Automated worker opened: $url"
+          gh workflow run agent-reviewer.yml --ref main -f "pr_number=$number"

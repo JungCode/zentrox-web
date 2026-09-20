@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["assessments"],
+  "properties": {
+    "assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "number",
+          "updated_at",
+          "risk",
+          "type",
+          "route",
+          "area",
+          "reason",
+          "validation",
+          "human_question"
+        ],
+        "properties": {
+          "number": { "type": "integer", "minimum": 1 },
+          "updated_at": { "type": "string" },
+          "risk": { "enum": ["low", "medium", "high"] },
+          "type": {
+            "enum": ["bug", "feature", "docs", "test", "refactor", "chore"]
+          },
+          "route": { "enum": ["agent:ready", "needs:human"] },
+          "area": { "const": "web" },
+          "reason": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "validation": { "type": "string", "minLength": 1, "maxLength": 1000 },
+          "human_question": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        }
+      }
+    }
+  }
+}

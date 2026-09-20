@@ -1,9 +1,28 @@
-# Manual Agent Loop Runbook
+# Agent Loop Runbook
 
 This runbook operates the Zentrox Web manager, worker, and reviewer loop. Each
 role runs in a fresh Codex chat. GitHub Issues are the shared state; labels route
 work; pull requests carry implementation evidence; a human owns every approval
 and merge.
+
+## Automated loop
+
+The repository contains an automated implementation of the same role
+boundaries:
+
+- `agent-manager.yml` runs daily at 01:17 UTC or on manual dispatch, assesses
+  trusted open issues, and applies validated labels and one assessment comment.
+- `agent-worker.yml` runs when a trusted issue receives `agent:ready` (or by
+  manual dispatch), rechecks eligibility, makes a bounded change, and opens a
+  pull request into `dev`.
+- `agent-reviewer.yml` reviews non-draft worker pull requests on every relevant
+  update and posts an independent comment.
+
+All three workflows require the repository Actions secret `OPENAI_API_KEY`.
+They never approve, merge, deploy, or push directly to `dev` or `main`.
+
+The manual procedure below remains useful for dry runs, recovery, and policy
+changes.
 
 ## Prerequisites
 

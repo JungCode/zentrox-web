@@ -1,0 +1,210 @@
+name: Agent loop - manager
+
+on:
+  schedule:
+    - cron: '17 1 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: agent-loop-manager
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: read
+      pull-requests: read
+    outputs:
+      has_issues: ${{ steps.snapshot.outputs.has_issues }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: dev
+          persist-credentials: false
+
+      - id: snapshot
+        name: Collect trusted open issues
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const trusted = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const openIssues = [];
+            for (const issue of issues) {
+              if (issue.pull_request || !trusted.has(issue.author_association)) continue;
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                per_page: 100,
+              });
+              openIssues.push({
+                number: issue.number,
+                updated_at: issue.updated_at,
+                author_association: issue.author_association,
+                title: issue.title,
+                body: issue.body || '',
+                labels: issue.labels.map((label) =>
+                  typeof label === 'string' ? label : label.name
+                ),
+                comments: comments.map(({ user, body, created_at }) => ({
+                  author: user.login,
+                  body: body || '',
+                  created_at,
+                })),
+              });
+            }
+            fs.mkdirSync('.agent-loop', { recursive: true });
+            fs.writeFileSync(
+              '.agent-loop/manager-input.json',
+              JSON.stringify({ repository: context.repo, issues: openIssues }, null, 2)
+            );
+            core.setOutput('has_issues', String(openIssues.length > 0));
+
+      - uses: actions/upload-artifact@v4
+        if: steps.snapshot.outputs.has_issues == 'true'
+        with:
+          name: manager-input
+          path: .agent-loop/manager-input.json
+          retention-days: 1
+
+  assess:
+    needs: collect
+    if: needs.collect.outputs.has_issues == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: dev
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: manager-input
+          path: .agent-loop
+
+      - id: codex
+        uses: openai/codex-action@v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: .github/codex/prompts/manager-automated.md
+          output-file: .agent-loop/manager-output.json
+          output-schema-file: .github/codex/schemas/manager-assessments.json
+          codex-args: '["--ephemeral"]'
+          sandbox: read-only
+          safety-strategy: drop-sudo
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: manager-output
+          path: .agent-loop/manager-output.json
+          retention-days: 1
+
+  apply:
+    needs: assess
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: dev
+          persist-credentials: false
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: manager-output
+          path: .agent-loop
+
+      - name: Validate and apply assessments
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const result = JSON.parse(fs.readFileSync('.agent-loop/manager-output.json', 'utf8'));
+            const risks = new Set(['low', 'medium', 'high']);
+            const types = new Set(['bug', 'feature', 'docs', 'test', 'refactor', 'chore']);
+            const routes = new Set(['agent:ready', 'needs:human']);
+            const managed = new Set([
+              'risk:low', 'risk:medium', 'risk:high',
+              'bug', 'feature', 'docs', 'test', 'refactor', 'chore',
+              'agent:ready', 'needs:human', 'area:web',
+            ]);
+            for (const item of result.assessments || []) {
+              if (!Number.isInteger(item.number) || !risks.has(item.risk) ||
+                  !types.has(item.type) || !routes.has(item.route) || item.area !== 'web') {
+                core.setFailed(`Invalid assessment for issue ${item.number}`);
+                return;
+              }
+              if (item.route === 'agent:ready' && item.risk !== 'low') {
+                core.setFailed(`Unsafe route for issue ${item.number}`);
+                return;
+              }
+              const { data: issue } = await github.rest.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: item.number,
+              });
+              if (issue.state !== 'open' || issue.updated_at !== item.updated_at) {
+                core.warning(`Skipping changed or closed issue #${item.number}`);
+                continue;
+              }
+              const preserved = issue.labels
+                .map((label) => typeof label === 'string' ? label : label.name)
+                .filter((label) => !managed.has(label));
+              await github.rest.issues.setLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: item.number,
+                labels: [...preserved, `risk:${item.risk}`, item.type, 'area:web', item.route],
+              });
+              const body = [
+                '<!-- agent-loop-manager -->',
+                '## Agent Assessment', '',
+                `Risk: ${item.risk}`, `Type: ${item.type}`,
+                `Route: ${item.route}`, 'Area: web', '',
+                `Reason: ${item.reason}`, `Validation: ${item.validation}`,
+                `Human question: ${item.human_question}`,
+              ].join('\n');
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: item.number,
+                per_page: 100,
+              });
+              const existing = comments.find((comment) =>
+                comment.user.type === 'Bot' && comment.body &&
+                comment.body.includes('<!-- agent-loop-manager -->')
+              );
+              if (existing) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  comment_id: existing.id, body,
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: item.number, body,
+                });
+              }
+              if (item.route === 'agent:ready') {
+                await github.rest.actions.createWorkflowDispatch({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  workflow_id: 'agent-worker.yml',
+                  ref: 'main',
+                  inputs: { issue_number: String(item.number) },
+                });
+              }

@@ -65,7 +65,9 @@ explicitly in scope; changing the API contract is forbidden.
 6. Implement only the approved scope.
 7. Review the diff for accidental or generated-file changes.
 8. Run the applicable validation commands.
-9. Open a pull request into `dev`, link the issue, and provide evidence.
+9. Open a pull request into `dev`, link the issue without claiming it will close
+   on this non-default branch, comment on the issue with the PR link, and
+   provide evidence.
 10. Stop and ask the user to start a separate Codex run with the reviewer
     prompt. Do not review the work from the worker context.
 11. In a later worker run explicitly requested for that pull request, address
@@ -74,14 +76,14 @@ explicitly in scope; changing the API contract is forbidden.
 
 ## Validation matrix
 
-| Change | Required evidence |
-| --- | --- |
-| TypeScript or TSX | `pnpm check-types` |
-| Source code | `pnpm lint` |
-| GraphQL document | `pnpm codegen`, generated diff review, then type-check |
-| Route, layout, or Next.js config | `pnpm build` |
-| UI appearance or interaction | Screenshot or explicit manual verification |
-| Documentation/templates only | Review rendered content and diff |
+| Change                           | Required evidence                                      |
+| -------------------------------- | ------------------------------------------------------ |
+| TypeScript or TSX                | `pnpm check-types`                                     |
+| Source code                      | `pnpm lint`                                            |
+| GraphQL document                 | `pnpm codegen`, generated diff review, then type-check |
+| Route, layout, or Next.js config | `pnpm build`                                           |
+| UI appearance or interaction     | Screenshot or explicit manual verification             |
+| Documentation/templates only     | Review rendered content and diff                       |
 
 Run focused tests when relevant. If a required command is unavailable or fails
 for a reason unrelated to the change, do not claim success: record the command,

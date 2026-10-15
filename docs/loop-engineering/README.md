@@ -1,9 +1,40 @@
-# Manual Agent Loop Runbook
+# Agent Loop Runbook
 
 This runbook operates the Zentrox Web manager, worker, and reviewer loop. Each
 role runs in a fresh Codex chat. GitHub Issues are the shared state; labels route
 work; pull requests carry implementation evidence; a human owns every approval
 and merge.
+
+## Automated loop
+
+The repository contains an automated implementation of the same role
+boundaries:
+
+- `agent-manager.yml` runs daily at 01:17 UTC or on manual dispatch, assesses
+  trusted open issues, and applies validated labels and one assessment comment.
+- `agent-worker.yml` runs when a trusted issue receives `agent:ready` (or by
+  manual dispatch), rechecks eligibility, makes a bounded change, and opens a
+  pull request into `dev`.
+- `agent-reviewer.yml` reviews non-draft worker pull requests on every relevant
+  update and posts an independent comment.
+
+All three workflows run OpenCode with the repository Actions secret
+`DEEPSEEK_API_KEY`. The default model is `deepseek/deepseek-flash`; set the
+repository Actions variable `AGENT_MODEL` to select another available DeepSeek
+model. OpenCode is pinned to version 1.19.0. Manager/reviewer tools are read-only;
+worker tools permit edits and explicitly listed validation commands. These
+tool permissions are application controls, not an operating-system sandbox.
+They never approve, merge, deploy, or push directly to `dev` or `main`.
+
+Merge this configuration into `dev`, then promote it to the default branch
+`main` before enabling the daily schedule. Enable Actions permission to create
+pull requests under Settings > Actions > General. Start with a manual manager
+dispatch and inspect its result before relying on the daily run. API billing
+is charged to DeepSeek. Cross-workflow dispatch explicitly continues the loop
+because events created with `GITHUB_TOKEN` do not normally start other workflows.
+
+The manual procedure below remains useful for dry runs, recovery, and policy
+changes.
 
 ## Prerequisites
 

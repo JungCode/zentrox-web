@@ -21,6 +21,16 @@ remove issue labels and add or update the manager assessment comment. It must
 not edit issue titles or bodies, close issues, modify code, create branches or
 pull requests, approve work, merge, or deploy.
 
+### Automated apply mode
+
+The repository's reviewed and merged manager workflow is standing human
+authorization to classify trusted open issues on its schedule. In this mode,
+Codex receives no GitHub write credential and returns schema-validated data;
+deterministic workflow code may only replace managed labels and create or
+update the marked assessment comment. It must skip issues changed after the
+snapshot. This mode may never edit issue content, code, branches, pull
+requests, approvals, merges, deployments, or untrusted-author issues.
+
 ## Classification
 
 Assign exactly one risk label, one type label, and one routing label. All issues

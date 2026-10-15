@@ -105,16 +105,14 @@ jobs:
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
 
-      - id: codex
-        uses: openai/codex-action@v1
-        with:
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          prompt-file: .github/codex/prompts/worker-automated.md
-          output-file: .agent-loop/worker-report.md
-          codex-args: '["--ephemeral"]'
-          sandbox: workspace-write
-          safety-strategy: drop-sudo
-          allow-bots: true
+      - run: npm install --global opencode-ai@1.19.0
+
+      - name: Implement with OpenCode and DeepSeek
+        timeout-minutes: 22
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          AGENT_MODEL: ${{ vars.AGENT_MODEL }}
+        run: node .github/codex/run-opencode.mjs worker .agent-loop/worker-report.md
 
       - name: Build and inspect patch
         shell: bash
@@ -128,7 +126,7 @@ jobs:
             echo 'Codex produced no repository changes.'
             exit 1
           fi
-          if git diff --name-only | grep -Eq '^(\.github/workflows/|\.github/codex/|docs/loop-engineering/|AGENTS\.md$)'; then
+          if git diff --name-only | grep -Eq '^(\.github/|\.opencode/|opencode\.json|docs/loop-engineering/|AGENTS\.md$|package\.json$|pnpm-lock\.yaml$|\.env)'; then
             echo 'Worker attempted to change agent-loop control files.'
             exit 1
           fi
@@ -137,6 +135,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: worker-result-${{ env.ISSUE_NUMBER }}
+          include-hidden-files: true
           path: |
             .agent-loop/worker.patch
             .agent-loop/worker-report.md
@@ -176,7 +175,7 @@ jobs:
           git switch -c "$BRANCH"
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
+          git add -A -- . ':(exclude).agent-loop'
           git commit -m "fix(agent): address issue #${ISSUE_NUMBER}"
           git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${BRANCH}"
 

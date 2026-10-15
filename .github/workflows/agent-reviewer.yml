@@ -21,7 +21,8 @@ jobs:
   review:
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (startsWith(github.event.pull_request.head.ref, 'agent/issue-') &&
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       startsWith(github.event.pull_request.head.ref, 'agent/issue-') &&
        github.event.pull_request.draft == false)
     runs-on: ubuntu-latest
     permissions:
@@ -48,7 +49,8 @@ jobs:
               repo: context.repo.repo,
               pull_number: prNumber,
             });
-            if (!pr.head.ref.startsWith('agent/issue-') || pr.base.ref !== 'dev' || pr.draft) {
+            if (pr.head.repo.full_name !== context.repo.owner + '/' + context.repo.repo ||
+                !pr.head.ref.startsWith('agent/issue-') || pr.base.ref !== 'dev' || pr.draft) {
               core.setFailed('Pull request is not an eligible worker PR');
               return;
             }
@@ -85,21 +87,24 @@ jobs:
               diff_command: `git diff ${pr.base.sha}...${pr.head.sha}`,
             }, null, 2));
 
-      - id: codex
-        uses: openai/codex-action@v1
+      - uses: actions/setup-node@v4
         with:
-          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
-          prompt-file: .github/codex/prompts/reviewer-automated.md
-          output-file: .agent-loop/reviewer-report.md
-          codex-args: '["--ephemeral"]'
-          sandbox: read-only
-          safety-strategy: drop-sudo
-          allow-bots: true
+          node-version: 22
+
+      - run: npm install --global opencode-ai@1.19.0
+
+      - name: Review with OpenCode and DeepSeek
+        timeout-minutes: 22
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          AGENT_MODEL: ${{ vars.AGENT_MODEL }}
+        run: node .github/codex/run-opencode.mjs reviewer .agent-loop/reviewer-report.md
 
       - uses: actions/upload-artifact@v4
         with:
           name: reviewer-report-${{ env.PR_NUMBER }}
           path: .agent-loop/reviewer-report.md
+          include-hidden-files: true
           retention-days: 1
 
   post:

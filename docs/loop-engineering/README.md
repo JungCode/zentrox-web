@@ -18,8 +18,20 @@ boundaries:
 - `agent-reviewer.yml` reviews non-draft worker pull requests on every relevant
   update and posts an independent comment.
 
-All three workflows require the repository Actions secret `OPENAI_API_KEY`.
+All three workflows run OpenCode with the repository Actions secret
+`DEEPSEEK_API_KEY`. The default model is `deepseek/deepseek-flash`; set the
+repository Actions variable `AGENT_MODEL` to select another available DeepSeek
+model. OpenCode is pinned to version 1.19.0. Manager/reviewer tools are read-only;
+worker tools permit edits and explicitly listed validation commands. These
+tool permissions are application controls, not an operating-system sandbox.
 They never approve, merge, deploy, or push directly to `dev` or `main`.
+
+Merge this configuration into `dev`, then promote it to the default branch
+`main` before enabling the daily schedule. Enable Actions permission to create
+pull requests under Settings > Actions > General. Start with a manual manager
+dispatch and inspect its result before relying on the daily run. API billing
+is charged to DeepSeek. Cross-workflow dispatch explicitly continues the loop
+because events created with `GITHUB_TOKEN` do not normally start other workflows.
 
 The manual procedure below remains useful for dry runs, recovery, and policy
 changes.

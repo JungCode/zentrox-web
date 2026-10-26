@@ -1,5 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { finalText } from './loop-results.mjs';
 
 const [role, output] = process.argv.slice(2);
 if (!['manager', 'worker', 'reviewer'].includes(role) || !output) {
@@ -59,14 +60,7 @@ const parsed = events
   .split('\n')
   .filter(Boolean)
   .map((line) => JSON.parse(line));
-if (parsed.some((event) => event.type === 'error'))
-  throw new Error('OpenCode reported an error');
-let text = parsed
-  .filter((event) => event.type === 'text')
-  .map((event) => event.part.text)
-  .join('\n')
-  .trim();
-if (!text) throw new Error('OpenCode returned no final text');
+let text = finalText(parsed);
 if (role === 'manager') {
   text = text.replace(/^```(?:json)?\s*/, '').replace(/\s*```$/, '');
   const result = JSON.parse(text);

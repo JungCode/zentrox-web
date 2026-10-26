@@ -32,6 +32,10 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const { pathToFileURL } = require('url');
+            const { implementationPr } = await import(pathToFileURL(
+              `${process.env.GITHUB_WORKSPACE}/.github/codex/loop-results.mjs`
+            ).href);
             const trusted = new Set(['OWNER', 'MEMBER', 'COLLABORATOR']);
             const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
@@ -40,8 +44,16 @@ jobs:
               per_page: 100,
             });
             const openIssues = [];
+            const prs = await github.paginate(github.rest.pulls.list, {
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', base: 'dev', per_page: 100,
+            });
             for (const issue of issues) {
               if (issue.pull_request || !trusted.has(issue.author_association)) continue;
+              if (implementationPr(prs, issue.number)) {
+                core.notice(`Skipping issue #${issue.number}: implementation PR is open`);
+                continue;
+              }
               const comments = await github.paginate(github.rest.issues.listComments, {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -123,6 +135,7 @@ jobs:
       actions: write
       contents: read
       issues: write
+      pull-requests: read
     steps:
       - uses: actions/checkout@v5
         with:
@@ -140,6 +153,10 @@ jobs:
           script: |
             const fs = require('fs');
             const result = JSON.parse(fs.readFileSync('.agent-loop/manager-output.json', 'utf8'));
+            const { pathToFileURL } = require('url');
+            const { implementationPr } = await import(pathToFileURL(
+              `${process.env.GITHUB_WORKSPACE}/.github/codex/loop-results.mjs`
+            ).href);
             const risks = new Set(['low', 'medium', 'high']);
             const types = new Set(['bug', 'feature', 'docs', 'test', 'refactor', 'chore']);
             const routes = new Set(['agent:ready', 'needs:human']);
@@ -206,6 +223,14 @@ jobs:
                 });
               }
               if (item.route === 'agent:ready') {
+                const prs = await github.paginate(github.rest.pulls.list, {
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  state: 'open', base: 'dev', per_page: 100,
+                });
+                if (implementationPr(prs, item.number)) {
+                  core.notice(`Not dispatching issue #${item.number}: implementation PR is open`);
+                  continue;
+                }
                 await github.rest.actions.createWorkflowDispatch({
                   owner: context.repo.owner,
                   repo: context.repo.repo,

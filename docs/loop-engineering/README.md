@@ -36,6 +36,18 @@ because events created with `GITHUB_TOKEN` do not normally start other workflows
 The manual procedure below remains useful for dry runs, recovery, and policy
 changes.
 
+The manager excludes issues that already have an open implementation PR into
+`dev` and checks again before dispatch. The worker independently returns a
+successful no-op for an existing PR or an issue that is no longer eligible;
+its implementation and publish steps are skipped without a model call.
+OpenCode output is read from the final completed response step, excluding
+earlier tool-step commentary. Invalid JSON or incomplete responses still fail
+before GitHub changes. Regression checks run without API credentials:
+
+```sh
+node --test .github/codex/loop-results.test.mjs
+```
+
 ## Prerequisites
 
 - GitHub CLI is authenticated as an account with the required repository access.

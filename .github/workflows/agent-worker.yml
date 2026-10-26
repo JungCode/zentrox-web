@@ -30,6 +30,7 @@ jobs:
     env:
       ISSUE_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
     outputs:
+      eligible: ${{ steps.gate.outputs.eligible }}
       branch: ${{ steps.gate.outputs.branch }}
       title: ${{ steps.gate.outputs.title }}
     steps:
@@ -45,6 +46,11 @@ jobs:
         with:
           script: |
             const fs = require('fs');
+            const { pathToFileURL } = require('url');
+            const { implementationPr } = await import(pathToFileURL(
+              `${process.env.GITHUB_WORKSPACE}/.github/codex/loop-results.mjs`
+            ).href);
+            core.setOutput('eligible', 'false');
             const issueNumber = Number(process.env.ISSUE_NUMBER);
             const { data: issue } = await github.rest.issues.get({
               owner: context.repo.owner, repo: context.repo.repo,
@@ -58,19 +64,16 @@ jobs:
               labels.includes('area:web') && !labels.includes('risk:medium') &&
               !labels.includes('risk:high') && !labels.includes('needs:human');
             if (!eligible) {
-              core.setFailed(`Issue #${issueNumber} failed the label/state gate`);
+              core.notice(`Skipping issue #${issueNumber}: no longer eligible`);
               return;
             }
             const prs = await github.paginate(github.rest.pulls.list, {
               owner: context.repo.owner, repo: context.repo.repo,
               state: 'open', base: 'dev', per_page: 100,
             });
-            const duplicate = prs.find((pr) =>
-              pr.head.ref.startsWith(`agent/issue-${issueNumber}-`) ||
-              (pr.body || '').includes(`Relates to #${issueNumber}`)
-            );
+            const duplicate = implementationPr(prs, issueNumber);
             if (duplicate) {
-              core.setFailed(`Issue #${issueNumber} already has PR #${duplicate.number}`);
+              core.notice(`Skipping issue #${issueNumber}: already has PR #${duplicate.number}`);
               return;
             }
             const comments = await github.paginate(github.rest.issues.listComments, {
@@ -92,22 +95,28 @@ jobs:
               .replace(/^-|-$/g, '').slice(0, 40) || 'work';
             core.setOutput('branch', `agent/issue-${issueNumber}-${slug}`);
             core.setOutput('title', issue.title);
+            core.setOutput('eligible', 'true');
 
       - uses: pnpm/action-setup@v4
+        if: steps.gate.outputs.eligible == 'true'
         with:
           version: 10
 
       - uses: actions/setup-node@v4
+        if: steps.gate.outputs.eligible == 'true'
         with:
           node-version: 22
           cache: pnpm
 
       - name: Install locked dependencies
+        if: steps.gate.outputs.eligible == 'true'
         run: pnpm install --frozen-lockfile
 
       - run: npm install --global opencode-ai@1.19.0
+        if: steps.gate.outputs.eligible == 'true'
 
       - name: Implement with OpenCode and DeepSeek
+        if: steps.gate.outputs.eligible == 'true'
         timeout-minutes: 22
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
@@ -115,6 +124,7 @@ jobs:
         run: node .github/codex/run-opencode.mjs worker .agent-loop/worker-report.md
 
       - name: Build and inspect patch
+        if: steps.gate.outputs.eligible == 'true'
         shell: bash
         run: |
           if grep -q '^WORKER_BLOCKED:' .agent-loop/worker-report.md; then
@@ -133,6 +143,7 @@ jobs:
           git diff --binary --full-index > .agent-loop/worker.patch
 
       - uses: actions/upload-artifact@v4
+        if: steps.gate.outputs.eligible == 'true'
         with:
           name: worker-result-${{ env.ISSUE_NUMBER }}
           include-hidden-files: true
@@ -143,6 +154,7 @@ jobs:
 
   publish:
     needs: generate
+    if: needs.generate.outputs.eligible == 'true'
     runs-on: ubuntu-latest
     permissions:
       actions: write

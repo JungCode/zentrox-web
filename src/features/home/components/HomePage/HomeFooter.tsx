@@ -11,7 +11,7 @@ export const HomeFooter = ({ links }: HomeFooterProps) => {
         ))}
       </div>
       <span className="text-on-surface-variant/60">
-        (c) 2024 zentrox ai. all rights reserved.
+        (c) {new Date().getFullYear()} zentrox ai. all rights reserved.
       </span>
     </footer>
   );

@@ -8,7 +8,10 @@ export const CreateWorkflowCard = () => {
       <div className="bg-on-primary/10 absolute -top-10 -right-10 h-40 w-40 rounded-full" />
       <div className="relative z-10 space-y-4">
         <div className="bg-on-primary/10 inline-flex h-10 w-10 items-center justify-center rounded">
-          <span className="material-symbols-outlined text-xl text-white">
+          <span
+            aria-hidden="true"
+            className="material-symbols-outlined text-xl text-white"
+          >
             add
           </span>
         </div>
@@ -23,7 +26,10 @@ export const CreateWorkflowCard = () => {
           href={ROUTES.app.WORKFLOW}
         >
           Start Building
-          <span className="material-symbols-outlined text-base">
+          <span
+            aria-hidden="true"
+            className="material-symbols-outlined text-base"
+          >
             arrow_forward
           </span>
         </Link>
